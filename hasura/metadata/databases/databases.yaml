@@ -1,0 +1,8 @@
+- name: bxform
+  kind: postgres
+  configuration:
+    connection_info:
+      database_url: postgresql://postgres:20010506@10.128.117.35:5432/bxform
+      isolation_level: read-committed
+      use_prepared_statements: false
+  tables: "!include bxform/tables/tables.yaml"

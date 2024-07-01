@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+
+# yarn error logs
+yarn-error.log
+
+# Code coverage
+coverage
+
+uploads/*.*
+
+# build folder
+dist
+
+# docker volume
+data
+
+# Secret files
+deployment
+secret
+.env*
+!.env*.enc
+/keypair/*.pem
+/keypair/*.json
