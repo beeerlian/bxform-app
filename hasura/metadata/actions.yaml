@@ -1,4 +1,8 @@
 actions:
+  - name: getUserById
+    definition:
+      kind: ""
+      handler: ""
   - name: register
     definition:
       kind: synchronous
@@ -8,5 +12,8 @@ custom_types:
   input_objects:
     - name: RegisterInput
   objects:
+    - name: User
+    - name: Role
+    - name: UserRole
     - name: RegisterOutput
   scalars: []

@@ -1,0 +1,3 @@
+table:
+  name: question_answers
+  schema: public

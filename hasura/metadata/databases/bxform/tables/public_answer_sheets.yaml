@@ -1,0 +1,18 @@
+table:
+  name: answer_sheets
+  schema: public
+object_relationships:
+  - name: form
+    using:
+      foreign_key_constraint_on: form_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+array_relationships:
+  - name: question_answers
+    using:
+      foreign_key_constraint_on:
+        column: answer_sheet_id
+        table:
+          name: question_answers
+          schema: public

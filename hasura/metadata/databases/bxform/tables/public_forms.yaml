@@ -1,0 +1,29 @@
+table:
+  name: forms
+  schema: public
+object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: created_by
+array_relationships:
+  - name: answer_sheets
+    using:
+      foreign_key_constraint_on:
+        column: form_id
+        table:
+          name: answer_sheets
+          schema: public
+  - name: form_accesses
+    using:
+      foreign_key_constraint_on:
+        column: form_id
+        table:
+          name: form_access
+          schema: public
+  - name: form_audiences
+    using:
+      foreign_key_constraint_on:
+        column: form_id
+        table:
+          name: form_audiences
+          schema: public

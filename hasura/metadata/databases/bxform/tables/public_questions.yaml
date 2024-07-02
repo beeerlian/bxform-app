@@ -1,0 +1,13 @@
+table:
+  name: questions
+  schema: public
+object_relationships:
+  - name: option_types
+    using:
+      manual_configuration:
+        column_mapping:
+          option_type: id
+        insertion_order: null
+        remote_table:
+          name: option_types
+          schema: public
