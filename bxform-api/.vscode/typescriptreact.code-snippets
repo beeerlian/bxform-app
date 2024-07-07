@@ -1,8 +1,0 @@
-{
-  "Logger": {
-    "prefix": "lg",
-    "body": [
-      "logger({ ${1:${CLIPBOARD}} }, '${TM_FILENAME} line ${TM_LINE_NUMBER}')"
-    ]
-  }
-}

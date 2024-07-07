@@ -1,4 +1,5 @@
 SET check_function_bodies = false;
+DROP FUNCTION IF EXISTS public.set_current_timestamp_updated_at() CASCADE;
 CREATE FUNCTION public.set_current_timestamp_updated_at() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -92,6 +93,8 @@ CREATE TABLE public.questions (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone
 );
+
+DROP TABLE IF EXISTS public.roles CASCADE;
 CREATE TABLE public.roles (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     code text NOT NULL,
@@ -99,12 +102,14 @@ CREATE TABLE public.roles (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now()
 );
+DROP TABLE IF EXISTS public.user_roles CASCADE;
 CREATE TABLE public.user_roles (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     user_id uuid NOT NULL,
     role_id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL
 );
+DROP TABLE IF EXISTS public.users CASCADE;
 CREATE TABLE public.users (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     email text NOT NULL,
