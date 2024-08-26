@@ -13,20 +13,12 @@ import Card from "components/card/Card";
 // Assets
 import Nft1 from "assets/img/nfts/Nft1.png";
 import SurveyStatusChip from "components/chips/SurveyStatusChip";
-import { useState } from "react";
-import { SurveyStatus } from "types/dto-types";
+import { convertSurveyStatus, SurveyStatus } from "types/dto-types";
+import { Forms } from "__generated__/graphql";
 
-export default function FormSheetCard(props: {
-  title: string;
-  startDate: string;
-  endDate: string;
-  category: string;
-  status: SurveyStatus;
-  totalResponse?: number;
-}) {
-  const { title, startDate, endDate, category, status, totalResponse } = props;
-  const [like, setLike] = useState(false);
+export default function FormSheetCard(props: { form: Forms }) {
   const textColor = useColorModeValue("navy.700", "white");
+  const { form } = props;
   const textColorBid = useColorModeValue("brand.500", "white");
   return (
     <Card p="20px">
@@ -46,7 +38,7 @@ export default function FormSheetCard(props: {
             right="14px"
             borderRadius="50%"
           >
-            <SurveyStatusChip status={status} />
+            <SurveyStatusChip status={convertSurveyStatus(form.status)} />
           </Flex>
         </Box>
         <Flex flexDirection="column" justify="space-between" h="100%">
@@ -76,7 +68,7 @@ export default function FormSheetCard(props: {
                 fontWeight="bold"
                 me="14px"
               >
-                {title}
+                {form.title}
               </Text>
             </Flex>
           </Flex>
@@ -98,13 +90,14 @@ export default function FormSheetCard(props: {
             }}
             mt="25px"
           >
-            {status === SurveyStatus.Active ? (
+            {form.status === SurveyStatus.Active ? (
               <Text fontWeight="700" fontSize="sm" color={textColorBid}>
-                Responses: {totalResponse}
+                Responses:{" "}
+                {form?.answer_sheets_aggregate?.aggregate?.count ?? 0}
               </Text>
             ) : null}
             <Link
-              href="/forms/19"
+              href={`/forms/${form.id}`}
               mt={{
                 base: "0px",
                 md: "10px",

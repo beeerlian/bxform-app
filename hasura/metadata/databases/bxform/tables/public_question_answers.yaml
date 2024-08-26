@@ -1,3 +1,10 @@
 table:
   name: question_answers
   schema: public
+object_relationships:
+  - name: answer_sheet
+    using:
+      foreign_key_constraint_on: answer_sheet_id
+  - name: question
+    using:
+      foreign_key_constraint_on: question_id

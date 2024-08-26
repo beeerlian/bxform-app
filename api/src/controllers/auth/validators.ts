@@ -3,9 +3,9 @@ import createHttpError from 'http-errors';
 import type { AuthLoginBody } from '../../types/routes/auth';
 
 export const validateLoginBody = (body: Partial<AuthLoginBody>) => {
-    const { login, password } = body;
+    const { email, password } = body;
 
-    if (!login) {
+    if (!email) {
         throw createHttpError(400, 'Username or email address required');
     }
 

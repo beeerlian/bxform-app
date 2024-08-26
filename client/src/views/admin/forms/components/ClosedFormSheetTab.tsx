@@ -21,11 +21,11 @@
 */
 
 // Chakra imports
-import { Flex, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import { useColorModeValue } from "@chakra-ui/react";
+import { SurveyStatus } from "types/dto-types";
 
 // Custom components
-import FormSheetCard from "components/card/FormSheetCard";
-import { SurveyStatus } from "types/dto-types";
+import SheetsListByStatusSection from "views/admin/dashboard/components/SheetsListByStatusSection";
 
 // Assets
 
@@ -33,21 +33,5 @@ export default function ClosedFormSheetTab() {
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.500", "white");
-  return (
-    <Flex direction="column">
-      <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
-        {Array.from({ length: 9 }).map((_, index) => (
-          <FormSheetCard
-            key={index}
-            title="Survey Kepuasan Mahasiswa Teknik Informatika"
-            category="Education"
-            endDate="2022-12-31 12:00"
-            startDate="2022-12-31 00:00"
-            status={SurveyStatus.Closed}
-            totalResponse={100}
-          />
-        ))}
-      </SimpleGrid>
-    </Flex>
-  );
+  return <SheetsListByStatusSection arg={{ status: SurveyStatus.Closed }} />;
 }

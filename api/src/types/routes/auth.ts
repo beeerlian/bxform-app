@@ -1,5 +1,5 @@
 export interface AuthLoginBody {
-    login: string;
+    email: string;
     password: string;
 }
 

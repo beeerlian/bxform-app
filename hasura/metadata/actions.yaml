@@ -1,19 +1,22 @@
 actions:
-  - name: getUserById
-    definition:
-      kind: ""
-      handler: ""
   - name: register
     definition:
       kind: synchronous
-      handler: http://localhost:3000/register
+      handler: http://host.docker.internal:8002/auth/register
+      response_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "response": {{$body}}
+            }
+        template_engine: Kriti
+        version: 2
+    comment: register
 custom_types:
   enums: []
   input_objects:
     - name: RegisterInput
   objects:
-    - name: User
-    - name: Role
-    - name: UserRole
     - name: RegisterOutput
   scalars: []

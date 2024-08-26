@@ -1,13 +1,6 @@
 table:
   name: form_access
   schema: public
-configuration:
-  column_config:
-    user_id:
-      custom_name: user_id
-  custom_column_names:
-    user_id: user_id
-  custom_root_fields: {}
 object_relationships:
   - name: form
     using:

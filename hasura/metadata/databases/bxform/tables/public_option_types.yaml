@@ -1,3 +1,11 @@
 table:
   name: option_types
   schema: public
+array_relationships:
+  - name: questions
+    using:
+      foreign_key_constraint_on:
+        column: option_type_id
+        table:
+          name: questions
+          schema: public

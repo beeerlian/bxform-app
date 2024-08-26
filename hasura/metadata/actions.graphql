@@ -1,9 +1,3 @@
-type Query {
-  getUserById(
-    id: ID!
-  ): User
-}
-
 type Mutation {
   register(
     body: RegisterInput!
@@ -11,33 +5,13 @@ type Mutation {
 }
 
 input RegisterInput {
-  name: String!
   email: String!
   password: String!
 }
 
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  user_role: [UserRole!]!
-}
-
-type Role {
-  id: ID!
-  name: String!
-}
-
-type UserRole {
-  id: ID!
-  user_id: String!
-  role_id: String!
-  roles: [Role!]!
-}
-
 type RegisterOutput {
-  accessToken: String!
-  name: String!
   email: String!
+  password: String!
+  accessToken: String!
 }
 

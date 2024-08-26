@@ -1,0 +1,13 @@
+table:
+  name: form_category
+  schema: public
+object_relationships:
+  - name: FormCategoryToForm
+    using:
+      manual_configuration:
+        column_mapping:
+          id: category_id
+        insertion_order: null
+        remote_table:
+          name: forms
+          schema: public

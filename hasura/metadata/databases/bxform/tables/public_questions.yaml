@@ -1,13 +1,25 @@
 table:
   name: questions
   schema: public
+configuration:
+  column_config:
+    question_type_id:
+      custom_name: option_type_id
+  custom_column_names:
+    question_type_id: option_type_id
+  custom_root_fields: {}
 object_relationships:
-  - name: option_types
+  - name: form
     using:
-      manual_configuration:
-        column_mapping:
-          option_type: id
-        insertion_order: null
-        remote_table:
-          name: option_types
+      foreign_key_constraint_on: form_id
+  - name: question_type
+    using:
+      foreign_key_constraint_on: question_type_id
+array_relationships:
+  - name: question_answers
+    using:
+      foreign_key_constraint_on:
+        column: question_id
+        table:
+          name: question_answers
           schema: public

@@ -27,3 +27,10 @@ array_relationships:
         table:
           name: form_audiences
           schema: public
+  - name: questions
+    using:
+      foreign_key_constraint_on:
+        column: form_id
+        table:
+          name: questions
+          schema: public

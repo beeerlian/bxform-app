@@ -21,25 +21,19 @@
 */
 
 // Chakra imports
-import {
-  Box,
-  Flex,
-  Link,
-  SimpleGrid,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
-
-// Custom components
-import FormSheetCard from "components/card/FormSheetCard";
+import { Box, Flex, Link, Text, useColorModeValue } from "@chakra-ui/react";
 import { SurveyStatus } from "types/dto-types";
 
-// Assets
+// Custom components
+import RecentlyAddedSheetsSection from "./components/RecentlyAddedSheetsSection";
+import SheetsListByStatusSection from "./components/SheetsListByStatusSection";
 
+// Assets
 export default function Dashboard() {
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.500", "white");
+
   return (
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
       {/* Main Fields */}
@@ -67,38 +61,15 @@ export default function Dashboard() {
               <Link
                 color={textColorBrand}
                 fontWeight="500"
-                href={`/admin/form-sheets/${1}`}
+                href={`/forms?tabIndex=1`}
               >
                 See More
               </Link>
             </Flex>
           </Flex>
-          <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
-            <FormSheetCard
-              title="Survey Kepuasan Mahasiswa Teknik Informatika"
-              category="Education"
-              endDate="2022-12-31 12:00"
-              startDate="2022-12-31 00:00"
-              status={SurveyStatus.Active}
-              totalResponse={100}
-            />
-            <FormSheetCard
-              title="Survey Kepuasan Mahasiswa Teknik Informatika"
-              category="Education"
-              endDate="2022-12-31 12:00"
-              startDate="2022-12-31 00:00"
-              status={SurveyStatus.Active}
-              totalResponse={100}
-            />
-            <FormSheetCard
-              title="Survey Kepuasan Mahasiswa Teknik Informatika"
-              category="Education"
-              endDate="2022-12-31 12:00"
-              startDate="2022-12-31 00:00"
-              status={SurveyStatus.Active}
-              totalResponse={100}
-            />
-          </SimpleGrid>
+          <SheetsListByStatusSection
+            arg={{ limit: 3, status: SurveyStatus.Active }}
+          />
           <Flex
             mt="45px"
             mb="20px"
@@ -115,45 +86,20 @@ export default function Dashboard() {
               ms={{ base: "24px", md: "0px" }}
               mt={{ base: "20px", md: "0px" }}
             >
-              <Link color={textColorBrand} fontWeight="500" href="#sports">
+              <Link
+                color={textColorBrand}
+                fontWeight="500"
+                href={`/forms?tabIndex=0`}
+              >
                 See More
               </Link>
             </Flex>
           </Flex>
-
-          <SimpleGrid
-            columns={{ base: 1, md: 3 }}
-            gap="20px"
-            mb={{ base: "20px", xl: "0px" }}
-          >
-            <FormSheetCard
-              title="Survey Kepuasan Mahasiswa Teknik Informatika"
-              category="Education"
-              endDate="2022-12-31 12:00"
-              startDate="2022-12-31 00:00"
-              status={SurveyStatus.Active}
-              totalResponse={100}
-            />
-            <FormSheetCard
-              title="Survey Kepuasan Mahasiswa Teknik Informatika"
-              category="Education"
-              endDate="2022-12-31 12:00"
-              startDate="2022-12-31 00:00"
-              status={SurveyStatus.Active}
-              totalResponse={100}
-            />
-            <FormSheetCard
-              title="Survey Kepuasan Mahasiswa Teknik Informatika"
-              category="Education"
-              endDate="2022-12-31 12:00"
-              startDate="2022-12-31 00:00"
-              status={SurveyStatus.Active}
-              totalResponse={100}
-            />
-          </SimpleGrid>
+          <RecentlyAddedSheetsSection
+            arg={{ limit: 3, orderBy: { field: "created_at", asc: false } }}
+          />
         </Flex>
       </Flex>
-      {/* Delete Product */}
     </Box>
   );
 }

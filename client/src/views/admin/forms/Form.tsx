@@ -21,23 +21,14 @@
 */
 
 // Chakra imports
-import {
-  Box,
-  Button,
-  Flex,
-  Icon,
-  Link,
-  TabIndicator,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, TabIndicator, useColorModeValue } from "@chakra-ui/react";
 
 // Custom components
-import { IoAdd } from "react-icons/io5";
 
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
 import ActiveFormSheetTab from "./components/ActiveFormSheetTab";
 import ClosedFormSheetTab from "./components/ClosedFormSheetTab";
+import CreateFormButton from "./components/CreateFormButton";
 import DraftFormSheetTab from "./components/DraftFormSheetTab";
 import RecentlyAddedFormSheetTab from "./components/RecentlyAddedFormSheetTab";
 
@@ -47,8 +38,11 @@ export type FormsPageProps = {
 };
 
 export default function FormsPage() {
-  const { id } = useParams<FormsPageProps>(); // Retrieve the 'id' parameter from the URL
-  const defaultTabIndex = parseInt(id, 10); // Convert 'id' to a number. Use 10 for the radix parameter to ensure it's parsed in base 10.
+  // Retrieve the 'id' parameter from the URL
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const tabIndex = urlParams.get("tabIndex");
+  const defaultTabIndex = parseInt(tabIndex, 10); // Convert 'id' to a number. Use 10 for the radix parameter to ensure it's parsed in base 10.
 
   // Check if the parsed 'id' is a valid number and within your tabs range
   const isValidTabIndex = !isNaN(defaultTabIndex) && defaultTabIndex >= 0; // Add more conditions if needed, e.g., defaultTabIndex < numberOfTabs
@@ -68,31 +62,7 @@ export default function FormsPage() {
           direction={{ base: "column", md: "row" }}
           align={{ base: "start", md: "center" }}
         >
-          <Link
-            href="/"
-            mt={{
-              base: "0px",
-              md: "10px",
-              lg: "0px",
-              xl: "10px",
-              "2xl": "0px",
-            }}
-          >
-            <Button
-              variant="darkBrand"
-              color="white"
-              fontSize="sm"
-              fontWeight="500"
-              borderRadius="70px"
-              leftIcon={
-                <Icon transition="0.2s linear" w="20px" h="20px" as={IoAdd} />
-              }
-              px="24px"
-              py="5px"
-            >
-              Buat Survey Baru
-            </Button>
-          </Link>
+          <CreateFormButton />
         </Flex>
 
         <Tabs
@@ -106,12 +76,7 @@ export default function FormsPage() {
             <Tab fontWeight="bold">Closed</Tab>
             <Tab fontWeight="bold">Draft</Tab>
           </TabList>
-          <TabIndicator
-            mt="-1.5px"
-            height="3px"
-            bg={primaryColor}
-            borderRadius="1px"
-          />
+          <TabIndicator height="3px" bg={primaryColor} borderRadius="1px" />
           <TabPanels>
             <TabPanel>
               <RecentlyAddedFormSheetTab />
