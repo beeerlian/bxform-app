@@ -1,22 +1,6 @@
-actions:
-  - name: register
-    definition:
-      kind: synchronous
-      handler: http://host.docker.internal:8002/auth/register
-      response_transform:
-        body:
-          action: transform
-          template: |-
-            {
-              "response": {{$body}}
-            }
-        template_engine: Kriti
-        version: 2
-    comment: register
+actions: []
 custom_types:
   enums: []
-  input_objects:
-    - name: RegisterInput
-  objects:
-    - name: RegisterOutput
+  input_objects: []
+  objects: []
   scalars: []

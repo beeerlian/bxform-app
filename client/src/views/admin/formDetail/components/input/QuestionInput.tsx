@@ -1,5 +1,6 @@
+import { Box, Text, useColorModeValue } from "@chakra-ui/react";
 import { IPQuestionOptionType, QuestionOptionType } from "types/dto-types";
-import { Questions } from "__generated__/graphql";
+import { Questions, Question_Types } from "__generated__/graphql";
 import EssaiInput from "./EssaiInput";
 import IPInput from "./IPInput";
 import MultipleChoice from "./MultipleInput";
@@ -23,7 +24,7 @@ const ratioInputData: QuestionOptionType[] = [
     label: "Baik",
   },
   {
-    value: 3,
+    value: 4,
     label: "Sangat Baik",
   },
 ];
@@ -35,17 +36,23 @@ const ipInputData: IPQuestionOptionType = {
 
 export default function QuestionInput({
   question,
+  questionType,
   ...props
 }: {
-  question: Questions;
+  question?: Questions;
+  questionType?: Question_Types;
   [x: string]: any;
 }) {
-  const onChange = (value: number): void => {};
 
-  switch (question.question_type.code) {
+  const brandColor = useColorModeValue("bg.100", "navy.700");
+  const onChange = (value: number): void => {
+
+  };
+
+  switch (questionType?.code) {
     case "essai":
-      return <EssaiInput question={question} {...props} />;
-
+      return <EssaiInput  {...props} />;
+      
     case "option":
       return (
         <OptionInput
@@ -76,6 +83,11 @@ export default function QuestionInput({
       );
 
     default:
-      return <div></div>;
+      return <Box borderRadius={16} backgroundColor={brandColor} p={4} {...props}>
+      <Text fontSize="m" mb={2}>
+        Tipe pertayaan ini tidak memiliki isian
+      </Text>
+      
+    </Box>;
   }
 }

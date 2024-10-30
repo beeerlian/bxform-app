@@ -19,7 +19,7 @@ const multipleInputData: QuestionOptionType[] = [
     label: "Informatika",
   },
   {
-    value: 3,
+    value: 4,
     label: "Agro",
   },
 ];

@@ -130,6 +130,7 @@ export const getById = ({ id }: { id: string }) => gql`
           created_at
           updated_at
         }
+        question_type_id
         topic
         updated_at
         created_at

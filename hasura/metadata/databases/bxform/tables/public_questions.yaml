@@ -1,13 +1,6 @@
 table:
   name: questions
   schema: public
-configuration:
-  column_config:
-    question_type_id:
-      custom_name: option_type_id
-  custom_column_names:
-    question_type_id: option_type_id
-  custom_root_fields: {}
 object_relationships:
   - name: form
     using:

@@ -3,7 +3,12 @@
   configuration:
     connection_info:
       database_url:
-        from_env: PG_DATABASE_URL
+        connection_parameters:
+          database: bxform
+          host: postgres
+          password: "20010506"
+          port: 5432
+          username: postgres
       isolation_level: read-committed
       use_prepared_statements: false
   tables: "!include bxform/tables/tables.yaml"

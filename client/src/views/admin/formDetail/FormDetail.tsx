@@ -10,7 +10,7 @@ import {
   TabPanels,
   Tabs,
   Text,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
 import StateFailedUI from "components/state/StateFailed";
 import StateLoadingUI from "components/state/StateLoading";
@@ -19,10 +19,10 @@ import { FORM_QUERIES } from "services/apollo/Operations/Client/Queries";
 import { SurveyStatus } from "types/dto-types";
 import { Forms } from "__generated__/graphql";
 import FormAnalyticTab from "./components/FormAnalyticTab";
-import FormQuestionTab from "./components/FormQuestionTab";
 import FormSettingTab from "./components/FormSettingTab";
 // Assets
 import { z } from "zod";
+import EditFormQuestionTab from "./components/EditQuestionTab";
 
 const CreateQuestionSchema = z.object({
   topic: z.string().max(255).optional(),
@@ -36,7 +36,7 @@ const CreateQuestionSchema = z.object({
 export type CreateQuestionSchemaType = z.infer<typeof CreateQuestionSchema>;
 
 // Custom components
-function FormDetailContent({ form }: { form: Forms }) {
+function FormDetailContent({ form, refetch }: { form: Forms, refetch: ()=> void }) {
   const primaryColor = useColorModeValue("navy", "white");
   const mainText = useColorModeValue("navy.700", "white");
 
@@ -50,6 +50,7 @@ function FormDetailContent({ form }: { form: Forms }) {
       </Text>
 
       <Tabs mt="45px" colorScheme={primaryColor}>
+
         <TabList>
           <Tab fontWeight="bold">Questions</Tab>
           {form.status != SurveyStatus.Draft ? (
@@ -64,7 +65,8 @@ function FormDetailContent({ form }: { form: Forms }) {
         <TabIndicator height="3px" bg={primaryColor} borderRadius="1px" />
         <TabPanels>
           <TabPanel>
-            <FormQuestionTab questions={form.questions} />
+            {/* <FormQuestionTab questions={form.questions} /> */}
+            <EditFormQuestionTab questions={form.questions} formId={form.id} onRefreshForm={refetch} />
           </TabPanel>
           {form.status != SurveyStatus.Draft ? <TabPanel></TabPanel> : null}
           {form.status != SurveyStatus.Draft ? (
@@ -90,6 +92,10 @@ export default function FormDetail() {
     FORM_QUERIES.getById({ id })
   );
 
+  function reFetchForm() {
+    refetch();
+  }
+
   return (
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
       {loading ? (
@@ -97,7 +103,7 @@ export default function FormDetail() {
       ) : error ? (
         <StateFailedUI error="message" h="500px" onRefresh={refetch} />
       ) : data ? (
-        <FormDetailContent form={data.forms_by_pk} />
+        <FormDetailContent form={data.forms_by_pk} refetch={reFetchForm}  />
       ) : null}
     </Box>
   );

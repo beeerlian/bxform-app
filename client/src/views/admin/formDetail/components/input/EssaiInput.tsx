@@ -2,10 +2,8 @@ import { Input } from "@chakra-ui/react";
 import { Questions } from "__generated__/graphql";
 
 export default function EssaiInput({
-  question,
   ...props
 }: {
-  question: Questions;
   [x: string]: any;
 }) {
   return (

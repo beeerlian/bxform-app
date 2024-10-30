@@ -4,19 +4,21 @@ import {
   Radio,
   RadioGroup,
   Text,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { IPQuestionOptionType } from "types/dto-types";
 
 export interface IPInputProps {
   options: IPQuestionOptionType;
   onValueChanged: (value: number) => void;
+  
   [x: string]: any;
 }
 
 export default function IPInput({
   options,
   onValueChanged,
+  
   ...rest
 }: IPInputProps) {
   const brandColor = useColorModeValue("bg.100", "navy.700");
@@ -29,7 +31,7 @@ export default function IPInput({
         <RadioGroup {...rest} onChange={(e) => onValueChanged(Number(e))}>
           {options.importance.map((option) => (
             <Radio
-              key={option.value}
+              key={"importance-"+option.value}
               value={option.value}
               paddingRight="10px"
               disabled={rest.disabled}
@@ -46,7 +48,7 @@ export default function IPInput({
         <RadioGroup {...rest} onChange={(e) => onValueChanged(Number(e))}>
           {options.performance.map((option) => (
             <Radio
-              key={option.value}
+              key={"performance-"+option.value}
               value={option.value}
               paddingRight="10px"
               disabled={rest.disabled}

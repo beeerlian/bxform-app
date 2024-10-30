@@ -32,18 +32,6 @@ export type Int_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
-export type RegisterInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-};
-
-export type RegisterOutput = {
-  __typename?: 'RegisterOutput';
-  accessToken: Scalars['String']['output'];
-  email: Scalars['String']['output'];
-  password: Scalars['String']['output'];
-};
-
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['String']['input']>;
@@ -792,8 +780,6 @@ export type Form_Audiences_Updates = {
 /** columns and relationships of "form_category" */
 export type Form_Category = {
   __typename?: 'form_category';
-  /** An object relationship */
-  FormCategoryToForm?: Maybe<Forms>;
   created_at: Scalars['timestamptz']['output'];
   id: Scalars['uuid']['output'];
   name: Scalars['String']['output'];
@@ -825,7 +811,6 @@ export type Form_Category_Aggregate_FieldsCountArgs = {
 
 /** Boolean expression to filter rows from the table "form_category". All fields are combined with a logical 'AND'. */
 export type Form_Category_Bool_Exp = {
-  FormCategoryToForm?: InputMaybe<Forms_Bool_Exp>;
   _and?: InputMaybe<Array<Form_Category_Bool_Exp>>;
   _not?: InputMaybe<Form_Category_Bool_Exp>;
   _or?: InputMaybe<Array<Form_Category_Bool_Exp>>;
@@ -846,7 +831,6 @@ export enum Form_Category_Constraint {
 
 /** input type for inserting data into table "form_category" */
 export type Form_Category_Insert_Input = {
-  FormCategoryToForm?: InputMaybe<Forms_Obj_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -892,7 +876,6 @@ export type Form_Category_On_Conflict = {
 
 /** Ordering options when selecting data from "form_category". */
 export type Form_Category_Order_By = {
-  FormCategoryToForm?: InputMaybe<Forms_Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -1650,8 +1633,6 @@ export type Mutation_Root = {
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
-  /** register */
-  register?: Maybe<RegisterOutput>;
   /** update data of the table: "answer_sheets" */
   update_answer_sheets?: Maybe<Answer_Sheets_Mutation_Response>;
   /** update single row of the table: "answer_sheets" */
@@ -2004,12 +1985,6 @@ export type Mutation_RootInsert_UsersArgs = {
 export type Mutation_RootInsert_Users_OneArgs = {
   object: Users_Insert_Input;
   on_conflict?: InputMaybe<Users_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootRegisterArgs = {
-  body: RegisterInput;
 };
 
 
@@ -3152,13 +3127,14 @@ export type Questions = {
   form_id: Scalars['uuid']['output'];
   id: Scalars['uuid']['output'];
   option?: Maybe<Scalars['jsonb']['output']>;
-  option_type_id: Scalars['Int']['output'];
+  order?: Maybe<Scalars['Int']['output']>;
   /** An array relationship */
   question_answers: Array<Question_Answers>;
   /** An aggregate relationship */
   question_answers_aggregate: Question_Answers_Aggregate;
   /** An object relationship */
   question_type: Question_Types;
+  question_type_id: Scalars['Int']['output'];
   topic?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -3260,12 +3236,14 @@ export type Questions_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Questions_Avg_Fields = {
   __typename?: 'questions_avg_fields';
-  option_type_id?: Maybe<Scalars['Float']['output']>;
+  order?: Maybe<Scalars['Float']['output']>;
+  question_type_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "questions" */
 export type Questions_Avg_Order_By = {
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "questions". All fields are combined with a logical 'AND'. */
@@ -3280,10 +3258,11 @@ export type Questions_Bool_Exp = {
   form_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   option?: InputMaybe<Jsonb_Comparison_Exp>;
-  option_type_id?: InputMaybe<Int_Comparison_Exp>;
+  order?: InputMaybe<Int_Comparison_Exp>;
   question_answers?: InputMaybe<Question_Answers_Bool_Exp>;
   question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Bool_Exp>;
   question_type?: InputMaybe<Question_Types_Bool_Exp>;
+  question_type_id?: InputMaybe<Int_Comparison_Exp>;
   topic?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -3311,7 +3290,8 @@ export type Questions_Delete_Key_Input = {
 
 /** input type for incrementing numeric columns in table "questions" */
 export type Questions_Inc_Input = {
-  option_type_id?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  question_type_id?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "questions" */
@@ -3323,9 +3303,10 @@ export type Questions_Insert_Input = {
   form_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   option?: InputMaybe<Scalars['jsonb']['input']>;
-  option_type_id?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
   question_answers?: InputMaybe<Question_Answers_Arr_Rel_Insert_Input>;
   question_type?: InputMaybe<Question_Types_Obj_Rel_Insert_Input>;
+  question_type_id?: InputMaybe<Scalars['Int']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -3338,7 +3319,8 @@ export type Questions_Max_Fields = {
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   form_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  option_type_id?: Maybe<Scalars['Int']['output']>;
+  order?: Maybe<Scalars['Int']['output']>;
+  question_type_id?: Maybe<Scalars['Int']['output']>;
   topic?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -3350,7 +3332,8 @@ export type Questions_Max_Order_By = {
   created_at?: InputMaybe<Order_By>;
   form_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
   topic?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -3363,7 +3346,8 @@ export type Questions_Min_Fields = {
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   form_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  option_type_id?: Maybe<Scalars['Int']['output']>;
+  order?: Maybe<Scalars['Int']['output']>;
+  question_type_id?: Maybe<Scalars['Int']['output']>;
   topic?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -3375,7 +3359,8 @@ export type Questions_Min_Order_By = {
   created_at?: InputMaybe<Order_By>;
   form_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
   topic?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -3412,9 +3397,10 @@ export type Questions_Order_By = {
   form_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   option?: InputMaybe<Order_By>;
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
   question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Order_By>;
   question_type?: InputMaybe<Question_Types_Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
   topic?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -3444,7 +3430,9 @@ export enum Questions_Select_Column {
   /** column name */
   Option = 'option',
   /** column name */
-  OptionTypeId = 'option_type_id',
+  Order = 'order',
+  /** column name */
+  QuestionTypeId = 'question_type_id',
   /** column name */
   Topic = 'topic',
   /** column name */
@@ -3459,7 +3447,8 @@ export type Questions_Set_Input = {
   form_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   option?: InputMaybe<Scalars['jsonb']['input']>;
-  option_type_id?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  question_type_id?: InputMaybe<Scalars['Int']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -3467,34 +3456,40 @@ export type Questions_Set_Input = {
 /** aggregate stddev on columns */
 export type Questions_Stddev_Fields = {
   __typename?: 'questions_stddev_fields';
-  option_type_id?: Maybe<Scalars['Float']['output']>;
+  order?: Maybe<Scalars['Float']['output']>;
+  question_type_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "questions" */
 export type Questions_Stddev_Order_By = {
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Questions_Stddev_Pop_Fields = {
   __typename?: 'questions_stddev_pop_fields';
-  option_type_id?: Maybe<Scalars['Float']['output']>;
+  order?: Maybe<Scalars['Float']['output']>;
+  question_type_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "questions" */
 export type Questions_Stddev_Pop_Order_By = {
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Questions_Stddev_Samp_Fields = {
   __typename?: 'questions_stddev_samp_fields';
-  option_type_id?: Maybe<Scalars['Float']['output']>;
+  order?: Maybe<Scalars['Float']['output']>;
+  question_type_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "questions" */
 export type Questions_Stddev_Samp_Order_By = {
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "questions" */
@@ -3513,7 +3508,8 @@ export type Questions_Stream_Cursor_Value_Input = {
   form_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   option?: InputMaybe<Scalars['jsonb']['input']>;
-  option_type_id?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  question_type_id?: InputMaybe<Scalars['Int']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -3521,12 +3517,14 @@ export type Questions_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Questions_Sum_Fields = {
   __typename?: 'questions_sum_fields';
-  option_type_id?: Maybe<Scalars['Int']['output']>;
+  order?: Maybe<Scalars['Int']['output']>;
+  question_type_id?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "questions" */
 export type Questions_Sum_Order_By = {
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "questions" */
@@ -3544,7 +3542,9 @@ export enum Questions_Update_Column {
   /** column name */
   Option = 'option',
   /** column name */
-  OptionTypeId = 'option_type_id',
+  Order = 'order',
+  /** column name */
+  QuestionTypeId = 'question_type_id',
   /** column name */
   Topic = 'topic',
   /** column name */
@@ -3573,34 +3573,40 @@ export type Questions_Updates = {
 /** aggregate var_pop on columns */
 export type Questions_Var_Pop_Fields = {
   __typename?: 'questions_var_pop_fields';
-  option_type_id?: Maybe<Scalars['Float']['output']>;
+  order?: Maybe<Scalars['Float']['output']>;
+  question_type_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "questions" */
 export type Questions_Var_Pop_Order_By = {
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Questions_Var_Samp_Fields = {
   __typename?: 'questions_var_samp_fields';
-  option_type_id?: Maybe<Scalars['Float']['output']>;
+  order?: Maybe<Scalars['Float']['output']>;
+  question_type_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "questions" */
 export type Questions_Var_Samp_Order_By = {
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Questions_Variance_Fields = {
   __typename?: 'questions_variance_fields';
-  option_type_id?: Maybe<Scalars['Float']['output']>;
+  order?: Maybe<Scalars['Float']['output']>;
+  question_type_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "questions" */
 export type Questions_Variance_Order_By = {
-  option_type_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  question_type_id?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "roles" */

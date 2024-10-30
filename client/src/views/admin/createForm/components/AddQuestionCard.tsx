@@ -1,5 +1,5 @@
 import { AddIcon } from "@chakra-ui/icons";
-import { Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import Card from "components/card/Card";
 
 export default function AddQuestionCard(props: { [x: string]: any }) {
@@ -7,10 +7,9 @@ export default function AddQuestionCard(props: { [x: string]: any }) {
   const textColor = useColorModeValue("brand.500", "white");
   const brandColor = useColorModeValue("brand.500", "white");
 
-  console.log("AddQuestionCard -> props", props);
-
   return (
-    <Card py="15px" {...props}>
+      <Button  {...props} p={0}>
+    <Card py="15px">
       <Flex
         px={{ base: "0px", "2xl": "10px" }}
         alignItems="center"
@@ -23,5 +22,6 @@ export default function AddQuestionCard(props: { [x: string]: any }) {
         </Text>
       </Flex>
     </Card>
+      </Button>
   );
 }
