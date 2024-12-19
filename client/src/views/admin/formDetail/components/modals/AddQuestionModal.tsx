@@ -46,7 +46,7 @@ export default function AddQuestionModal(
           <ModalBody p={6}>
 
           {
-            questionTypes.data.question_types ? 
+            questionTypes.data?.question_types ? 
             <AddQuestionModalBody questionTypes={questionTypes.data.question_types} formId={formId} onRefreshForm={() => {}} /> 
             : <Text>Loading...</Text>
           }
