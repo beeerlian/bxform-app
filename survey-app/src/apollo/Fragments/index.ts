@@ -20,31 +20,14 @@ export const ROLE_FRAGMENT = gql`
 
 export const QUESTION_ANSWER_FRAGMENT = gql`
   fragment QuestionAnswerFragment on question_answers {
-    answer
-    answer_sheet_id
-    created_at
     id
-    question_id
-    updated_at
-  }
-`;
-
-export const ANSWER_SHEET_FRAGMENT = gql`
-  fragment AnswerSheetFragment on answer_sheets {
     form_id
-    id
-    updated_at
     user_id
+    question_id
+    answer
     created_at
-    user {
-      ...UserFragment
-    }
-    question_answers {
-      ...QuestionAnswerFragment
-    }
+    updated_at
   }
-  ${USER_FRAGMENT}
-  ${QUESTION_ANSWER_FRAGMENT}
 `;
 
 export const FORM_ACCESS_FRAGMENT = gql`
@@ -97,7 +80,9 @@ export const QUESTION_FRAGMENT = gql`
     created_at
     content
     caption
+    order
     option
+    required
   }
   ${QUESTION_TYPE_FRAGMENT}
 `;
@@ -115,20 +100,14 @@ export const FORM_DETAIL_FRAGMENT = gql`
     status
     target_audience
     title
+    is_public
     updated_at
     user {
       ...UserFragment
     }
-    answer_sheets_aggregate {
-      aggregate {
-        count
-      }
-    }
+
     questions(order_by: { order: asc }) {
       ...QuestionFragment
-    }
-    answer_sheets {
-      ...AnswerSheetFragment
     }
     form_accesses {
       ...FormAccessFragment
@@ -139,7 +118,6 @@ export const FORM_DETAIL_FRAGMENT = gql`
   }
   ${USER_FRAGMENT}
   ${QUESTION_FRAGMENT}
-  ${ANSWER_SHEET_FRAGMENT}
   ${FORM_ACCESS_FRAGMENT}
   ${FORM_AUDIENCE_FRAGMENT}
 `;
@@ -158,10 +136,5 @@ export const FORM_OVERVIEW_FRAGMENT = gql`
     target_audience
     title
     updated_at
-    answer_sheets_aggregate {
-      aggregate {
-        count
-      }
-    }
   }
 `;

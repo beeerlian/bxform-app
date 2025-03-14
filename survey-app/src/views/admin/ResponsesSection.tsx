@@ -1,12 +1,12 @@
 import React from 'react';
 import { Question, Response } from '../../types/survey';
 
-interface ResponseListProps {
+interface ResponsesSectionProps {
   responses: Response[];
   questions: Question[];
 }
 
-const ResponseList: React.FC<ResponseListProps> = ({ responses, questions }) => {
+const ResponsesSection: React.FC<ResponsesSectionProps> = ({ responses, questions }) => {
   return (
     <div className="space-y-4">
       {responses.map((response) => (
@@ -24,5 +24,4 @@ const ResponseList: React.FC<ResponseListProps> = ({ responses, questions }) => 
   );
 };
 
-export default ResponseList;
-
+export default ResponsesSection;

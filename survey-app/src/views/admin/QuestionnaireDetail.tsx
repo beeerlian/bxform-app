@@ -1,31 +1,31 @@
 import { Forms } from '@/__generated__/graphql';
 import { FORM } from '@/apollo/Operations';
+import QuestionnareStatusChip from '@/components/QuestionnareStatusChip';
 import { useQuery } from '@apollo/client';
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import QuestionList from './QuestionList';
-import QuestionnaireSetting from './QuestionnaireSetting';
-import ResponseList from './ResponseList';
+import { useParams } from 'react-router-dom';
+import AnalysisSection from './AnalysisSection';
+import QuestionsSection from './QuestionsSection';
+import ResponsesSection from './ResponsesSection';
+import SettingsSection from './SettingsSection';
 
 const QuestionnaireDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { data, loading, error } = useQuery<{ forms_by_pk: Forms }>(FORM.GET_BY_ID, {
+  const { data, loading, error, refetch } = useQuery<{ forms_by_pk: Forms }>(FORM.GET_BY_ID, {
     variables: {
       id: id,
     },
   });
 
   const [activeTab, setActiveTab] = useState('questions');
-  const navigate = useNavigate();
-
-  const editQuestion = () => {
-    navigate(`/admin/questionnaire/${id}/edit`);
-  };
 
   return (
     <div className="w">
-      {data && <h2 className="text-xl font-semibold mb-4">{data.forms_by_pk.title}</h2>}
+      <div className="flex justify-between items-center mb-4">
+        {data && <p className="text-xl font-semibold mb-4">{data.forms_by_pk.title}</p>}
+        {data?.forms_by_pk.status && <QuestionnareStatusChip status={data!.forms_by_pk.status} />}
+      </div>
       <div className="mb-4">
         <button
           className={`mr-2 px-4 py-2 ${
@@ -44,6 +44,14 @@ const QuestionnaireDetail: React.FC = () => {
           Responses
         </button>
         <button
+          className={`mr-2 px-4 py-2 ${
+            activeTab === 'analysis' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+          }`}
+          onClick={() => setActiveTab('analysis')}
+        >
+          Analysis
+        </button>
+        <button
           className={`px-4 py-2 ${
             activeTab === 'settings' ? 'bg-blue-500 text-white' : 'bg-gray-200'
           }`}
@@ -56,15 +64,18 @@ const QuestionnaireDetail: React.FC = () => {
       {error && <p>Error: {error.message}</p>}
       {data && (
         <div>
-         
           {activeTab === 'questions' && (
-            <QuestionList
+            <QuestionsSection
               quissionareId={data.forms_by_pk.id}
               questions={data.forms_by_pk.questions ?? []}
+              refetch={refetch}
             />
           )}
-          {activeTab === 'responses' && <ResponseList responses={[]} questions={[]} />}
-          {activeTab === 'settings' && <QuestionnaireSetting questionnaire={data.forms_by_pk} />}
+          {activeTab === 'responses' && <ResponsesSection responses={[]} questions={[]} />}
+          {activeTab === 'analysis' && <AnalysisSection data={data.forms_by_pk} />}
+          {activeTab === 'settings' && (
+            <SettingsSection questionnaire={data.forms_by_pk} refetch={refetch} />
+          )}
         </div>
       )}
     </div>

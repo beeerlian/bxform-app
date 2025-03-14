@@ -6,13 +6,6 @@ object_relationships:
     using:
       foreign_key_constraint_on: created_by
 array_relationships:
-  - name: answer_sheets
-    using:
-      foreign_key_constraint_on:
-        column: form_id
-        table:
-          name: answer_sheets
-          schema: public
   - name: form_accesses
     using:
       foreign_key_constraint_on:
@@ -26,6 +19,13 @@ array_relationships:
         column: form_id
         table:
           name: form_audiences
+          schema: public
+  - name: question_answers
+    using:
+      foreign_key_constraint_on:
+        column: form_id
+        table:
+          name: question_answers
           schema: public
   - name: questions
     using:

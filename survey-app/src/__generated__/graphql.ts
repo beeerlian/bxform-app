@@ -20,6 +20,19 @@ export type Scalars = {
   uuid: { input: any; output: any; }
 };
 
+/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['Boolean']['input']>;
+  _gt?: InputMaybe<Scalars['Boolean']['input']>;
+  _gte?: InputMaybe<Scalars['Boolean']['input']>;
+  _in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['Boolean']['input']>;
+  _lte?: InputMaybe<Scalars['Boolean']['input']>;
+  _neq?: InputMaybe<Scalars['Boolean']['input']>;
+  _nin?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['Int']['input']>;
@@ -64,264 +77,6 @@ export type String_Comparison_Exp = {
   _regex?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given SQL regular expression */
   _similar?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** columns and relationships of "answer_sheets" */
-export type Answer_Sheets = {
-  __typename?: 'answer_sheets';
-  created_at: Scalars['timestamptz']['output'];
-  /** An object relationship */
-  form: Forms;
-  form_id: Scalars['uuid']['output'];
-  id: Scalars['uuid']['output'];
-  /** An array relationship */
-  question_answers: Array<Question_Answers>;
-  /** An aggregate relationship */
-  question_answers_aggregate: Question_Answers_Aggregate;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  /** An object relationship */
-  user: Users;
-  user_id: Scalars['uuid']['output'];
-};
-
-
-/** columns and relationships of "answer_sheets" */
-export type Answer_SheetsQuestion_AnswersArgs = {
-  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
-  where?: InputMaybe<Question_Answers_Bool_Exp>;
-};
-
-
-/** columns and relationships of "answer_sheets" */
-export type Answer_SheetsQuestion_Answers_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
-  where?: InputMaybe<Question_Answers_Bool_Exp>;
-};
-
-/** aggregated selection of "answer_sheets" */
-export type Answer_Sheets_Aggregate = {
-  __typename?: 'answer_sheets_aggregate';
-  aggregate?: Maybe<Answer_Sheets_Aggregate_Fields>;
-  nodes: Array<Answer_Sheets>;
-};
-
-export type Answer_Sheets_Aggregate_Bool_Exp = {
-  count?: InputMaybe<Answer_Sheets_Aggregate_Bool_Exp_Count>;
-};
-
-export type Answer_Sheets_Aggregate_Bool_Exp_Count = {
-  arguments?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-  filter?: InputMaybe<Answer_Sheets_Bool_Exp>;
-  predicate: Int_Comparison_Exp;
-};
-
-/** aggregate fields of "answer_sheets" */
-export type Answer_Sheets_Aggregate_Fields = {
-  __typename?: 'answer_sheets_aggregate_fields';
-  count: Scalars['Int']['output'];
-  max?: Maybe<Answer_Sheets_Max_Fields>;
-  min?: Maybe<Answer_Sheets_Min_Fields>;
-};
-
-
-/** aggregate fields of "answer_sheets" */
-export type Answer_Sheets_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** order by aggregate values of table "answer_sheets" */
-export type Answer_Sheets_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Answer_Sheets_Max_Order_By>;
-  min?: InputMaybe<Answer_Sheets_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "answer_sheets" */
-export type Answer_Sheets_Arr_Rel_Insert_Input = {
-  data: Array<Answer_Sheets_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Answer_Sheets_On_Conflict>;
-};
-
-/** Boolean expression to filter rows from the table "answer_sheets". All fields are combined with a logical 'AND'. */
-export type Answer_Sheets_Bool_Exp = {
-  _and?: InputMaybe<Array<Answer_Sheets_Bool_Exp>>;
-  _not?: InputMaybe<Answer_Sheets_Bool_Exp>;
-  _or?: InputMaybe<Array<Answer_Sheets_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  form?: InputMaybe<Forms_Bool_Exp>;
-  form_id?: InputMaybe<Uuid_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  question_answers?: InputMaybe<Question_Answers_Bool_Exp>;
-  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Bool_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<Users_Bool_Exp>;
-  user_id?: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "answer_sheets" */
-export enum Answer_Sheets_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  AnswerSheetsPkey = 'answer_sheets_pkey'
-}
-
-/** input type for inserting data into table "answer_sheets" */
-export type Answer_Sheets_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  form?: InputMaybe<Forms_Obj_Rel_Insert_Input>;
-  form_id?: InputMaybe<Scalars['uuid']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  question_answers?: InputMaybe<Question_Answers_Arr_Rel_Insert_Input>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars['uuid']['input']>;
-};
-
-/** aggregate max on columns */
-export type Answer_Sheets_Max_Fields = {
-  __typename?: 'answer_sheets_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  form_id?: Maybe<Scalars['uuid']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  user_id?: Maybe<Scalars['uuid']['output']>;
-};
-
-/** order by max() on columns of table "answer_sheets" */
-export type Answer_Sheets_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  form_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Answer_Sheets_Min_Fields = {
-  __typename?: 'answer_sheets_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  form_id?: Maybe<Scalars['uuid']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  user_id?: Maybe<Scalars['uuid']['output']>;
-};
-
-/** order by min() on columns of table "answer_sheets" */
-export type Answer_Sheets_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  form_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "answer_sheets" */
-export type Answer_Sheets_Mutation_Response = {
-  __typename?: 'answer_sheets_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Answer_Sheets>;
-};
-
-/** input type for inserting object relation for remote table "answer_sheets" */
-export type Answer_Sheets_Obj_Rel_Insert_Input = {
-  data: Answer_Sheets_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Answer_Sheets_On_Conflict>;
-};
-
-/** on_conflict condition type for table "answer_sheets" */
-export type Answer_Sheets_On_Conflict = {
-  constraint: Answer_Sheets_Constraint;
-  update_columns?: Array<Answer_Sheets_Update_Column>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "answer_sheets". */
-export type Answer_Sheets_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  form?: InputMaybe<Forms_Order_By>;
-  form_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<Users_Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: answer_sheets */
-export type Answer_Sheets_Pk_Columns_Input = {
-  id: Scalars['uuid']['input'];
-};
-
-/** select columns of table "answer_sheets" */
-export enum Answer_Sheets_Select_Column {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  FormId = 'form_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
-  UserId = 'user_id'
-}
-
-/** input type for updating data in table "answer_sheets" */
-export type Answer_Sheets_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  form_id?: InputMaybe<Scalars['uuid']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user_id?: InputMaybe<Scalars['uuid']['input']>;
-};
-
-/** Streaming cursor of the table "answer_sheets" */
-export type Answer_Sheets_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Answer_Sheets_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering?: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Answer_Sheets_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  form_id?: InputMaybe<Scalars['uuid']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user_id?: InputMaybe<Scalars['uuid']['input']>;
-};
-
-/** update columns of table "answer_sheets" */
-export enum Answer_Sheets_Update_Column {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  FormId = 'form_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
-  UserId = 'user_id'
-}
-
-export type Answer_Sheets_Updates = {
-  /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Answer_Sheets_Set_Input>;
-  /** filter the rows which have to be updated */
-  where: Answer_Sheets_Bool_Exp;
 };
 
 /** ordering argument of a cursor */
@@ -953,10 +708,6 @@ export type Form_Category_Updates = {
 /** columns and relationships of "forms" */
 export type Forms = {
   __typename?: 'forms';
-  /** An array relationship */
-  answer_sheets: Array<Answer_Sheets>;
-  /** An aggregate relationship */
-  answer_sheets_aggregate: Answer_Sheets_Aggregate;
   category_id?: Maybe<Scalars['uuid']['output']>;
   created_at: Scalars['timestamptz']['output'];
   created_by: Scalars['uuid']['output'];
@@ -970,8 +721,13 @@ export type Forms = {
   /** An aggregate relationship */
   form_audiences_aggregate: Form_Audiences_Aggregate;
   id: Scalars['uuid']['output'];
+  is_public: Scalars['Boolean']['output'];
   password?: Maybe<Scalars['String']['output']>;
   public_id: Scalars['uuid']['output'];
+  /** An array relationship */
+  question_answers: Array<Question_Answers>;
+  /** An aggregate relationship */
+  question_answers_aggregate: Question_Answers_Aggregate;
   /** An array relationship */
   questions: Array<Questions>;
   /** An aggregate relationship */
@@ -983,26 +739,6 @@ export type Forms = {
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** An object relationship */
   user: Users;
-};
-
-
-/** columns and relationships of "forms" */
-export type FormsAnswer_SheetsArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-/** columns and relationships of "forms" */
-export type FormsAnswer_Sheets_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
 };
 
 
@@ -1047,6 +783,26 @@ export type FormsForm_Audiences_AggregateArgs = {
 
 
 /** columns and relationships of "forms" */
+export type FormsQuestion_AnswersArgs = {
+  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
+  where?: InputMaybe<Question_Answers_Bool_Exp>;
+};
+
+
+/** columns and relationships of "forms" */
+export type FormsQuestion_Answers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
+  where?: InputMaybe<Question_Answers_Bool_Exp>;
+};
+
+
+/** columns and relationships of "forms" */
 export type FormsQuestionsArgs = {
   distinct_on?: InputMaybe<Array<Questions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1073,7 +829,23 @@ export type Forms_Aggregate = {
 };
 
 export type Forms_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Forms_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Forms_Aggregate_Bool_Exp_Bool_Or>;
   count?: InputMaybe<Forms_Aggregate_Bool_Exp_Count>;
+};
+
+export type Forms_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Forms_Select_Column_Forms_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Forms_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Forms_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Forms_Select_Column_Forms_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Forms_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
 };
 
 export type Forms_Aggregate_Bool_Exp_Count = {
@@ -1146,8 +918,6 @@ export type Forms_Bool_Exp = {
   _and?: InputMaybe<Array<Forms_Bool_Exp>>;
   _not?: InputMaybe<Forms_Bool_Exp>;
   _or?: InputMaybe<Array<Forms_Bool_Exp>>;
-  answer_sheets?: InputMaybe<Answer_Sheets_Bool_Exp>;
-  answer_sheets_aggregate?: InputMaybe<Answer_Sheets_Aggregate_Bool_Exp>;
   category_id?: InputMaybe<Uuid_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   created_by?: InputMaybe<Uuid_Comparison_Exp>;
@@ -1157,8 +927,11 @@ export type Forms_Bool_Exp = {
   form_audiences?: InputMaybe<Form_Audiences_Bool_Exp>;
   form_audiences_aggregate?: InputMaybe<Form_Audiences_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  is_public?: InputMaybe<Boolean_Comparison_Exp>;
   password?: InputMaybe<String_Comparison_Exp>;
   public_id?: InputMaybe<Uuid_Comparison_Exp>;
+  question_answers?: InputMaybe<Question_Answers_Bool_Exp>;
+  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Bool_Exp>;
   questions?: InputMaybe<Questions_Bool_Exp>;
   questions_aggregate?: InputMaybe<Questions_Aggregate_Bool_Exp>;
   start_date?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -1185,7 +958,6 @@ export type Forms_Inc_Input = {
 
 /** input type for inserting data into table "forms" */
 export type Forms_Insert_Input = {
-  answer_sheets?: InputMaybe<Answer_Sheets_Arr_Rel_Insert_Input>;
   category_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   created_by?: InputMaybe<Scalars['uuid']['input']>;
@@ -1193,8 +965,10 @@ export type Forms_Insert_Input = {
   form_accesses?: InputMaybe<Form_Access_Arr_Rel_Insert_Input>;
   form_audiences?: InputMaybe<Form_Audiences_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  is_public?: InputMaybe<Scalars['Boolean']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   public_id?: InputMaybe<Scalars['uuid']['input']>;
+  question_answers?: InputMaybe<Question_Answers_Arr_Rel_Insert_Input>;
   questions?: InputMaybe<Questions_Arr_Rel_Insert_Input>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
   status?: InputMaybe<Scalars['smallint']['input']>;
@@ -1295,7 +1069,6 @@ export type Forms_On_Conflict = {
 
 /** Ordering options when selecting data from "forms". */
 export type Forms_Order_By = {
-  answer_sheets_aggregate?: InputMaybe<Answer_Sheets_Aggregate_Order_By>;
   category_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   created_by?: InputMaybe<Order_By>;
@@ -1303,8 +1076,10 @@ export type Forms_Order_By = {
   form_accesses_aggregate?: InputMaybe<Form_Access_Aggregate_Order_By>;
   form_audiences_aggregate?: InputMaybe<Form_Audiences_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
+  is_public?: InputMaybe<Order_By>;
   password?: InputMaybe<Order_By>;
   public_id?: InputMaybe<Order_By>;
+  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Order_By>;
   questions_aggregate?: InputMaybe<Questions_Aggregate_Order_By>;
   start_date?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
@@ -1332,6 +1107,8 @@ export enum Forms_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  IsPublic = 'is_public',
+  /** column name */
   Password = 'password',
   /** column name */
   PublicId = 'public_id',
@@ -1347,6 +1124,18 @@ export enum Forms_Select_Column {
   UpdatedAt = 'updated_at'
 }
 
+/** select "forms_aggregate_bool_exp_bool_and_arguments_columns" columns of table "forms" */
+export enum Forms_Select_Column_Forms_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  IsPublic = 'is_public'
+}
+
+/** select "forms_aggregate_bool_exp_bool_or_arguments_columns" columns of table "forms" */
+export enum Forms_Select_Column_Forms_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  IsPublic = 'is_public'
+}
+
 /** input type for updating data in table "forms" */
 export type Forms_Set_Input = {
   category_id?: InputMaybe<Scalars['uuid']['input']>;
@@ -1354,6 +1143,7 @@ export type Forms_Set_Input = {
   created_by?: InputMaybe<Scalars['uuid']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  is_public?: InputMaybe<Scalars['Boolean']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   public_id?: InputMaybe<Scalars['uuid']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -1417,6 +1207,7 @@ export type Forms_Stream_Cursor_Value_Input = {
   created_by?: InputMaybe<Scalars['uuid']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  is_public?: InputMaybe<Scalars['Boolean']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   public_id?: InputMaybe<Scalars['uuid']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -1451,6 +1242,8 @@ export enum Forms_Update_Column {
   EndDate = 'end_date',
   /** column name */
   Id = 'id',
+  /** column name */
+  IsPublic = 'is_public',
   /** column name */
   Password = 'password',
   /** column name */
@@ -1546,10 +1339,6 @@ export type Jsonb_Comparison_Exp = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
-  /** delete data from the table: "answer_sheets" */
-  delete_answer_sheets?: Maybe<Answer_Sheets_Mutation_Response>;
-  /** delete single row from the table: "answer_sheets" */
-  delete_answer_sheets_by_pk?: Maybe<Answer_Sheets>;
   /** delete data from the table: "form_access" */
   delete_form_access?: Maybe<Form_Access_Mutation_Response>;
   /** delete single row from the table: "form_access" */
@@ -1590,10 +1379,6 @@ export type Mutation_Root = {
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
   delete_users_by_pk?: Maybe<Users>;
-  /** insert data into the table: "answer_sheets" */
-  insert_answer_sheets?: Maybe<Answer_Sheets_Mutation_Response>;
-  /** insert a single row into the table: "answer_sheets" */
-  insert_answer_sheets_one?: Maybe<Answer_Sheets>;
   /** insert data into the table: "form_access" */
   insert_form_access?: Maybe<Form_Access_Mutation_Response>;
   /** insert a single row into the table: "form_access" */
@@ -1634,12 +1419,6 @@ export type Mutation_Root = {
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
-  /** update data of the table: "answer_sheets" */
-  update_answer_sheets?: Maybe<Answer_Sheets_Mutation_Response>;
-  /** update single row of the table: "answer_sheets" */
-  update_answer_sheets_by_pk?: Maybe<Answer_Sheets>;
-  /** update multiples rows of table: "answer_sheets" */
-  update_answer_sheets_many?: Maybe<Array<Maybe<Answer_Sheets_Mutation_Response>>>;
   /** update data of the table: "form_access" */
   update_form_access?: Maybe<Form_Access_Mutation_Response>;
   /** update single row of the table: "form_access" */
@@ -1700,18 +1479,6 @@ export type Mutation_Root = {
   update_users_by_pk?: Maybe<Users>;
   /** update multiples rows of table: "users" */
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Answer_SheetsArgs = {
-  where: Answer_Sheets_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Answer_Sheets_By_PkArgs = {
-  id: Scalars['uuid']['input'];
 };
 
 
@@ -1832,20 +1599,6 @@ export type Mutation_RootDelete_UsersArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Users_By_PkArgs = {
   id: Scalars['uuid']['input'];
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Answer_SheetsArgs = {
-  objects: Array<Answer_Sheets_Insert_Input>;
-  on_conflict?: InputMaybe<Answer_Sheets_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Answer_Sheets_OneArgs = {
-  object: Answer_Sheets_Insert_Input;
-  on_conflict?: InputMaybe<Answer_Sheets_On_Conflict>;
 };
 
 
@@ -1986,26 +1739,6 @@ export type Mutation_RootInsert_UsersArgs = {
 export type Mutation_RootInsert_Users_OneArgs = {
   object: Users_Insert_Input;
   on_conflict?: InputMaybe<Users_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Answer_SheetsArgs = {
-  _set?: InputMaybe<Answer_Sheets_Set_Input>;
-  where: Answer_Sheets_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Answer_Sheets_By_PkArgs = {
-  _set?: InputMaybe<Answer_Sheets_Set_Input>;
-  pk_columns: Answer_Sheets_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Answer_Sheets_ManyArgs = {
-  updates: Array<Answer_Sheets_Updates>;
 };
 
 
@@ -2252,12 +1985,6 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
-  /** An array relationship */
-  answer_sheets: Array<Answer_Sheets>;
-  /** An aggregate relationship */
-  answer_sheets_aggregate: Answer_Sheets_Aggregate;
-  /** fetch data from the table: "answer_sheets" using primary key columns */
-  answer_sheets_by_pk?: Maybe<Answer_Sheets>;
   /** fetch data from the table: "form_access" */
   form_access: Array<Form_Access>;
   /** fetch aggregated fields from the table: "form_access" */
@@ -2318,29 +2045,6 @@ export type Query_Root = {
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
-};
-
-
-export type Query_RootAnswer_SheetsArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-export type Query_RootAnswer_Sheets_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-export type Query_RootAnswer_Sheets_By_PkArgs = {
-  id: Scalars['uuid']['input'];
 };
 
 
@@ -2577,15 +2281,18 @@ export type Query_RootUsers_By_PkArgs = {
 export type Question_Answers = {
   __typename?: 'question_answers';
   answer: Scalars['jsonb']['output'];
-  /** An object relationship */
-  answer_sheet: Answer_Sheets;
-  answer_sheet_id: Scalars['uuid']['output'];
   created_at: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  form: Forms;
+  form_id: Scalars['uuid']['output'];
   id: Scalars['uuid']['output'];
   /** An object relationship */
   question: Questions;
   question_id: Scalars['uuid']['output'];
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** An object relationship */
+  user: Users;
+  user_id: Scalars['uuid']['output'];
 };
 
 
@@ -2652,13 +2359,15 @@ export type Question_Answers_Bool_Exp = {
   _not?: InputMaybe<Question_Answers_Bool_Exp>;
   _or?: InputMaybe<Array<Question_Answers_Bool_Exp>>;
   answer?: InputMaybe<Jsonb_Comparison_Exp>;
-  answer_sheet?: InputMaybe<Answer_Sheets_Bool_Exp>;
-  answer_sheet_id?: InputMaybe<Uuid_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  form?: InputMaybe<Forms_Bool_Exp>;
+  form_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   question?: InputMaybe<Questions_Bool_Exp>;
   question_id?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_id?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "question_answers" */
@@ -2685,51 +2394,57 @@ export type Question_Answers_Delete_Key_Input = {
 /** input type for inserting data into table "question_answers" */
 export type Question_Answers_Insert_Input = {
   answer?: InputMaybe<Scalars['jsonb']['input']>;
-  answer_sheet?: InputMaybe<Answer_Sheets_Obj_Rel_Insert_Input>;
-  answer_sheet_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  form?: InputMaybe<Forms_Obj_Rel_Insert_Input>;
+  form_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   question?: InputMaybe<Questions_Obj_Rel_Insert_Input>;
   question_id?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Question_Answers_Max_Fields = {
   __typename?: 'question_answers_max_fields';
-  answer_sheet_id?: Maybe<Scalars['uuid']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  form_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   question_id?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "question_answers" */
 export type Question_Answers_Max_Order_By = {
-  answer_sheet_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  form_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   question_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Question_Answers_Min_Fields = {
   __typename?: 'question_answers_min_fields';
-  answer_sheet_id?: Maybe<Scalars['uuid']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  form_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   question_id?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "question_answers" */
 export type Question_Answers_Min_Order_By = {
-  answer_sheet_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  form_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   question_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "question_answers" */
@@ -2751,13 +2466,15 @@ export type Question_Answers_On_Conflict = {
 /** Ordering options when selecting data from "question_answers". */
 export type Question_Answers_Order_By = {
   answer?: InputMaybe<Order_By>;
-  answer_sheet?: InputMaybe<Answer_Sheets_Order_By>;
-  answer_sheet_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  form?: InputMaybe<Forms_Order_By>;
+  form_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   question?: InputMaybe<Questions_Order_By>;
   question_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: question_answers */
@@ -2775,25 +2492,28 @@ export enum Question_Answers_Select_Column {
   /** column name */
   Answer = 'answer',
   /** column name */
-  AnswerSheetId = 'answer_sheet_id',
-  /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  FormId = 'form_id',
   /** column name */
   Id = 'id',
   /** column name */
   QuestionId = 'question_id',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserId = 'user_id'
 }
 
 /** input type for updating data in table "question_answers" */
 export type Question_Answers_Set_Input = {
   answer?: InputMaybe<Scalars['jsonb']['input']>;
-  answer_sheet_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  form_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   question_id?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Streaming cursor of the table "question_answers" */
@@ -2807,11 +2527,12 @@ export type Question_Answers_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Question_Answers_Stream_Cursor_Value_Input = {
   answer?: InputMaybe<Scalars['jsonb']['input']>;
-  answer_sheet_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  form_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   question_id?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "question_answers" */
@@ -2819,15 +2540,17 @@ export enum Question_Answers_Update_Column {
   /** column name */
   Answer = 'answer',
   /** column name */
-  AnswerSheetId = 'answer_sheet_id',
-  /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  FormId = 'form_id',
   /** column name */
   Id = 'id',
   /** column name */
   QuestionId = 'question_id',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserId = 'user_id'
 }
 
 export type Question_Answers_Updates = {
@@ -3134,8 +2857,9 @@ export type Questions = {
   /** An aggregate relationship */
   question_answers_aggregate: Question_Answers_Aggregate;
   /** An object relationship */
-  question_type: Question_Types;
-  question_type_id: Scalars['Int']['output'];
+  question_type?: Maybe<Question_Types>;
+  question_type_id?: Maybe<Scalars['Int']['output']>;
+  required: Scalars['Boolean']['output'];
   topic?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -3174,7 +2898,23 @@ export type Questions_Aggregate = {
 };
 
 export type Questions_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Questions_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Questions_Aggregate_Bool_Exp_Bool_Or>;
   count?: InputMaybe<Questions_Aggregate_Bool_Exp_Count>;
+};
+
+export type Questions_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Questions_Select_Column_Questions_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Questions_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Questions_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Questions_Select_Column_Questions_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Questions_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
 };
 
 export type Questions_Aggregate_Bool_Exp_Count = {
@@ -3264,6 +3004,7 @@ export type Questions_Bool_Exp = {
   question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Bool_Exp>;
   question_type?: InputMaybe<Question_Types_Bool_Exp>;
   question_type_id?: InputMaybe<Int_Comparison_Exp>;
+  required?: InputMaybe<Boolean_Comparison_Exp>;
   topic?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -3308,6 +3049,7 @@ export type Questions_Insert_Input = {
   question_answers?: InputMaybe<Question_Answers_Arr_Rel_Insert_Input>;
   question_type?: InputMaybe<Question_Types_Obj_Rel_Insert_Input>;
   question_type_id?: InputMaybe<Scalars['Int']['input']>;
+  required?: InputMaybe<Scalars['Boolean']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -3402,6 +3144,7 @@ export type Questions_Order_By = {
   question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Order_By>;
   question_type?: InputMaybe<Question_Types_Order_By>;
   question_type_id?: InputMaybe<Order_By>;
+  required?: InputMaybe<Order_By>;
   topic?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -3435,9 +3178,23 @@ export enum Questions_Select_Column {
   /** column name */
   QuestionTypeId = 'question_type_id',
   /** column name */
+  Required = 'required',
+  /** column name */
   Topic = 'topic',
   /** column name */
   UpdatedAt = 'updated_at'
+}
+
+/** select "questions_aggregate_bool_exp_bool_and_arguments_columns" columns of table "questions" */
+export enum Questions_Select_Column_Questions_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Required = 'required'
+}
+
+/** select "questions_aggregate_bool_exp_bool_or_arguments_columns" columns of table "questions" */
+export enum Questions_Select_Column_Questions_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Required = 'required'
 }
 
 /** input type for updating data in table "questions" */
@@ -3450,6 +3207,7 @@ export type Questions_Set_Input = {
   option?: InputMaybe<Scalars['jsonb']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   question_type_id?: InputMaybe<Scalars['Int']['input']>;
+  required?: InputMaybe<Scalars['Boolean']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -3511,6 +3269,7 @@ export type Questions_Stream_Cursor_Value_Input = {
   option?: InputMaybe<Scalars['jsonb']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   question_type_id?: InputMaybe<Scalars['Int']['input']>;
+  required?: InputMaybe<Scalars['Boolean']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -3546,6 +3305,8 @@ export enum Questions_Update_Column {
   Order = 'order',
   /** column name */
   QuestionTypeId = 'question_type_id',
+  /** column name */
+  Required = 'required',
   /** column name */
   Topic = 'topic',
   /** column name */
@@ -3860,14 +3621,6 @@ export type Smallint_Comparison_Exp = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
-  /** An array relationship */
-  answer_sheets: Array<Answer_Sheets>;
-  /** An aggregate relationship */
-  answer_sheets_aggregate: Answer_Sheets_Aggregate;
-  /** fetch data from the table: "answer_sheets" using primary key columns */
-  answer_sheets_by_pk?: Maybe<Answer_Sheets>;
-  /** fetch data from the table in a streaming manner: "answer_sheets" */
-  answer_sheets_stream: Array<Answer_Sheets>;
   /** fetch data from the table: "form_access" */
   form_access: Array<Form_Access>;
   /** fetch aggregated fields from the table: "form_access" */
@@ -3948,36 +3701,6 @@ export type Subscription_Root = {
   users_by_pk?: Maybe<Users>;
   /** fetch data from the table in a streaming manner: "users" */
   users_stream: Array<Users>;
-};
-
-
-export type Subscription_RootAnswer_SheetsArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-export type Subscription_RootAnswer_Sheets_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-export type Subscription_RootAnswer_Sheets_By_PkArgs = {
-  id: Scalars['uuid']['input'];
-};
-
-
-export type Subscription_RootAnswer_Sheets_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Answer_Sheets_Stream_Cursor_Input>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
 };
 
 
@@ -4505,10 +4228,6 @@ export type User_Roles_Updates = {
 /** columns and relationships of "users" */
 export type Users = {
   __typename?: 'users';
-  /** An array relationship */
-  answer_sheets: Array<Answer_Sheets>;
-  /** An aggregate relationship */
-  answer_sheets_aggregate: Answer_Sheets_Aggregate;
   created_at: Scalars['timestamptz']['output'];
   email: Scalars['String']['output'];
   /** An array relationship */
@@ -4522,31 +4241,15 @@ export type Users = {
   id: Scalars['uuid']['output'];
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
+  /** An array relationship */
+  question_answers: Array<Question_Answers>;
+  /** An aggregate relationship */
+  question_answers_aggregate: Question_Answers_Aggregate;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** An array relationship */
   user_roles: Array<User_Roles>;
   /** An aggregate relationship */
   user_roles_aggregate: User_Roles_Aggregate;
-};
-
-
-/** columns and relationships of "users" */
-export type UsersAnswer_SheetsArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-/** columns and relationships of "users" */
-export type UsersAnswer_Sheets_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
 };
 
 
@@ -4587,6 +4290,26 @@ export type UsersForms_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Forms_Order_By>>;
   where?: InputMaybe<Forms_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersQuestion_AnswersArgs = {
+  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
+  where?: InputMaybe<Question_Answers_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersQuestion_Answers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
+  where?: InputMaybe<Question_Answers_Bool_Exp>;
 };
 
 
@@ -4636,8 +4359,6 @@ export type Users_Bool_Exp = {
   _and?: InputMaybe<Array<Users_Bool_Exp>>;
   _not?: InputMaybe<Users_Bool_Exp>;
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
-  answer_sheets?: InputMaybe<Answer_Sheets_Bool_Exp>;
-  answer_sheets_aggregate?: InputMaybe<Answer_Sheets_Aggregate_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   form_accesses?: InputMaybe<Form_Access_Bool_Exp>;
@@ -4647,6 +4368,8 @@ export type Users_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   password?: InputMaybe<String_Comparison_Exp>;
+  question_answers?: InputMaybe<Question_Answers_Bool_Exp>;
+  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Bool_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user_roles?: InputMaybe<User_Roles_Bool_Exp>;
   user_roles_aggregate?: InputMaybe<User_Roles_Aggregate_Bool_Exp>;
@@ -4662,7 +4385,6 @@ export enum Users_Constraint {
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
-  answer_sheets?: InputMaybe<Answer_Sheets_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   form_accesses?: InputMaybe<Form_Access_Arr_Rel_Insert_Input>;
@@ -4670,6 +4392,7 @@ export type Users_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
+  question_answers?: InputMaybe<Question_Answers_Arr_Rel_Insert_Input>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_roles?: InputMaybe<User_Roles_Arr_Rel_Insert_Input>;
 };
@@ -4721,7 +4444,6 @@ export type Users_On_Conflict = {
 
 /** Ordering options when selecting data from "users". */
 export type Users_Order_By = {
-  answer_sheets_aggregate?: InputMaybe<Answer_Sheets_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
   form_accesses_aggregate?: InputMaybe<Form_Access_Aggregate_Order_By>;
@@ -4729,6 +4451,7 @@ export type Users_Order_By = {
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   password?: InputMaybe<Order_By>;
+  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user_roles_aggregate?: InputMaybe<User_Roles_Aggregate_Order_By>;
 };
@@ -4822,15 +4545,7 @@ export type UserFragmentFragment = { __typename?: 'users', email: string, name: 
 
 export type RoleFragmentFragment = { __typename?: 'roles', code: string, name: string, id: any, created_at: any } & { ' $fragmentName'?: 'RoleFragmentFragment' };
 
-export type QuestionAnswerFragmentFragment = { __typename?: 'question_answers', answer: any, answer_sheet_id: any, created_at: any, id: any, question_id: any, updated_at?: any | null } & { ' $fragmentName'?: 'QuestionAnswerFragmentFragment' };
-
-export type AnswerSheetFragmentFragment = { __typename?: 'answer_sheets', form_id: any, id: any, updated_at?: any | null, user_id: any, created_at: any, user: (
-    { __typename?: 'users' }
-    & { ' $fragmentRefs'?: { 'UserFragmentFragment': UserFragmentFragment } }
-  ), question_answers: Array<(
-    { __typename?: 'question_answers' }
-    & { ' $fragmentRefs'?: { 'QuestionAnswerFragmentFragment': QuestionAnswerFragmentFragment } }
-  )> } & { ' $fragmentName'?: 'AnswerSheetFragmentFragment' };
+export type QuestionAnswerFragmentFragment = { __typename?: 'question_answers', id: any, form_id: any, user_id: any, question_id: any, answer: any, created_at: any, updated_at?: any | null } & { ' $fragmentName'?: 'QuestionAnswerFragmentFragment' };
 
 export type FormAccessFragmentFragment = { __typename?: 'form_access', user_id: any, id: any, updated_at?: any | null, created_at: any, form_id: any, user: (
     { __typename?: 'users' }
@@ -4844,20 +4559,17 @@ export type FormAudienceFragmentFragment = { __typename?: 'form_audiences', role
 
 export type QuestionTypeFragmentFragment = { __typename?: 'question_types', id: number, code: string, name: string, created_at: any, updated_at?: any | null } & { ' $fragmentName'?: 'QuestionTypeFragmentFragment' };
 
-export type QuestionFragmentFragment = { __typename?: 'questions', id: any, form_id: any, question_type_id: number, topic?: string | null, updated_at?: any | null, created_at: any, content: string, caption?: string | null, option?: any | null, question_type: (
+export type QuestionFragmentFragment = { __typename?: 'questions', id: any, form_id: any, question_type_id?: number | null, topic?: string | null, updated_at?: any | null, created_at: any, content: string, caption?: string | null, order?: number | null, option?: any | null, required: boolean, question_type?: (
     { __typename?: 'question_types' }
     & { ' $fragmentRefs'?: { 'QuestionTypeFragmentFragment': QuestionTypeFragmentFragment } }
-  ) } & { ' $fragmentName'?: 'QuestionFragmentFragment' };
+  ) | null } & { ' $fragmentName'?: 'QuestionFragmentFragment' };
 
-export type FormDetailFragmentFragment = { __typename?: 'forms', id: any, public_id: any, category_id?: any | null, created_at: any, created_by: any, end_date?: any | null, password?: string | null, start_date?: any | null, status: any, target_audience?: number | null, title: string, updated_at?: any | null, user: (
+export type FormDetailFragmentFragment = { __typename?: 'forms', id: any, public_id: any, category_id?: any | null, created_at: any, created_by: any, end_date?: any | null, password?: string | null, start_date?: any | null, status: any, target_audience?: number | null, title: string, is_public: boolean, updated_at?: any | null, user: (
     { __typename?: 'users' }
     & { ' $fragmentRefs'?: { 'UserFragmentFragment': UserFragmentFragment } }
-  ), answer_sheets_aggregate: { __typename?: 'answer_sheets_aggregate', aggregate?: { __typename?: 'answer_sheets_aggregate_fields', count: number } | null }, questions: Array<(
+  ), questions: Array<(
     { __typename?: 'questions' }
     & { ' $fragmentRefs'?: { 'QuestionFragmentFragment': QuestionFragmentFragment } }
-  )>, answer_sheets: Array<(
-    { __typename?: 'answer_sheets' }
-    & { ' $fragmentRefs'?: { 'AnswerSheetFragmentFragment': AnswerSheetFragmentFragment } }
   )>, form_accesses: Array<(
     { __typename?: 'form_access' }
     & { ' $fragmentRefs'?: { 'FormAccessFragmentFragment': FormAccessFragmentFragment } }
@@ -4866,7 +4578,7 @@ export type FormDetailFragmentFragment = { __typename?: 'forms', id: any, public
     & { ' $fragmentRefs'?: { 'FormAudienceFragmentFragment': FormAudienceFragmentFragment } }
   )> } & { ' $fragmentName'?: 'FormDetailFragmentFragment' };
 
-export type FormOverviewFragmentFragment = { __typename?: 'forms', id: any, public_id: any, category_id?: any | null, created_at: any, created_by: any, end_date?: any | null, password?: string | null, start_date?: any | null, status: any, target_audience?: number | null, title: string, updated_at?: any | null, answer_sheets_aggregate: { __typename?: 'answer_sheets_aggregate', aggregate?: { __typename?: 'answer_sheets_aggregate_fields', count: number } | null } } & { ' $fragmentName'?: 'FormOverviewFragmentFragment' };
+export type FormOverviewFragmentFragment = { __typename?: 'forms', id: any, public_id: any, category_id?: any | null, created_at: any, created_by: any, end_date?: any | null, password?: string | null, start_date?: any | null, status: any, target_audience?: number | null, title: string, updated_at?: any | null } & { ' $fragmentName'?: 'FormOverviewFragmentFragment' };
 
 export type GetFormsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -4890,27 +4602,45 @@ export type GetFormByIdQuery = { __typename?: 'query_root', forms_by_pk?: (
     & { ' $fragmentRefs'?: { 'FormDetailFragmentFragment': FormDetailFragmentFragment } }
   ) | null };
 
-export type CreateEmptyFormMutationVariables = Exact<{
+export type GetFormByPublicIdQueryVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetFormByPublicIdQuery = { __typename?: 'query_root', forms: Array<(
+    { __typename?: 'forms' }
+    & { ' $fragmentRefs'?: { 'FormDetailFragmentFragment': FormDetailFragmentFragment } }
+  )> };
+
+export type UpdateFormStatusByPkMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  status?: InputMaybe<Scalars['smallint']['input']>;
+}>;
+
+
+export type UpdateFormStatusByPkMutation = { __typename?: 'mutation_root', update_forms_by_pk?: { __typename?: 'forms', status: any } | null };
+
+export type UpdateFormByPkMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
   title: Scalars['String']['input'];
   password?: InputMaybe<Scalars['String']['input']>;
   target_audience?: InputMaybe<Scalars['Int']['input']>;
+  is_public?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
-export type CreateEmptyFormMutation = { __typename?: 'mutation_root', update_forms_by_pk?: (
-    { __typename?: 'forms' }
-    & { ' $fragmentRefs'?: { 'FormDetailFragmentFragment': FormDetailFragmentFragment } }
-  ) | null };
+export type UpdateFormByPkMutation = { __typename?: 'mutation_root', update_forms_by_pk?: { __typename?: 'forms', end_date?: any | null, password?: string | null, start_date?: any | null, title: string, target_audience?: number | null, is_public: boolean } | null };
 
 export type CreateQuestionMutationVariables = Exact<{
-  formId: Scalars['uuid']['input'];
+  form_id: Scalars['uuid']['input'];
   order: Scalars['Int']['input'];
+  required?: InputMaybe<Scalars['Boolean']['input']>;
   question_type_id?: InputMaybe<Scalars['Int']['input']>;
   caption?: InputMaybe<Scalars['String']['input']>;
   content?: InputMaybe<Scalars['String']['input']>;
+  option?: InputMaybe<Scalars['jsonb']['input']>;
 }>;
 
 
@@ -4933,9 +4663,10 @@ export type UpdateQuestionByPkMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
   caption?: InputMaybe<Scalars['String']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
+  required?: InputMaybe<Scalars['Boolean']['input']>;
   content: Scalars['String']['input'];
   order: Scalars['Int']['input'];
-  question_type_id: Scalars['Int']['input'];
+  option?: InputMaybe<Scalars['jsonb']['input']>;
 }>;
 
 
@@ -4943,6 +4674,16 @@ export type UpdateQuestionByPkMutation = { __typename?: 'mutation_root', update_
     { __typename?: 'questions' }
     & { ' $fragmentRefs'?: { 'QuestionFragmentFragment': QuestionFragmentFragment } }
   ) | null };
+
+export type CreateMultipleQuestionsMutationVariables = Exact<{
+  objects: Array<Question_Answers_Insert_Input> | Question_Answers_Insert_Input;
+}>;
+
+
+export type CreateMultipleQuestionsMutation = { __typename?: 'mutation_root', insert_question_answers?: { __typename?: 'question_answers_mutation_response', returning: Array<(
+      { __typename?: 'question_answers' }
+      & { ' $fragmentRefs'?: { 'QuestionAnswerFragmentFragment': QuestionAnswerFragmentFragment } }
+    )> } | null };
 
 export type QuestionTypeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4960,22 +4701,24 @@ export type MyQueryQuery = { __typename?: 'query_root', roles: Array<(
     & { ' $fragmentRefs'?: { 'RoleFragmentFragment': RoleFragmentFragment } }
   )> };
 
+export const QuestionAnswerFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionAnswerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_answers"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_id"}},{"kind":"Field","name":{"kind":"Name","value":"answer"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]} as unknown as DocumentNode<QuestionAnswerFragmentFragment, unknown>;
 export const UserFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"users"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}}]} as unknown as DocumentNode<UserFragmentFragment, unknown>;
 export const QuestionTypeFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]} as unknown as DocumentNode<QuestionTypeFragmentFragment, unknown>;
-export const QuestionFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"option"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]} as unknown as DocumentNode<QuestionFragmentFragment, unknown>;
-export const QuestionAnswerFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionAnswerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_answers"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"answer"}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheet_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question_id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]} as unknown as DocumentNode<QuestionAnswerFragmentFragment, unknown>;
-export const AnswerSheetFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AnswerSheetFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"answer_sheets"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_answers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionAnswerFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"users"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionAnswerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_answers"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"answer"}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheet_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question_id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]} as unknown as DocumentNode<AnswerSheetFragmentFragment, unknown>;
+export const QuestionFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"option"}},{"kind":"Field","name":{"kind":"Name","value":"required"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]} as unknown as DocumentNode<QuestionFragmentFragment, unknown>;
 export const FormAccessFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAccessFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_access"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"users"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}}]} as unknown as DocumentNode<FormAccessFragmentFragment, unknown>;
 export const RoleFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"roles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}}]} as unknown as DocumentNode<RoleFragmentFragment, unknown>;
 export const FormAudienceFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAudienceFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_audiences"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"roles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}}]} as unknown as DocumentNode<FormAudienceFragmentFragment, unknown>;
-export const FormDetailFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormDetailFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"forms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"public_id"}},{"kind":"Field","name":{"kind":"Name","value":"category_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheets_aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"order"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AnswerSheetFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_accesses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAccessFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_audiences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAudienceFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"users"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionAnswerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_answers"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"answer"}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheet_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question_id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"roles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"option"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AnswerSheetFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"answer_sheets"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_answers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionAnswerFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAccessFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_access"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAudienceFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_audiences"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}}]} as unknown as DocumentNode<FormDetailFragmentFragment, unknown>;
-export const FormOverviewFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormOverviewFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"forms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"public_id"}},{"kind":"Field","name":{"kind":"Name","value":"category_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheets_aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]}}]} as unknown as DocumentNode<FormOverviewFragmentFragment, unknown>;
-export const GetFormsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetForms"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"forms_order_by"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"forms_bool_exp"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"forms"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormOverviewFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormOverviewFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"forms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"public_id"}},{"kind":"Field","name":{"kind":"Name","value":"category_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheets_aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]}}]} as unknown as DocumentNode<GetFormsQuery, GetFormsQueryVariables>;
-export const GetFormByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetFormById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"forms_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormDetailFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"users"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"option"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionAnswerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_answers"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"answer"}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheet_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question_id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AnswerSheetFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"answer_sheets"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_answers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionAnswerFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAccessFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_access"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"roles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAudienceFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_audiences"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormDetailFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"forms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"public_id"}},{"kind":"Field","name":{"kind":"Name","value":"category_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheets_aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"order"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AnswerSheetFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_accesses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAccessFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_audiences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAudienceFragment"}}]}}]}}]} as unknown as DocumentNode<GetFormByIdQuery, GetFormByIdQueryVariables>;
-export const CreateEmptyFormDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateEmptyForm"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"end_date"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"timestamptz"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"start_date"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"timestamptz"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"target_audience"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_forms_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"end_date"},"value":{"kind":"Variable","name":{"kind":"Name","value":"end_date"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"start_date"},"value":{"kind":"Variable","name":{"kind":"Name","value":"start_date"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"target_audience"},"value":{"kind":"Variable","name":{"kind":"Name","value":"target_audience"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormDetailFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"users"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"option"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionAnswerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_answers"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"answer"}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheet_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question_id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AnswerSheetFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"answer_sheets"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_answers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionAnswerFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAccessFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_access"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"roles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAudienceFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_audiences"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormDetailFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"forms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"public_id"}},{"kind":"Field","name":{"kind":"Name","value":"category_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheets_aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"order"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"answer_sheets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AnswerSheetFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_accesses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAccessFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_audiences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAudienceFragment"}}]}}]}}]} as unknown as DocumentNode<CreateEmptyFormMutation, CreateEmptyFormMutationVariables>;
-export const CreateQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"formId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"question_type_id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"caption"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"content"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_questions_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"caption"},"value":{"kind":"Variable","name":{"kind":"Name","value":"caption"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"content"},"value":{"kind":"Variable","name":{"kind":"Name","value":"content"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"form_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"formId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"order"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"question_type_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"question_type_id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"option"}}]}}]} as unknown as DocumentNode<CreateQuestionMutation, CreateQuestionMutationVariables>;
-export const DeleteQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"delete_questions_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"option"}}]}}]} as unknown as DocumentNode<DeleteQuestionMutation, DeleteQuestionMutationVariables>;
-export const UpdateQuestionByPkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateQuestionByPk"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"caption"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"topic"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"content"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"question_type_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_questions_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"caption"},"value":{"kind":"Variable","name":{"kind":"Name","value":"caption"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"topic"},"value":{"kind":"Variable","name":{"kind":"Name","value":"topic"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"content"},"value":{"kind":"Variable","name":{"kind":"Name","value":"content"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"order"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"question_type_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"question_type_id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"option"}}]}}]} as unknown as DocumentNode<UpdateQuestionByPkMutation, UpdateQuestionByPkMutationVariables>;
+export const FormDetailFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormDetailFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"forms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"public_id"}},{"kind":"Field","name":{"kind":"Name","value":"category_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"is_public"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"order"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_accesses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAccessFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_audiences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAudienceFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"users"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"roles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"option"}},{"kind":"Field","name":{"kind":"Name","value":"required"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAccessFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_access"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAudienceFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_audiences"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}}]} as unknown as DocumentNode<FormDetailFragmentFragment, unknown>;
+export const FormOverviewFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormOverviewFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"forms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"public_id"}},{"kind":"Field","name":{"kind":"Name","value":"category_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]} as unknown as DocumentNode<FormOverviewFragmentFragment, unknown>;
+export const GetFormsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetForms"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"forms_order_by"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"forms_bool_exp"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"forms"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormOverviewFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormOverviewFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"forms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"public_id"}},{"kind":"Field","name":{"kind":"Name","value":"category_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]} as unknown as DocumentNode<GetFormsQuery, GetFormsQueryVariables>;
+export const GetFormByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetFormById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"forms_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormDetailFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"users"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"option"}},{"kind":"Field","name":{"kind":"Name","value":"required"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAccessFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_access"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"roles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAudienceFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_audiences"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormDetailFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"forms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"public_id"}},{"kind":"Field","name":{"kind":"Name","value":"category_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"is_public"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"order"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_accesses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAccessFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_audiences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAudienceFragment"}}]}}]}}]} as unknown as DocumentNode<GetFormByIdQuery, GetFormByIdQueryVariables>;
+export const GetFormByPublicIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetFormByPublicId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"forms"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"1"}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"public_id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormDetailFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"users"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"option"}},{"kind":"Field","name":{"kind":"Name","value":"required"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAccessFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_access"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"roles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormAudienceFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"form_audiences"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role_id"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FormDetailFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"forms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"public_id"}},{"kind":"Field","name":{"kind":"Name","value":"category_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"is_public"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"order"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_accesses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAccessFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"form_audiences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FormAudienceFragment"}}]}}]}}]} as unknown as DocumentNode<GetFormByPublicIdQuery, GetFormByPublicIdQueryVariables>;
+export const UpdateFormStatusByPkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateFormStatusByPK"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"smallint"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_forms_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<UpdateFormStatusByPkMutation, UpdateFormStatusByPkMutationVariables>;
+export const UpdateFormByPkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateFormByPK"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"end_date"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"timestamptz"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"start_date"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"timestamptz"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"target_audience"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"is_public"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_forms_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"end_date"},"value":{"kind":"Variable","name":{"kind":"Name","value":"end_date"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"start_date"},"value":{"kind":"Variable","name":{"kind":"Name","value":"start_date"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"target_audience"},"value":{"kind":"Variable","name":{"kind":"Name","value":"target_audience"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"is_public"},"value":{"kind":"Variable","name":{"kind":"Name","value":"is_public"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"target_audience"}},{"kind":"Field","name":{"kind":"Name","value":"is_public"}}]}}]}}]} as unknown as DocumentNode<UpdateFormByPkMutation, UpdateFormByPkMutationVariables>;
+export const CreateQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"form_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"required"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"question_type_id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"caption"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"content"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"option"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"jsonb"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_questions_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"caption"},"value":{"kind":"Variable","name":{"kind":"Name","value":"caption"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"content"},"value":{"kind":"Variable","name":{"kind":"Name","value":"content"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"required"},"value":{"kind":"Variable","name":{"kind":"Name","value":"required"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"form_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"form_id"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"order"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"option"},"value":{"kind":"Variable","name":{"kind":"Name","value":"option"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"question_type_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"question_type_id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"option"}},{"kind":"Field","name":{"kind":"Name","value":"required"}}]}}]} as unknown as DocumentNode<CreateQuestionMutation, CreateQuestionMutationVariables>;
+export const DeleteQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"delete_questions_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"option"}},{"kind":"Field","name":{"kind":"Name","value":"required"}}]}}]} as unknown as DocumentNode<DeleteQuestionMutation, DeleteQuestionMutationVariables>;
+export const UpdateQuestionByPkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateQuestionByPk"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"caption"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"topic"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"required"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"content"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"option"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"jsonb"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_questions_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"caption"},"value":{"kind":"Variable","name":{"kind":"Name","value":"caption"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"topic"},"value":{"kind":"Variable","name":{"kind":"Name","value":"topic"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"required"},"value":{"kind":"Variable","name":{"kind":"Name","value":"required"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"content"},"value":{"kind":"Variable","name":{"kind":"Name","value":"content"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"order"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"option"},"value":{"kind":"Variable","name":{"kind":"Name","value":"option"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"questions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_type"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"question_type_id"}},{"kind":"Field","name":{"kind":"Name","value":"topic"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"option"}},{"kind":"Field","name":{"kind":"Name","value":"required"}}]}}]} as unknown as DocumentNode<UpdateQuestionByPkMutation, UpdateQuestionByPkMutationVariables>;
+export const CreateMultipleQuestionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMultipleQuestions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"objects"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"question_answers_insert_input"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_question_answers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"objects"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionAnswerFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionAnswerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_answers"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"form_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"question_id"}},{"kind":"Field","name":{"kind":"Name","value":"answer"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]} as unknown as DocumentNode<CreateMultipleQuestionsMutation, CreateMultipleQuestionsMutationVariables>;
 export const QuestionTypeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"QuestionType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"question_types"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestionTypeFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestionTypeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"question_types"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]} as unknown as DocumentNode<QuestionTypeQuery, QuestionTypeQueryVariables>;
 export const MyQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"roles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"roles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}}]} as unknown as DocumentNode<MyQueryQuery, MyQueryQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -4989,6 +4732,19 @@ export type Scalars = {
   smallint: { input: any; output: any; }
   timestamptz: { input: any; output: any; }
   uuid: { input: any; output: any; }
+};
+
+/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['Boolean']['input']>;
+  _gt?: InputMaybe<Scalars['Boolean']['input']>;
+  _gte?: InputMaybe<Scalars['Boolean']['input']>;
+  _in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['Boolean']['input']>;
+  _lte?: InputMaybe<Scalars['Boolean']['input']>;
+  _neq?: InputMaybe<Scalars['Boolean']['input']>;
+  _nin?: InputMaybe<Array<Scalars['Boolean']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -5035,264 +4791,6 @@ export type String_Comparison_Exp = {
   _regex?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given SQL regular expression */
   _similar?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** columns and relationships of "answer_sheets" */
-export type Answer_Sheets = {
-  __typename?: 'answer_sheets';
-  created_at: Scalars['timestamptz']['output'];
-  /** An object relationship */
-  form: Forms;
-  form_id: Scalars['uuid']['output'];
-  id: Scalars['uuid']['output'];
-  /** An array relationship */
-  question_answers: Array<Question_Answers>;
-  /** An aggregate relationship */
-  question_answers_aggregate: Question_Answers_Aggregate;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  /** An object relationship */
-  user: Users;
-  user_id: Scalars['uuid']['output'];
-};
-
-
-/** columns and relationships of "answer_sheets" */
-export type Answer_SheetsQuestion_AnswersArgs = {
-  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
-  where?: InputMaybe<Question_Answers_Bool_Exp>;
-};
-
-
-/** columns and relationships of "answer_sheets" */
-export type Answer_SheetsQuestion_Answers_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
-  where?: InputMaybe<Question_Answers_Bool_Exp>;
-};
-
-/** aggregated selection of "answer_sheets" */
-export type Answer_Sheets_Aggregate = {
-  __typename?: 'answer_sheets_aggregate';
-  aggregate?: Maybe<Answer_Sheets_Aggregate_Fields>;
-  nodes: Array<Answer_Sheets>;
-};
-
-export type Answer_Sheets_Aggregate_Bool_Exp = {
-  count?: InputMaybe<Answer_Sheets_Aggregate_Bool_Exp_Count>;
-};
-
-export type Answer_Sheets_Aggregate_Bool_Exp_Count = {
-  arguments?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-  filter?: InputMaybe<Answer_Sheets_Bool_Exp>;
-  predicate: Int_Comparison_Exp;
-};
-
-/** aggregate fields of "answer_sheets" */
-export type Answer_Sheets_Aggregate_Fields = {
-  __typename?: 'answer_sheets_aggregate_fields';
-  count: Scalars['Int']['output'];
-  max?: Maybe<Answer_Sheets_Max_Fields>;
-  min?: Maybe<Answer_Sheets_Min_Fields>;
-};
-
-
-/** aggregate fields of "answer_sheets" */
-export type Answer_Sheets_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** order by aggregate values of table "answer_sheets" */
-export type Answer_Sheets_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Answer_Sheets_Max_Order_By>;
-  min?: InputMaybe<Answer_Sheets_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "answer_sheets" */
-export type Answer_Sheets_Arr_Rel_Insert_Input = {
-  data: Array<Answer_Sheets_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Answer_Sheets_On_Conflict>;
-};
-
-/** Boolean expression to filter rows from the table "answer_sheets". All fields are combined with a logical 'AND'. */
-export type Answer_Sheets_Bool_Exp = {
-  _and?: InputMaybe<Array<Answer_Sheets_Bool_Exp>>;
-  _not?: InputMaybe<Answer_Sheets_Bool_Exp>;
-  _or?: InputMaybe<Array<Answer_Sheets_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  form?: InputMaybe<Forms_Bool_Exp>;
-  form_id?: InputMaybe<Uuid_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  question_answers?: InputMaybe<Question_Answers_Bool_Exp>;
-  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Bool_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<Users_Bool_Exp>;
-  user_id?: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "answer_sheets" */
-export enum Answer_Sheets_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  AnswerSheetsPkey = 'answer_sheets_pkey'
-}
-
-/** input type for inserting data into table "answer_sheets" */
-export type Answer_Sheets_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  form?: InputMaybe<Forms_Obj_Rel_Insert_Input>;
-  form_id?: InputMaybe<Scalars['uuid']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  question_answers?: InputMaybe<Question_Answers_Arr_Rel_Insert_Input>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars['uuid']['input']>;
-};
-
-/** aggregate max on columns */
-export type Answer_Sheets_Max_Fields = {
-  __typename?: 'answer_sheets_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  form_id?: Maybe<Scalars['uuid']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  user_id?: Maybe<Scalars['uuid']['output']>;
-};
-
-/** order by max() on columns of table "answer_sheets" */
-export type Answer_Sheets_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  form_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Answer_Sheets_Min_Fields = {
-  __typename?: 'answer_sheets_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  form_id?: Maybe<Scalars['uuid']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  user_id?: Maybe<Scalars['uuid']['output']>;
-};
-
-/** order by min() on columns of table "answer_sheets" */
-export type Answer_Sheets_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  form_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "answer_sheets" */
-export type Answer_Sheets_Mutation_Response = {
-  __typename?: 'answer_sheets_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Answer_Sheets>;
-};
-
-/** input type for inserting object relation for remote table "answer_sheets" */
-export type Answer_Sheets_Obj_Rel_Insert_Input = {
-  data: Answer_Sheets_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Answer_Sheets_On_Conflict>;
-};
-
-/** on_conflict condition type for table "answer_sheets" */
-export type Answer_Sheets_On_Conflict = {
-  constraint: Answer_Sheets_Constraint;
-  update_columns?: Array<Answer_Sheets_Update_Column>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "answer_sheets". */
-export type Answer_Sheets_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  form?: InputMaybe<Forms_Order_By>;
-  form_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<Users_Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: answer_sheets */
-export type Answer_Sheets_Pk_Columns_Input = {
-  id: Scalars['uuid']['input'];
-};
-
-/** select columns of table "answer_sheets" */
-export enum Answer_Sheets_Select_Column {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  FormId = 'form_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
-  UserId = 'user_id'
-}
-
-/** input type for updating data in table "answer_sheets" */
-export type Answer_Sheets_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  form_id?: InputMaybe<Scalars['uuid']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user_id?: InputMaybe<Scalars['uuid']['input']>;
-};
-
-/** Streaming cursor of the table "answer_sheets" */
-export type Answer_Sheets_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Answer_Sheets_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering?: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Answer_Sheets_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  form_id?: InputMaybe<Scalars['uuid']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user_id?: InputMaybe<Scalars['uuid']['input']>;
-};
-
-/** update columns of table "answer_sheets" */
-export enum Answer_Sheets_Update_Column {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  FormId = 'form_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
-  UserId = 'user_id'
-}
-
-export type Answer_Sheets_Updates = {
-  /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Answer_Sheets_Set_Input>;
-  /** filter the rows which have to be updated */
-  where: Answer_Sheets_Bool_Exp;
 };
 
 /** ordering argument of a cursor */
@@ -5924,10 +5422,6 @@ export type Form_Category_Updates = {
 /** columns and relationships of "forms" */
 export type Forms = {
   __typename?: 'forms';
-  /** An array relationship */
-  answer_sheets: Array<Answer_Sheets>;
-  /** An aggregate relationship */
-  answer_sheets_aggregate: Answer_Sheets_Aggregate;
   category_id?: Maybe<Scalars['uuid']['output']>;
   created_at: Scalars['timestamptz']['output'];
   created_by: Scalars['uuid']['output'];
@@ -5941,8 +5435,13 @@ export type Forms = {
   /** An aggregate relationship */
   form_audiences_aggregate: Form_Audiences_Aggregate;
   id: Scalars['uuid']['output'];
+  is_public: Scalars['Boolean']['output'];
   password?: Maybe<Scalars['String']['output']>;
   public_id: Scalars['uuid']['output'];
+  /** An array relationship */
+  question_answers: Array<Question_Answers>;
+  /** An aggregate relationship */
+  question_answers_aggregate: Question_Answers_Aggregate;
   /** An array relationship */
   questions: Array<Questions>;
   /** An aggregate relationship */
@@ -5954,26 +5453,6 @@ export type Forms = {
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** An object relationship */
   user: Users;
-};
-
-
-/** columns and relationships of "forms" */
-export type FormsAnswer_SheetsArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-/** columns and relationships of "forms" */
-export type FormsAnswer_Sheets_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
 };
 
 
@@ -6018,6 +5497,26 @@ export type FormsForm_Audiences_AggregateArgs = {
 
 
 /** columns and relationships of "forms" */
+export type FormsQuestion_AnswersArgs = {
+  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
+  where?: InputMaybe<Question_Answers_Bool_Exp>;
+};
+
+
+/** columns and relationships of "forms" */
+export type FormsQuestion_Answers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
+  where?: InputMaybe<Question_Answers_Bool_Exp>;
+};
+
+
+/** columns and relationships of "forms" */
 export type FormsQuestionsArgs = {
   distinct_on?: InputMaybe<Array<Questions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6044,7 +5543,23 @@ export type Forms_Aggregate = {
 };
 
 export type Forms_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Forms_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Forms_Aggregate_Bool_Exp_Bool_Or>;
   count?: InputMaybe<Forms_Aggregate_Bool_Exp_Count>;
+};
+
+export type Forms_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Forms_Select_Column_Forms_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Forms_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Forms_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Forms_Select_Column_Forms_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Forms_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
 };
 
 export type Forms_Aggregate_Bool_Exp_Count = {
@@ -6117,8 +5632,6 @@ export type Forms_Bool_Exp = {
   _and?: InputMaybe<Array<Forms_Bool_Exp>>;
   _not?: InputMaybe<Forms_Bool_Exp>;
   _or?: InputMaybe<Array<Forms_Bool_Exp>>;
-  answer_sheets?: InputMaybe<Answer_Sheets_Bool_Exp>;
-  answer_sheets_aggregate?: InputMaybe<Answer_Sheets_Aggregate_Bool_Exp>;
   category_id?: InputMaybe<Uuid_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   created_by?: InputMaybe<Uuid_Comparison_Exp>;
@@ -6128,8 +5641,11 @@ export type Forms_Bool_Exp = {
   form_audiences?: InputMaybe<Form_Audiences_Bool_Exp>;
   form_audiences_aggregate?: InputMaybe<Form_Audiences_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  is_public?: InputMaybe<Boolean_Comparison_Exp>;
   password?: InputMaybe<String_Comparison_Exp>;
   public_id?: InputMaybe<Uuid_Comparison_Exp>;
+  question_answers?: InputMaybe<Question_Answers_Bool_Exp>;
+  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Bool_Exp>;
   questions?: InputMaybe<Questions_Bool_Exp>;
   questions_aggregate?: InputMaybe<Questions_Aggregate_Bool_Exp>;
   start_date?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -6156,7 +5672,6 @@ export type Forms_Inc_Input = {
 
 /** input type for inserting data into table "forms" */
 export type Forms_Insert_Input = {
-  answer_sheets?: InputMaybe<Answer_Sheets_Arr_Rel_Insert_Input>;
   category_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   created_by?: InputMaybe<Scalars['uuid']['input']>;
@@ -6164,8 +5679,10 @@ export type Forms_Insert_Input = {
   form_accesses?: InputMaybe<Form_Access_Arr_Rel_Insert_Input>;
   form_audiences?: InputMaybe<Form_Audiences_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  is_public?: InputMaybe<Scalars['Boolean']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   public_id?: InputMaybe<Scalars['uuid']['input']>;
+  question_answers?: InputMaybe<Question_Answers_Arr_Rel_Insert_Input>;
   questions?: InputMaybe<Questions_Arr_Rel_Insert_Input>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
   status?: InputMaybe<Scalars['smallint']['input']>;
@@ -6266,7 +5783,6 @@ export type Forms_On_Conflict = {
 
 /** Ordering options when selecting data from "forms". */
 export type Forms_Order_By = {
-  answer_sheets_aggregate?: InputMaybe<Answer_Sheets_Aggregate_Order_By>;
   category_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   created_by?: InputMaybe<Order_By>;
@@ -6274,8 +5790,10 @@ export type Forms_Order_By = {
   form_accesses_aggregate?: InputMaybe<Form_Access_Aggregate_Order_By>;
   form_audiences_aggregate?: InputMaybe<Form_Audiences_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
+  is_public?: InputMaybe<Order_By>;
   password?: InputMaybe<Order_By>;
   public_id?: InputMaybe<Order_By>;
+  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Order_By>;
   questions_aggregate?: InputMaybe<Questions_Aggregate_Order_By>;
   start_date?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
@@ -6303,6 +5821,8 @@ export enum Forms_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  IsPublic = 'is_public',
+  /** column name */
   Password = 'password',
   /** column name */
   PublicId = 'public_id',
@@ -6318,6 +5838,18 @@ export enum Forms_Select_Column {
   UpdatedAt = 'updated_at'
 }
 
+/** select "forms_aggregate_bool_exp_bool_and_arguments_columns" columns of table "forms" */
+export enum Forms_Select_Column_Forms_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  IsPublic = 'is_public'
+}
+
+/** select "forms_aggregate_bool_exp_bool_or_arguments_columns" columns of table "forms" */
+export enum Forms_Select_Column_Forms_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  IsPublic = 'is_public'
+}
+
 /** input type for updating data in table "forms" */
 export type Forms_Set_Input = {
   category_id?: InputMaybe<Scalars['uuid']['input']>;
@@ -6325,6 +5857,7 @@ export type Forms_Set_Input = {
   created_by?: InputMaybe<Scalars['uuid']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  is_public?: InputMaybe<Scalars['Boolean']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   public_id?: InputMaybe<Scalars['uuid']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -6388,6 +5921,7 @@ export type Forms_Stream_Cursor_Value_Input = {
   created_by?: InputMaybe<Scalars['uuid']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  is_public?: InputMaybe<Scalars['Boolean']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   public_id?: InputMaybe<Scalars['uuid']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -6422,6 +5956,8 @@ export enum Forms_Update_Column {
   EndDate = 'end_date',
   /** column name */
   Id = 'id',
+  /** column name */
+  IsPublic = 'is_public',
   /** column name */
   Password = 'password',
   /** column name */
@@ -6517,10 +6053,6 @@ export type Jsonb_Comparison_Exp = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
-  /** delete data from the table: "answer_sheets" */
-  delete_answer_sheets?: Maybe<Answer_Sheets_Mutation_Response>;
-  /** delete single row from the table: "answer_sheets" */
-  delete_answer_sheets_by_pk?: Maybe<Answer_Sheets>;
   /** delete data from the table: "form_access" */
   delete_form_access?: Maybe<Form_Access_Mutation_Response>;
   /** delete single row from the table: "form_access" */
@@ -6561,10 +6093,6 @@ export type Mutation_Root = {
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
   delete_users_by_pk?: Maybe<Users>;
-  /** insert data into the table: "answer_sheets" */
-  insert_answer_sheets?: Maybe<Answer_Sheets_Mutation_Response>;
-  /** insert a single row into the table: "answer_sheets" */
-  insert_answer_sheets_one?: Maybe<Answer_Sheets>;
   /** insert data into the table: "form_access" */
   insert_form_access?: Maybe<Form_Access_Mutation_Response>;
   /** insert a single row into the table: "form_access" */
@@ -6605,12 +6133,6 @@ export type Mutation_Root = {
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
-  /** update data of the table: "answer_sheets" */
-  update_answer_sheets?: Maybe<Answer_Sheets_Mutation_Response>;
-  /** update single row of the table: "answer_sheets" */
-  update_answer_sheets_by_pk?: Maybe<Answer_Sheets>;
-  /** update multiples rows of table: "answer_sheets" */
-  update_answer_sheets_many?: Maybe<Array<Maybe<Answer_Sheets_Mutation_Response>>>;
   /** update data of the table: "form_access" */
   update_form_access?: Maybe<Form_Access_Mutation_Response>;
   /** update single row of the table: "form_access" */
@@ -6671,18 +6193,6 @@ export type Mutation_Root = {
   update_users_by_pk?: Maybe<Users>;
   /** update multiples rows of table: "users" */
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Answer_SheetsArgs = {
-  where: Answer_Sheets_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Answer_Sheets_By_PkArgs = {
-  id: Scalars['uuid']['input'];
 };
 
 
@@ -6803,20 +6313,6 @@ export type Mutation_RootDelete_UsersArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Users_By_PkArgs = {
   id: Scalars['uuid']['input'];
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Answer_SheetsArgs = {
-  objects: Array<Answer_Sheets_Insert_Input>;
-  on_conflict?: InputMaybe<Answer_Sheets_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Answer_Sheets_OneArgs = {
-  object: Answer_Sheets_Insert_Input;
-  on_conflict?: InputMaybe<Answer_Sheets_On_Conflict>;
 };
 
 
@@ -6957,26 +6453,6 @@ export type Mutation_RootInsert_UsersArgs = {
 export type Mutation_RootInsert_Users_OneArgs = {
   object: Users_Insert_Input;
   on_conflict?: InputMaybe<Users_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Answer_SheetsArgs = {
-  _set?: InputMaybe<Answer_Sheets_Set_Input>;
-  where: Answer_Sheets_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Answer_Sheets_By_PkArgs = {
-  _set?: InputMaybe<Answer_Sheets_Set_Input>;
-  pk_columns: Answer_Sheets_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Answer_Sheets_ManyArgs = {
-  updates: Array<Answer_Sheets_Updates>;
 };
 
 
@@ -7223,12 +6699,6 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
-  /** An array relationship */
-  answer_sheets: Array<Answer_Sheets>;
-  /** An aggregate relationship */
-  answer_sheets_aggregate: Answer_Sheets_Aggregate;
-  /** fetch data from the table: "answer_sheets" using primary key columns */
-  answer_sheets_by_pk?: Maybe<Answer_Sheets>;
   /** fetch data from the table: "form_access" */
   form_access: Array<Form_Access>;
   /** fetch aggregated fields from the table: "form_access" */
@@ -7289,29 +6759,6 @@ export type Query_Root = {
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
-};
-
-
-export type Query_RootAnswer_SheetsArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-export type Query_RootAnswer_Sheets_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-export type Query_RootAnswer_Sheets_By_PkArgs = {
-  id: Scalars['uuid']['input'];
 };
 
 
@@ -7548,15 +6995,18 @@ export type Query_RootUsers_By_PkArgs = {
 export type Question_Answers = {
   __typename?: 'question_answers';
   answer: Scalars['jsonb']['output'];
-  /** An object relationship */
-  answer_sheet: Answer_Sheets;
-  answer_sheet_id: Scalars['uuid']['output'];
   created_at: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  form: Forms;
+  form_id: Scalars['uuid']['output'];
   id: Scalars['uuid']['output'];
   /** An object relationship */
   question: Questions;
   question_id: Scalars['uuid']['output'];
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** An object relationship */
+  user: Users;
+  user_id: Scalars['uuid']['output'];
 };
 
 
@@ -7623,13 +7073,15 @@ export type Question_Answers_Bool_Exp = {
   _not?: InputMaybe<Question_Answers_Bool_Exp>;
   _or?: InputMaybe<Array<Question_Answers_Bool_Exp>>;
   answer?: InputMaybe<Jsonb_Comparison_Exp>;
-  answer_sheet?: InputMaybe<Answer_Sheets_Bool_Exp>;
-  answer_sheet_id?: InputMaybe<Uuid_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  form?: InputMaybe<Forms_Bool_Exp>;
+  form_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   question?: InputMaybe<Questions_Bool_Exp>;
   question_id?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_id?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "question_answers" */
@@ -7656,51 +7108,57 @@ export type Question_Answers_Delete_Key_Input = {
 /** input type for inserting data into table "question_answers" */
 export type Question_Answers_Insert_Input = {
   answer?: InputMaybe<Scalars['jsonb']['input']>;
-  answer_sheet?: InputMaybe<Answer_Sheets_Obj_Rel_Insert_Input>;
-  answer_sheet_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  form?: InputMaybe<Forms_Obj_Rel_Insert_Input>;
+  form_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   question?: InputMaybe<Questions_Obj_Rel_Insert_Input>;
   question_id?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Question_Answers_Max_Fields = {
   __typename?: 'question_answers_max_fields';
-  answer_sheet_id?: Maybe<Scalars['uuid']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  form_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   question_id?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "question_answers" */
 export type Question_Answers_Max_Order_By = {
-  answer_sheet_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  form_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   question_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Question_Answers_Min_Fields = {
   __typename?: 'question_answers_min_fields';
-  answer_sheet_id?: Maybe<Scalars['uuid']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  form_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   question_id?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "question_answers" */
 export type Question_Answers_Min_Order_By = {
-  answer_sheet_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  form_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   question_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "question_answers" */
@@ -7722,13 +7180,15 @@ export type Question_Answers_On_Conflict = {
 /** Ordering options when selecting data from "question_answers". */
 export type Question_Answers_Order_By = {
   answer?: InputMaybe<Order_By>;
-  answer_sheet?: InputMaybe<Answer_Sheets_Order_By>;
-  answer_sheet_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  form?: InputMaybe<Forms_Order_By>;
+  form_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   question?: InputMaybe<Questions_Order_By>;
   question_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: question_answers */
@@ -7746,25 +7206,28 @@ export enum Question_Answers_Select_Column {
   /** column name */
   Answer = 'answer',
   /** column name */
-  AnswerSheetId = 'answer_sheet_id',
-  /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  FormId = 'form_id',
   /** column name */
   Id = 'id',
   /** column name */
   QuestionId = 'question_id',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserId = 'user_id'
 }
 
 /** input type for updating data in table "question_answers" */
 export type Question_Answers_Set_Input = {
   answer?: InputMaybe<Scalars['jsonb']['input']>;
-  answer_sheet_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  form_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   question_id?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Streaming cursor of the table "question_answers" */
@@ -7778,11 +7241,12 @@ export type Question_Answers_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Question_Answers_Stream_Cursor_Value_Input = {
   answer?: InputMaybe<Scalars['jsonb']['input']>;
-  answer_sheet_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  form_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   question_id?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "question_answers" */
@@ -7790,15 +7254,17 @@ export enum Question_Answers_Update_Column {
   /** column name */
   Answer = 'answer',
   /** column name */
-  AnswerSheetId = 'answer_sheet_id',
-  /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  FormId = 'form_id',
   /** column name */
   Id = 'id',
   /** column name */
   QuestionId = 'question_id',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserId = 'user_id'
 }
 
 export type Question_Answers_Updates = {
@@ -8105,8 +7571,9 @@ export type Questions = {
   /** An aggregate relationship */
   question_answers_aggregate: Question_Answers_Aggregate;
   /** An object relationship */
-  question_type: Question_Types;
-  question_type_id: Scalars['Int']['output'];
+  question_type?: Maybe<Question_Types>;
+  question_type_id?: Maybe<Scalars['Int']['output']>;
+  required: Scalars['Boolean']['output'];
   topic?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -8145,7 +7612,23 @@ export type Questions_Aggregate = {
 };
 
 export type Questions_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Questions_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Questions_Aggregate_Bool_Exp_Bool_Or>;
   count?: InputMaybe<Questions_Aggregate_Bool_Exp_Count>;
+};
+
+export type Questions_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Questions_Select_Column_Questions_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Questions_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Questions_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Questions_Select_Column_Questions_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Questions_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
 };
 
 export type Questions_Aggregate_Bool_Exp_Count = {
@@ -8235,6 +7718,7 @@ export type Questions_Bool_Exp = {
   question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Bool_Exp>;
   question_type?: InputMaybe<Question_Types_Bool_Exp>;
   question_type_id?: InputMaybe<Int_Comparison_Exp>;
+  required?: InputMaybe<Boolean_Comparison_Exp>;
   topic?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -8279,6 +7763,7 @@ export type Questions_Insert_Input = {
   question_answers?: InputMaybe<Question_Answers_Arr_Rel_Insert_Input>;
   question_type?: InputMaybe<Question_Types_Obj_Rel_Insert_Input>;
   question_type_id?: InputMaybe<Scalars['Int']['input']>;
+  required?: InputMaybe<Scalars['Boolean']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -8373,6 +7858,7 @@ export type Questions_Order_By = {
   question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Order_By>;
   question_type?: InputMaybe<Question_Types_Order_By>;
   question_type_id?: InputMaybe<Order_By>;
+  required?: InputMaybe<Order_By>;
   topic?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -8406,9 +7892,23 @@ export enum Questions_Select_Column {
   /** column name */
   QuestionTypeId = 'question_type_id',
   /** column name */
+  Required = 'required',
+  /** column name */
   Topic = 'topic',
   /** column name */
   UpdatedAt = 'updated_at'
+}
+
+/** select "questions_aggregate_bool_exp_bool_and_arguments_columns" columns of table "questions" */
+export enum Questions_Select_Column_Questions_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Required = 'required'
+}
+
+/** select "questions_aggregate_bool_exp_bool_or_arguments_columns" columns of table "questions" */
+export enum Questions_Select_Column_Questions_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Required = 'required'
 }
 
 /** input type for updating data in table "questions" */
@@ -8421,6 +7921,7 @@ export type Questions_Set_Input = {
   option?: InputMaybe<Scalars['jsonb']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   question_type_id?: InputMaybe<Scalars['Int']['input']>;
+  required?: InputMaybe<Scalars['Boolean']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -8482,6 +7983,7 @@ export type Questions_Stream_Cursor_Value_Input = {
   option?: InputMaybe<Scalars['jsonb']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   question_type_id?: InputMaybe<Scalars['Int']['input']>;
+  required?: InputMaybe<Scalars['Boolean']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -8517,6 +8019,8 @@ export enum Questions_Update_Column {
   Order = 'order',
   /** column name */
   QuestionTypeId = 'question_type_id',
+  /** column name */
+  Required = 'required',
   /** column name */
   Topic = 'topic',
   /** column name */
@@ -8831,14 +8335,6 @@ export type Smallint_Comparison_Exp = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
-  /** An array relationship */
-  answer_sheets: Array<Answer_Sheets>;
-  /** An aggregate relationship */
-  answer_sheets_aggregate: Answer_Sheets_Aggregate;
-  /** fetch data from the table: "answer_sheets" using primary key columns */
-  answer_sheets_by_pk?: Maybe<Answer_Sheets>;
-  /** fetch data from the table in a streaming manner: "answer_sheets" */
-  answer_sheets_stream: Array<Answer_Sheets>;
   /** fetch data from the table: "form_access" */
   form_access: Array<Form_Access>;
   /** fetch aggregated fields from the table: "form_access" */
@@ -8919,36 +8415,6 @@ export type Subscription_Root = {
   users_by_pk?: Maybe<Users>;
   /** fetch data from the table in a streaming manner: "users" */
   users_stream: Array<Users>;
-};
-
-
-export type Subscription_RootAnswer_SheetsArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-export type Subscription_RootAnswer_Sheets_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-export type Subscription_RootAnswer_Sheets_By_PkArgs = {
-  id: Scalars['uuid']['input'];
-};
-
-
-export type Subscription_RootAnswer_Sheets_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Answer_Sheets_Stream_Cursor_Input>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
 };
 
 
@@ -9476,10 +8942,6 @@ export type User_Roles_Updates = {
 /** columns and relationships of "users" */
 export type Users = {
   __typename?: 'users';
-  /** An array relationship */
-  answer_sheets: Array<Answer_Sheets>;
-  /** An aggregate relationship */
-  answer_sheets_aggregate: Answer_Sheets_Aggregate;
   created_at: Scalars['timestamptz']['output'];
   email: Scalars['String']['output'];
   /** An array relationship */
@@ -9493,31 +8955,15 @@ export type Users = {
   id: Scalars['uuid']['output'];
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
+  /** An array relationship */
+  question_answers: Array<Question_Answers>;
+  /** An aggregate relationship */
+  question_answers_aggregate: Question_Answers_Aggregate;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** An array relationship */
   user_roles: Array<User_Roles>;
   /** An aggregate relationship */
   user_roles_aggregate: User_Roles_Aggregate;
-};
-
-
-/** columns and relationships of "users" */
-export type UsersAnswer_SheetsArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
-};
-
-
-/** columns and relationships of "users" */
-export type UsersAnswer_Sheets_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Answer_Sheets_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Answer_Sheets_Order_By>>;
-  where?: InputMaybe<Answer_Sheets_Bool_Exp>;
 };
 
 
@@ -9558,6 +9004,26 @@ export type UsersForms_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Forms_Order_By>>;
   where?: InputMaybe<Forms_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersQuestion_AnswersArgs = {
+  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
+  where?: InputMaybe<Question_Answers_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersQuestion_Answers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Question_Answers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Answers_Order_By>>;
+  where?: InputMaybe<Question_Answers_Bool_Exp>;
 };
 
 
@@ -9607,8 +9073,6 @@ export type Users_Bool_Exp = {
   _and?: InputMaybe<Array<Users_Bool_Exp>>;
   _not?: InputMaybe<Users_Bool_Exp>;
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
-  answer_sheets?: InputMaybe<Answer_Sheets_Bool_Exp>;
-  answer_sheets_aggregate?: InputMaybe<Answer_Sheets_Aggregate_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   form_accesses?: InputMaybe<Form_Access_Bool_Exp>;
@@ -9618,6 +9082,8 @@ export type Users_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   password?: InputMaybe<String_Comparison_Exp>;
+  question_answers?: InputMaybe<Question_Answers_Bool_Exp>;
+  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Bool_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user_roles?: InputMaybe<User_Roles_Bool_Exp>;
   user_roles_aggregate?: InputMaybe<User_Roles_Aggregate_Bool_Exp>;
@@ -9633,7 +9099,6 @@ export enum Users_Constraint {
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
-  answer_sheets?: InputMaybe<Answer_Sheets_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   form_accesses?: InputMaybe<Form_Access_Arr_Rel_Insert_Input>;
@@ -9641,6 +9106,7 @@ export type Users_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
+  question_answers?: InputMaybe<Question_Answers_Arr_Rel_Insert_Input>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_roles?: InputMaybe<User_Roles_Arr_Rel_Insert_Input>;
 };
@@ -9692,7 +9158,6 @@ export type Users_On_Conflict = {
 
 /** Ordering options when selecting data from "users". */
 export type Users_Order_By = {
-  answer_sheets_aggregate?: InputMaybe<Answer_Sheets_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
   form_accesses_aggregate?: InputMaybe<Form_Access_Aggregate_Order_By>;
@@ -9700,6 +9165,7 @@ export type Users_Order_By = {
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   password?: InputMaybe<Order_By>;
+  question_answers_aggregate?: InputMaybe<Question_Answers_Aggregate_Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user_roles_aggregate?: InputMaybe<User_Roles_Aggregate_Order_By>;
 };
@@ -9793,15 +9259,7 @@ export type UserFragmentFragment = { __typename?: 'users', email: string, name: 
 
 export type RoleFragmentFragment = { __typename?: 'roles', code: string, name: string, id: any, created_at: any } & { ' $fragmentName'?: 'RoleFragmentFragment' };
 
-export type QuestionAnswerFragmentFragment = { __typename?: 'question_answers', answer: any, answer_sheet_id: any, created_at: any, id: any, question_id: any, updated_at?: any | null } & { ' $fragmentName'?: 'QuestionAnswerFragmentFragment' };
-
-export type AnswerSheetFragmentFragment = { __typename?: 'answer_sheets', form_id: any, id: any, updated_at?: any | null, user_id: any, created_at: any, user: (
-    { __typename?: 'users' }
-    & { ' $fragmentRefs'?: { 'UserFragmentFragment': UserFragmentFragment } }
-  ), question_answers: Array<(
-    { __typename?: 'question_answers' }
-    & { ' $fragmentRefs'?: { 'QuestionAnswerFragmentFragment': QuestionAnswerFragmentFragment } }
-  )> } & { ' $fragmentName'?: 'AnswerSheetFragmentFragment' };
+export type QuestionAnswerFragmentFragment = { __typename?: 'question_answers', id: any, form_id: any, user_id: any, question_id: any, answer: any, created_at: any, updated_at?: any | null } & { ' $fragmentName'?: 'QuestionAnswerFragmentFragment' };
 
 export type FormAccessFragmentFragment = { __typename?: 'form_access', user_id: any, id: any, updated_at?: any | null, created_at: any, form_id: any, user: (
     { __typename?: 'users' }
@@ -9815,20 +9273,17 @@ export type FormAudienceFragmentFragment = { __typename?: 'form_audiences', role
 
 export type QuestionTypeFragmentFragment = { __typename?: 'question_types', id: number, code: string, name: string, created_at: any, updated_at?: any | null } & { ' $fragmentName'?: 'QuestionTypeFragmentFragment' };
 
-export type QuestionFragmentFragment = { __typename?: 'questions', id: any, form_id: any, question_type_id: number, topic?: string | null, updated_at?: any | null, created_at: any, content: string, caption?: string | null, option?: any | null, question_type: (
+export type QuestionFragmentFragment = { __typename?: 'questions', id: any, form_id: any, question_type_id?: number | null, topic?: string | null, updated_at?: any | null, created_at: any, content: string, caption?: string | null, order?: number | null, option?: any | null, required: boolean, question_type?: (
     { __typename?: 'question_types' }
     & { ' $fragmentRefs'?: { 'QuestionTypeFragmentFragment': QuestionTypeFragmentFragment } }
-  ) } & { ' $fragmentName'?: 'QuestionFragmentFragment' };
+  ) | null } & { ' $fragmentName'?: 'QuestionFragmentFragment' };
 
-export type FormDetailFragmentFragment = { __typename?: 'forms', id: any, public_id: any, category_id?: any | null, created_at: any, created_by: any, end_date?: any | null, password?: string | null, start_date?: any | null, status: any, target_audience?: number | null, title: string, updated_at?: any | null, user: (
+export type FormDetailFragmentFragment = { __typename?: 'forms', id: any, public_id: any, category_id?: any | null, created_at: any, created_by: any, end_date?: any | null, password?: string | null, start_date?: any | null, status: any, target_audience?: number | null, title: string, is_public: boolean, updated_at?: any | null, user: (
     { __typename?: 'users' }
     & { ' $fragmentRefs'?: { 'UserFragmentFragment': UserFragmentFragment } }
-  ), answer_sheets_aggregate: { __typename?: 'answer_sheets_aggregate', aggregate?: { __typename?: 'answer_sheets_aggregate_fields', count: number } | null }, questions: Array<(
+  ), questions: Array<(
     { __typename?: 'questions' }
     & { ' $fragmentRefs'?: { 'QuestionFragmentFragment': QuestionFragmentFragment } }
-  )>, answer_sheets: Array<(
-    { __typename?: 'answer_sheets' }
-    & { ' $fragmentRefs'?: { 'AnswerSheetFragmentFragment': AnswerSheetFragmentFragment } }
   )>, form_accesses: Array<(
     { __typename?: 'form_access' }
     & { ' $fragmentRefs'?: { 'FormAccessFragmentFragment': FormAccessFragmentFragment } }
@@ -9837,7 +9292,7 @@ export type FormDetailFragmentFragment = { __typename?: 'forms', id: any, public
     & { ' $fragmentRefs'?: { 'FormAudienceFragmentFragment': FormAudienceFragmentFragment } }
   )> } & { ' $fragmentName'?: 'FormDetailFragmentFragment' };
 
-export type FormOverviewFragmentFragment = { __typename?: 'forms', id: any, public_id: any, category_id?: any | null, created_at: any, created_by: any, end_date?: any | null, password?: string | null, start_date?: any | null, status: any, target_audience?: number | null, title: string, updated_at?: any | null, answer_sheets_aggregate: { __typename?: 'answer_sheets_aggregate', aggregate?: { __typename?: 'answer_sheets_aggregate_fields', count: number } | null } } & { ' $fragmentName'?: 'FormOverviewFragmentFragment' };
+export type FormOverviewFragmentFragment = { __typename?: 'forms', id: any, public_id: any, category_id?: any | null, created_at: any, created_by: any, end_date?: any | null, password?: string | null, start_date?: any | null, status: any, target_audience?: number | null, title: string, updated_at?: any | null } & { ' $fragmentName'?: 'FormOverviewFragmentFragment' };
 
 export type GetFormsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -9861,27 +9316,45 @@ export type GetFormByIdQuery = { __typename?: 'query_root', forms_by_pk?: (
     & { ' $fragmentRefs'?: { 'FormDetailFragmentFragment': FormDetailFragmentFragment } }
   ) | null };
 
-export type CreateEmptyFormMutationVariables = Exact<{
+export type GetFormByPublicIdQueryVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetFormByPublicIdQuery = { __typename?: 'query_root', forms: Array<(
+    { __typename?: 'forms' }
+    & { ' $fragmentRefs'?: { 'FormDetailFragmentFragment': FormDetailFragmentFragment } }
+  )> };
+
+export type UpdateFormStatusByPkMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  status?: InputMaybe<Scalars['smallint']['input']>;
+}>;
+
+
+export type UpdateFormStatusByPkMutation = { __typename?: 'mutation_root', update_forms_by_pk?: { __typename?: 'forms', status: any } | null };
+
+export type UpdateFormByPkMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
   title: Scalars['String']['input'];
   password?: InputMaybe<Scalars['String']['input']>;
   target_audience?: InputMaybe<Scalars['Int']['input']>;
+  is_public?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
-export type CreateEmptyFormMutation = { __typename?: 'mutation_root', update_forms_by_pk?: (
-    { __typename?: 'forms' }
-    & { ' $fragmentRefs'?: { 'FormDetailFragmentFragment': FormDetailFragmentFragment } }
-  ) | null };
+export type UpdateFormByPkMutation = { __typename?: 'mutation_root', update_forms_by_pk?: { __typename?: 'forms', end_date?: any | null, password?: string | null, start_date?: any | null, title: string, target_audience?: number | null, is_public: boolean } | null };
 
 export type CreateQuestionMutationVariables = Exact<{
-  formId: Scalars['uuid']['input'];
+  form_id: Scalars['uuid']['input'];
   order: Scalars['Int']['input'];
+  required?: InputMaybe<Scalars['Boolean']['input']>;
   question_type_id?: InputMaybe<Scalars['Int']['input']>;
   caption?: InputMaybe<Scalars['String']['input']>;
   content?: InputMaybe<Scalars['String']['input']>;
+  option?: InputMaybe<Scalars['jsonb']['input']>;
 }>;
 
 
@@ -9904,9 +9377,10 @@ export type UpdateQuestionByPkMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
   caption?: InputMaybe<Scalars['String']['input']>;
   topic?: InputMaybe<Scalars['String']['input']>;
+  required?: InputMaybe<Scalars['Boolean']['input']>;
   content: Scalars['String']['input'];
   order: Scalars['Int']['input'];
-  question_type_id: Scalars['Int']['input'];
+  option?: InputMaybe<Scalars['jsonb']['input']>;
 }>;
 
 
@@ -9914,6 +9388,16 @@ export type UpdateQuestionByPkMutation = { __typename?: 'mutation_root', update_
     { __typename?: 'questions' }
     & { ' $fragmentRefs'?: { 'QuestionFragmentFragment': QuestionFragmentFragment } }
   ) | null };
+
+export type CreateMultipleQuestionsMutationVariables = Exact<{
+  objects: Array<Question_Answers_Insert_Input> | Question_Answers_Insert_Input;
+}>;
+
+
+export type CreateMultipleQuestionsMutation = { __typename?: 'mutation_root', insert_question_answers?: { __typename?: 'question_answers_mutation_response', returning: Array<(
+      { __typename?: 'question_answers' }
+      & { ' $fragmentRefs'?: { 'QuestionAnswerFragmentFragment': QuestionAnswerFragmentFragment } }
+    )> } | null };
 
 export type QuestionTypeQueryVariables = Exact<{ [key: string]: never; }>;
 

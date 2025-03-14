@@ -19,15 +19,32 @@ export const GET_BY_ID = gql`
   }
   ${FORM_DETAIL_FRAGMENT}
 `;
+export const GET_BY_PUBLIC_ID = gql`
+  query GetFormByPublicId($id: uuid!) {
+    forms(limit: 1, where: { public_id: { _eq: $id } }) {
+      ...FormDetailFragment
+    }
+  }
+  ${FORM_DETAIL_FRAGMENT}
+`;
+
+export const _STATUS = gql`
+  mutation UpdateFormStatusByPK($id: uuid!, $status: smallint) {
+    update_forms_by_pk(pk_columns: { id: $id }, _set: { status: $status }) {
+      status
+    }
+  }
+`;
 
 export const UPDATE = gql`
-  mutation CreateEmptyForm(
+  mutation UpdateFormByPK(
     $id: uuid!
     $end_date: timestamptz
     $start_date: timestamptz
     $title: String!
     $password: String
     $target_audience: Int
+    $is_public: Boolean
   ) {
     update_forms_by_pk(
       pk_columns: { id: $id }
@@ -37,10 +54,15 @@ export const UPDATE = gql`
         start_date: $start_date
         title: $title
         target_audience: $target_audience
+        is_public: $is_public
       }
     ) {
-      ...FormDetailFragment
+      end_date
+      password
+      start_date
+      title
+      target_audience
+      is_public
     }
   }
-  ${FORM_DETAIL_FRAGMENT}
 `;

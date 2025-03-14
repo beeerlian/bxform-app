@@ -1,21 +1,23 @@
 import { gql } from '@apollo/client';
 import { QUESTION_FRAGMENT } from '../Fragments';
 
-export const CREATE = gql`
+export const createQuestion = gql`
   mutation CreateQuestion(
-    $formId: uuid!
+    $form_id: uuid!
     $order: Int!
-    $question_type_id: Int
+    $required: Boolean
     $caption: String
     $content: String
+    $option: jsonb
   ) {
     insert_questions_one(
       object: {
         caption: $caption
         content: $content
-        form_id: $formId
+        required: $required
+        form_id: $form_id
         order: $order
-        question_type_id: $question_type_id
+        option: $option
       }
     ) {
       ...QuestionFragment
@@ -38,18 +40,20 @@ export const updateQuestionByPk = gql`
     $id: uuid!
     $caption: String
     $topic: String
+    $required: Boolean
     $content: String!
     $order: Int!
-    $question_type_id: Int!
+    $option: jsonb
   ) {
     update_questions_by_pk(
       pk_columns: { id: $id }
       _set: {
         caption: $caption
         topic: $topic
+        required: $required
         content: $content
         order: $order
-        question_type_id: $question_type_id
+        option: $option
       }
     ) {
       ...QuestionFragment
