@@ -23,6 +23,15 @@ export interface ModalWithPropsType<T> {
   props: T | null;
 }
 
+
+export interface OptionITF {
+  id: string;
+  answer: {
+    data: any;
+    option: any;
+  };
+}
+
 export interface FieldProps {
   name: string;
   control: Control<any, any>;

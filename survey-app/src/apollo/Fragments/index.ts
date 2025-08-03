@@ -24,6 +24,7 @@ export const QUESTION_ANSWER_FRAGMENT = gql`
     form_id
     user_id
     question_id
+    answer_sheet_id
     answer
     created_at
     updated_at
@@ -57,11 +58,23 @@ export const FORM_AUDIENCE_FRAGMENT = gql`
   ${ROLE_FRAGMENT}
 `;
 
+export const AnswerSheetFragment = gql`
+  fragment AnswerSheetFragment on answer_sheets {
+    id
+    form_id
+    user_id
+    recorded
+    created_at
+    updated_at
+  }
+`;
+
 export const QUESTION_TYPE_FRAGMENT = gql`
   fragment QuestionTypeFragment on question_types {
     id
     code
     name
+
     created_at
     updated_at
   }

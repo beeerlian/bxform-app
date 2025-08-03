@@ -1,3 +1,4 @@
+- "!include public_answer_sheets.yaml"
 - "!include public_form_access.yaml"
 - "!include public_form_audiences.yaml"
 - "!include public_form_category.yaml"

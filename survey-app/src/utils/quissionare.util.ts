@@ -1,5 +1,5 @@
 import { Questions } from '@/__generated__/graphql';
-import { OptionType, QuestionFormITF, QuissionareStatus } from '@/types/dto-types';
+import { OptionITF, OptionType, QuestionFormITF, QuissionareStatus } from '@/types/dto-types';
 import { v4 as uuidv4 } from 'uuid';
 import { initialIPAOption } from './constants';
 
@@ -51,7 +51,7 @@ export function getQuestionFormDefaultValue(question?: Questions): QuestionFormI
   };
 }
 
-export function convertQuestionToFormFillment(questions: Questions[]): any {
+export function convertQuestionToFormFillment(questions: Questions[]): OptionITF[] {
   return questions.map((question) => {
     const type = question.option!.type as OptionType;
     if (type === 'Importance Performance') {
@@ -68,7 +68,6 @@ export function convertQuestionToFormFillment(questions: Questions[]): any {
     } else if (type === 'Multiple') {
       return {
         id: question.id,
-
         answer: {
           data: question.option!.option!.map((data: any) => ({
             ...data,
