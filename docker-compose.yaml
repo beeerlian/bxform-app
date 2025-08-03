@@ -1,5 +1,4 @@
-version: "3.6"
-name: bxform
+version: "3.8"
 services:
   postgres:
     image: postgres:15
@@ -22,8 +21,8 @@ services:
       - ./hasura/migrations:/hasura-migrations
       - ./hasura/metadata:/hasura-metadata
     environment:
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_HOST_PORT}/${DB_NAME}
-      PG_DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_HOST_PORT}/${DB_NAME}
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_NAME}
+      PG_DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_NAME}
       ## enable the console served by server
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
       ## enable debugging mode. It is recommended to disable this in production
@@ -68,7 +67,7 @@ services:
     working_dir: /app
     volumes:
       - ./api:/app
-    stdin_open: true 
+    stdin_open: true
     tty: true
   # client:
   #   build:
@@ -85,9 +84,8 @@ services:
   #     NODE_ENV: development
   #     PORT: ${WEB_PORT}
   #     DATABASE_URL : postgres://postgres:20010506@postgres:5432/bxform
-      
+
 volumes:
   postgres-data:
   # client:
   api:
-
