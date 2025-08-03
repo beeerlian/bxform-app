@@ -2,6 +2,9 @@ table:
   name: question_answers
   schema: public
 object_relationships:
+  - name: answer_sheet
+    using:
+      foreign_key_constraint_on: answer_sheet_id
   - name: form
     using:
       foreign_key_constraint_on: form_id

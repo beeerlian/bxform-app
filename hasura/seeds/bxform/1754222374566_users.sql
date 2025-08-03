@@ -1,0 +1,5 @@
+SET check_function_bodies = false;
+INSERT INTO public.users (id, email, password, name, created_at, updated_at) VALUES ('5aebcff9-8c1e-40e9-9238-ae09c855cffc', '', '', '', '2024-07-18 16:16:33.447013+00', '2024-07-18 16:16:33.447013+00');
+INSERT INTO public.users (id, email, password, name, created_at, updated_at) VALUES ('a96fdcb2-4c4d-49a9-a227-dad5512fc60a', 'naufal.berlian.99@gmail.com', 'password', 'naufal.berlian.99@gmail.com', '2024-07-18 16:52:59.095489+00', '2024-07-18 16:52:59.095489+00');
+INSERT INTO public.users (id, email, password, name, created_at, updated_at) VALUES ('3f77419b-b62d-4e52-808d-098a831ace03', 'naufal.berlian.9@gmail.com', 'password', 'naufal.berlian.9@gmail.com', '2024-07-18 16:54:47.959978+00', '2024-07-18 16:54:47.959978+00');
+INSERT INTO public.users (id, email, password, name, created_at, updated_at) VALUES ('c67aa1b1-dd73-41c6-a752-57cef6bfa6dd', 'naufal.berlian.91@gmail.com', 'password', 'naufal.berlian.91@gmail.com', '2024-07-18 17:11:55.48287+00', '2024-07-18 17:11:55.48287+00');
