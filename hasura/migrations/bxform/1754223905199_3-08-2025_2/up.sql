@@ -1,4 +1,22 @@
 SET check_function_bodies = false;
+
+DROP TABLE IF EXISTS public.user_roles CASCADE;
+DROP TABLE IF EXISTS public.form_access CASCADE;
+DROP TABLE IF EXISTS public.form_audiences CASCADE;
+DROP TABLE IF EXISTS public.question_answers CASCADE;
+DROP TABLE IF EXISTS public.answer_sheets CASCADE;
+DROP TABLE IF EXISTS public.questions CASCADE;
+DROP TABLE IF EXISTS public.forms CASCADE;
+DROP TABLE IF EXISTS public.question_types CASCADE;
+DROP TABLE IF EXISTS public.form_category CASCADE;
+DROP TABLE IF EXISTS public.roles CASCADE;
+DROP TABLE IF EXISTS public.users CASCADE;
+
+-- Drop sequences
+DROP SEQUENCE IF EXISTS public.option_types_id_seq CASCADE;
+
+-- Drop functions
+DROP FUNCTION IF EXISTS public.set_current_timestamp_updated_at() CASCADE;
 CREATE FUNCTION public.set_current_timestamp_updated_at() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -10,6 +28,8 @@ BEGIN
   RETURN _new;
 END;
 $$;
+
+
 CREATE TABLE public.answer_sheets (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     form_id uuid NOT NULL,
@@ -18,6 +38,7 @@ CREATE TABLE public.answer_sheets (
     updated_at timestamp with time zone,
     recorded boolean DEFAULT false NOT NULL
 );
+
 CREATE TABLE public.form_access (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     user_id uuid NOT NULL,

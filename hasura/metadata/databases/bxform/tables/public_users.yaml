@@ -2,13 +2,6 @@ table:
   name: users
   schema: public
 array_relationships:
-  - name: answer_sheets
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          name: answer_sheets
-          schema: public
   - name: form_accesses
     using:
       foreign_key_constraint_on:
