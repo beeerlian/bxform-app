@@ -57,8 +57,8 @@ const EditQuestion: React.FC<EditQuestionProps> = ({ onSuccess, question: questi
             control={form.control}
             render={({ field }) => (
               <div>
-                <label htmlFor="content" className="block mb-1">
-                  Title
+                <label htmlFor="content" className="block mb-1 font-medium">
+                  Question Title
                 </label>
                 <input
                   type="text"
@@ -72,32 +72,42 @@ const EditQuestion: React.FC<EditQuestionProps> = ({ onSuccess, question: questi
             )}
           />
 
-          <OptionForm option={questionData.option} />
-          <Controller
-            key="caption"
-            name="caption"
-            control={form.control}
-            render={({ field }) => (
-              <div>
-                <input
-                  type="text"
-                  id="caption"
-                  {...field}
-                  value={field.value ?? ''}
-                  placeholder="Note"
-                  className="w-1/2 p-2 border rounded italic text-xs"
-                />
-                <FormErrorMessage message={form.formState.errors?.caption?.message} />
-              </div>
-            )}
-          />
+          <div className="border-t pt-4">
+            <h3 className="text-sm font-medium mb-2">Question Configuration</h3>
+            <OptionForm option={questionData.option} />
+          </div>
+
+          <div className="border-t pt-4">
+            <h3 className="text-sm font-medium mb-2">Additional Information</h3>
+            <Controller
+              key="caption"
+              name="caption"
+              control={form.control}
+              render={({ field }) => (
+                <div>
+                  <label htmlFor="caption" className="block text-xs text-gray-500 mb-1">
+                    Note/Caption (optional)
+                  </label>
+                  <input
+                    type="text"
+                    id="caption"
+                    {...field}
+                    value={field.value ?? ''}
+                    placeholder="Additional information or hint for respondents"
+                    className="w-full p-2 border rounded italic text-xs"
+                  />
+                  <FormErrorMessage message={form.formState.errors?.caption?.message} />
+                </div>
+              )}
+            />
+          </div>
           <div className="mt-6 flex justify-end space-x-2">
             <button
               type="submit"
               disabled={updateQLoading}
-              className={`px-2 py-1 bg-blue-500 text-white text-sm min-w-24 min-h-8 rounded-full`}
+              className={`px-4 py-2 bg-blue-500 text-white text-sm min-w-24 min-h-8 rounded-full`}
             >
-              {updateQLoading ? <Spinner /> : 'Save'}
+              {updateQLoading ? <Spinner /> : 'Save Changes'}
             </button>
           </div>
         </form>

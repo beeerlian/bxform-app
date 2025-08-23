@@ -66,3 +66,32 @@ export const UPDATE = gql`
     }
   }
 `;
+export const GET_FORM_RESPONSES = gql`
+  query GetFormResponses($form_id: uuid!) {
+    answer_sheets(where: { form_id: { _eq: $form_id } }) {
+      id
+      form_id
+      user_id
+      created_at
+      updated_at
+      recorded
+      user {
+        id
+        name
+        email
+        created_at
+        updated_at
+      }
+      question_answers(where: { form_id: { _eq: $form_id } }) {
+        id
+        question_id
+        answer
+        answer_sheet_id
+        form_id
+        user_id
+        created_at
+        updated_at
+      }
+    }
+  }
+`;

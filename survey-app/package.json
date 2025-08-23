@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.12.2",
+    "@hookform/resolvers": "^5.2.1",
     "apollo3-cache-persist": "^0.15.0",
     "d3": "^7.9.0",
     "react": "^18.2.0",
@@ -26,7 +27,8 @@
     "react-modal": "^3.16.3",
     "react-router-dom": "^6.11.2",
     "react-toastify": "^11.0.3",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "yup": "^1.7.0"
   },
   "devDependencies": {
     "@0no-co/graphqlsp": "^1.12.16",

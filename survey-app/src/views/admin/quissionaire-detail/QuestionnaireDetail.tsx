@@ -71,7 +71,7 @@ const QuestionnaireDetail: React.FC = () => {
               refetch={refetch}
             />
           )}
-          {activeTab === 'responses' && <ResponsesSection responses={[]} questions={[]} />}
+          {activeTab === 'responses' && <ResponsesSection formId={data.forms_by_pk.id} />}
           {activeTab === 'analysis' && <AnalysisSection data={data.forms_by_pk} />}
           {activeTab === 'settings' && (
             <SettingsSection questionnaire={data.forms_by_pk} refetch={refetch} />

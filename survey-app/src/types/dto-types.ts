@@ -16,13 +16,25 @@ export interface IPQuestionOptionType {
   performance: QuestionOptionType[];
 }
 
-export type OptionType = 'Importance Performance' | 'Multiple' | 'Ratio' | 'Essai' | 'Text';
+export type OptionType =
+  | 'Importance Performance'
+  | 'Multiple'
+  | 'Ratio'
+  | 'Essai'
+  | 'Text'
+  | 'Name'
+  | 'Email'
+  | 'Date'
+  | 'Time'
+  | 'DateTime'
+  | 'Number'
+  | 'Phone'
+  | 'Address';
 
 export interface ModalWithPropsType<T> {
   isOpen: boolean;
   props: T | null;
 }
-
 
 export interface OptionITF {
   id: string;

@@ -77,6 +77,7 @@ export function convertQuestionToFormFillment(questions: Questions[]): OptionITF
         },
       };
     } else {
+      // Handle all other field types with null initial data
       return {
         id: question.id,
         answer: {
