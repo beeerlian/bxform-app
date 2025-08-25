@@ -97,7 +97,7 @@ const QuestionsFillmentSection: React.FC<Props> = ({ questions, quissionareId, r
       const answerSheetResult = await insertAnswerSheet({
         variables: {
           form_id: quissionareId,
-          user_id: '3f77419b-b62d-4e52-808d-098a831ace03', // For anonymous submissions
+          user_id: 'c67aa1b1-dd73-41c6-a752-57cef6bfa6dd', // For anonymous submissions
         },
       });
 
@@ -113,7 +113,7 @@ const QuestionsFillmentSection: React.FC<Props> = ({ questions, quissionareId, r
         questions,
         answerSheetId,
         quissionareId,
-        '3f77419b-b62d-4e52-808d-098a831ace03'
+        'c67aa1b1-dd73-41c6-a752-57cef6bfa6dd'
       );
 
       if (answersToSubmit.length === 0) {

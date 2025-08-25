@@ -13,18 +13,22 @@ interface Props {
 }
 
 const KMeansClusteringChart: React.FC<Props> = () => {
-  const [data, setData] = useState<DataPoint[]>(generateDummyData(100));
+  const [data, setData] = useState<DataPoint[]>(generateDummyData(0));
   const [numClusters, setNumClusters] = useState(3);
 
   useEffect(() => {
+    // Generate fresh data or use existing data without causing re-render loop
+    const currentData = data.length > 0 ? [...data] : generateDummyData(0);
+
     let centroids: DataPoint[] = [];
+
     // K-Means Clustering Algorithm
-    const kMeans = (data: DataPoint[], k: number) => {
+    const kMeans = (inputData: DataPoint[], k: number) => {
       // Initialize centroids randomly
-      centroids = data.slice(0, k);
+      centroids = inputData.slice(0, k);
 
       const assignClusters = () => {
-        data.forEach((point) => {
+        inputData.forEach((point) => {
           let minDist = Infinity;
           let cluster = 0;
           centroids.forEach((centroid, i) => {
@@ -40,7 +44,7 @@ const KMeansClusteringChart: React.FC<Props> = () => {
 
       const updateCentroids = () => {
         centroids = centroids.map((_, i) => {
-          const clusterPoints = data.filter((point) => point.cluster === i);
+          const clusterPoints = inputData.filter((point) => point.cluster === i);
           const meanX = d3.mean(clusterPoints, (d) => d.x) || 0;
           const meanY = d3.mean(clusterPoints, (d) => d.y) || 0;
           return { x: meanX, y: meanY, label: '' };
@@ -52,11 +56,18 @@ const KMeansClusteringChart: React.FC<Props> = () => {
         updateCentroids();
       }
 
-      return data;
+      return inputData;
     };
 
-    const clusteredData = kMeans([...data], numClusters);
-    setData(clusteredData);
+    const clusteredData = kMeans(currentData, numClusters);
+
+    // Only update state if data has actually changed to prevent infinite loops
+    if (JSON.stringify(clusteredData) !== JSON.stringify(data)) {
+      setData(clusteredData);
+    }
+
+    // Clean up any existing tooltip
+    d3.select('body').selectAll('.kmeans-tooltip').remove();
 
     // D3 Visualization
     const svg = d3
@@ -70,11 +81,11 @@ const KMeansClusteringChart: React.FC<Props> = () => {
 
     const xScale = d3
       .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.x) || 100])
+      .domain([0, d3.max(clusteredData, (d) => d.x) || 100])
       .range([0, width]);
     const yScale = d3
       .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.y) || 100])
+      .domain([0, d3.max(clusteredData, (d) => d.y) || 100])
       .range([height, 0]);
 
     svg.append('g').attr('transform', `translate(0, ${height})`).call(d3.axisBottom(xScale));
@@ -83,15 +94,17 @@ const KMeansClusteringChart: React.FC<Props> = () => {
     const tooltip = d3
       .select('body')
       .append('div')
+      .attr('class', 'kmeans-tooltip')
       .style('position', 'absolute')
       .style('background', '#f9f9f9')
       .style('border', '1px solid #d3d3d3')
       .style('padding', '5px')
-      .style('display', 'none');
+      .style('display', 'none')
+      .style('pointer-events', 'none');
 
     svg
       .selectAll('circle')
-      .data(data)
+      .data(clusteredData)
       .enter()
       .append('circle')
       .attr('cx', (d) => xScale(d.x))
@@ -101,7 +114,7 @@ const KMeansClusteringChart: React.FC<Props> = () => {
       .on('mouseover', (event, d) => {
         tooltip
           .style('display', 'block')
-          .html(`Label: ${d.label}<br/>Cluster: ${d.cluster}`)
+          .html(`${d.label}`)
           .style('left', `${event.pageX + 5}px`)
           .style('top', `${event.pageY - 28}px`);
       })
@@ -121,7 +134,12 @@ const KMeansClusteringChart: React.FC<Props> = () => {
       .attr('fill', 'black')
       .attr('stroke', 'white')
       .attr('stroke-width', 2);
-  }, [data, numClusters]);
+
+    // Cleanup function to remove tooltip when component unmounts
+    return () => {
+      d3.select('body').selectAll('.kmeans-tooltip').remove();
+    };
+  }, [numClusters]); // Remove 'data' from dependencies to prevent infinite loop
 
   return (
     <div>

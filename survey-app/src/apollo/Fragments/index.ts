@@ -118,7 +118,6 @@ export const FORM_DETAIL_FRAGMENT = gql`
     user {
       ...UserFragment
     }
-
     questions(order_by: { order: asc }) {
       ...QuestionFragment
     }

@@ -4,7 +4,7 @@ import QuestionnareStatusChip from '@/components/chip/QuestionnareStatusChip';
 import { useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import AnalysisSection from './analytics/AnalyticsSection';
+import AnalyticsSection from './analytics/AnalyticsSection';
 import QuestionsSection from './questions/QuestionsSection';
 import ResponsesSection from './responses/ResponsesSection';
 import SettingsSection from './settings/SettingsSection';
@@ -72,7 +72,7 @@ const QuestionnaireDetail: React.FC = () => {
             />
           )}
           {activeTab === 'responses' && <ResponsesSection formId={data.forms_by_pk.id} />}
-          {activeTab === 'analysis' && <AnalysisSection data={data.forms_by_pk} />}
+          {activeTab === 'analysis' && <AnalyticsSection formId={data.forms_by_pk.id} />}
           {activeTab === 'settings' && (
             <SettingsSection questionnaire={data.forms_by_pk} refetch={refetch} />
           )}
