@@ -95,3 +95,27 @@ export const GET_FORM_RESPONSES = gql`
     }
   }
 `;
+
+export const GET_FORM_ANALYTICS_DATA = gql`
+  query GetFormAnalyticsData($form_id: uuid!) {
+    questions(where: { form_id: { _eq: $form_id } }) {
+      id
+      question_answers {
+        answer
+        answer_sheet_id
+        created_at
+        form_id
+        id
+        question_id
+        updated_at
+        user_id
+      }
+      order
+      option
+      form_id
+      created_at
+      content
+      caption
+    }
+  }
+`;

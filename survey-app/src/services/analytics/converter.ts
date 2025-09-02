@@ -46,6 +46,78 @@ export class SurveyDataConverter {
   }
 
   /**
+   * Parse answer based on question type and return standardized format
+   * @param answerString Raw answer string (often JSON)
+   * @param questionType Type of question (Ratio, Multiple, Importance Performance, etc.)
+   * @returns Parsed answer with weight and label
+   */
+  static parseAnswer(
+    answerString: string,
+    questionType: string
+  ): { weight: number; label: string }[] {
+    try {
+      const parsed = JSON.parse(answerString);
+
+      switch (questionType) {
+        case 'Ratio':
+          // For ratio questions, answer is a single option object
+          return [
+            {
+              weight: parsed.value || 0,
+              label: parsed.label || 'Unknown',
+            },
+          ];
+
+        case 'Multiple':
+          // For multiple choice, extract selected options
+          if (Array.isArray(parsed)) {
+            return parsed
+              .filter((item) => item.selected)
+              .map((item) => ({
+                weight: item.value || 0,
+                label: item.label || 'Unknown',
+              }));
+          }
+          return [];
+
+        case 'Importance Performance':
+          // IPA questions are treated as 2 separate ratio questions
+          const results = [];
+          if (parsed.importance) {
+            results.push({
+              weight: parsed.importance.value || 0,
+              label: `Importance: ${parsed.importance.label || 'Unknown'}`,
+            });
+          }
+          if (parsed.performance) {
+            results.push({
+              weight: parsed.performance.value || 0,
+              label: `Performance: ${parsed.performance.label || 'Unknown'}`,
+            });
+          }
+          return results;
+
+        default:
+          // For other types, try to extract numerical value
+          if (typeof parsed === 'number') {
+            return [{ weight: parsed, label: parsed.toString() }];
+          }
+          if (typeof parsed === 'string' && !isNaN(Number(parsed))) {
+            return [{ weight: Number(parsed), label: parsed }];
+          }
+          return [{ weight: 0, label: answerString }];
+      }
+    } catch {
+      // If not JSON, try to parse as number
+      const numValue = Number(answerString);
+      if (!isNaN(numValue)) {
+        return [{ weight: numValue, label: answerString }];
+      }
+      return [{ weight: 0, label: answerString }];
+    }
+  }
+
+  /**
    * Extract weight from question options if available
    * @param question Question object
    * @returns Weight value or 1 as default
@@ -114,6 +186,7 @@ export class SurveyDataConverter {
     performanceQuestions: Map<string, string>
   ): IPADataPoint[] {
     const ipaPoints: IPADataPoint[] = [];
+    console.log('Converting IPA data points from', responses.length, 'responses');
 
     responses.forEach((response) => {
       // Create a map of question answers for quick lookup
@@ -121,37 +194,108 @@ export class SurveyDataConverter {
 
       // Process each aspect
       importanceQuestions.forEach((importanceQId, aspect) => {
+        console.log('Processing IPA aspect:', aspect);
         const performanceQId = performanceQuestions.get(aspect);
 
         if (!performanceQId) return;
 
-        const importanceAnswer = answerMap.get(importanceQId);
-        const performanceAnswer = answerMap.get(performanceQId);
+        // Handle case where importance and performance are in the same question (IPA questions)
+        if (importanceQId === performanceQId) {
+          const ipaAnswer = answerMap.get(importanceQId);
+          if (ipaAnswer) {
+            const { importance, performance } = this.extractIPAValues(ipaAnswer.answer);
 
-        if (importanceAnswer && performanceAnswer) {
-          const importance = this.extractNumericalValue(importanceAnswer.answer);
-          const performance = this.extractNumericalValue(performanceAnswer.answer);
+            if (importance !== null && performance !== null) {
+              ipaPoints.push({
+                id: `${response.answer_sheet_id}_${aspect}`,
+                features: [importance, performance],
+                importance,
+                performance,
+                aspect,
+                segment: ipaAnswer.question?.segment,
+                metadata: {
+                  user_id: response.user_id,
+                  answer_sheet_id: response.answer_sheet_id,
+                  importance_question_id: importanceQId,
+                  performance_question_id: performanceQId,
+                  created_at: response.created_at,
+                },
+              });
+            }
+          }
+        } else {
+          // Handle separate importance and performance questions
+          const importanceAnswer = answerMap.get(importanceQId);
+          const performanceAnswer = answerMap.get(performanceQId);
 
-          ipaPoints.push({
-            id: `${response.answer_sheet_id}_${aspect}`,
-            features: [importance, performance],
-            importance,
-            performance,
-            aspect,
-            segment: importanceAnswer.question?.segment || performanceAnswer.question?.segment,
-            metadata: {
-              user_id: response.user_id,
-              answer_sheet_id: response.answer_sheet_id,
-              importance_question_id: importanceQId,
-              performance_question_id: performanceQId,
-              created_at: response.created_at,
-            },
-          });
+          if (importanceAnswer && performanceAnswer) {
+            const importance = this.extractNumericalValue(importanceAnswer.answer);
+            const performance = this.extractNumericalValue(performanceAnswer.answer);
+
+            ipaPoints.push({
+              id: `${response.answer_sheet_id}_${aspect}`,
+              features: [importance, performance],
+              importance,
+              performance,
+              aspect,
+              segment: importanceAnswer.question?.segment || performanceAnswer.question?.segment,
+              metadata: {
+                user_id: response.user_id,
+                answer_sheet_id: response.answer_sheet_id,
+                importance_question_id: importanceQId,
+                performance_question_id: performanceQId,
+                created_at: response.created_at,
+              },
+            });
+          }
         }
       });
     });
 
+    console.log('Generated', ipaPoints.length, 'IPA data points');
     return ipaPoints;
+  }
+
+  /**
+   * Extract importance and performance values from IPA answer
+   * @param answer Raw answer from IPA question
+   * @returns Object with importance and performance values
+   */
+  private static extractIPAValues(answer: any): {
+    importance: number | null;
+    performance: number | null;
+  } {
+    try {
+      if (typeof answer === 'string') {
+        const parsed = JSON.parse(answer);
+        return this.extractIPAValues(parsed);
+      }
+
+      if (typeof answer === 'object' && answer !== null) {
+        let importance: number | null = null;
+        let performance: number | null = null;
+
+        // Handle the new structure where importance and performance are objects with value property
+        if (answer.importance && typeof answer.importance === 'object') {
+          importance = this.extractNumericalValue(answer.importance.value || answer.importance);
+        } else if (answer.importance !== undefined) {
+          importance = this.extractNumericalValue(answer.importance);
+        }
+
+        if (answer.performance && typeof answer.performance === 'object') {
+          performance = this.extractNumericalValue(answer.performance.value || answer.performance);
+        } else if (answer.performance !== undefined) {
+          performance = this.extractNumericalValue(answer.performance);
+        }
+
+        return { importance, performance };
+      }
+
+      return { importance: null, performance: null };
+    } catch (error) {
+      console.warn('Failed to extract IPA values from answer:', answer, error);
+      return { importance: null, performance: null };
+    }
   }
 
   /**

@@ -25,7 +25,9 @@ const IPAField: React.FC<IPAFieldProps> = ({
       <Controller
         control={control}
         name={name}
-        render={({ field: { onChange, value = { importance: null, performance: null } } }) => (
+        render={({
+          field: { onChange, value = { importance: undefined, performance: undefined } },
+        }) => (
           <>
             <div className="mb-4 ml-4 border-l-4 border-blue-500 pl-4">
               <p className="font-medium mb-1">{option.importanceQuestion}</p>
@@ -35,12 +37,12 @@ const IPAField: React.FC<IPAFieldProps> = ({
                     <input
                       id={`${id}-importance-${idx}`}
                       type="radio"
-                      value={opt.value}
-                      checked={value.importance === opt.value}
+                      value={opt.value ?? ''}
+                      checked={value.importance?.value === opt.value}
                       onChange={() => {
                         onChange({
                           ...value,
-                          importance: opt.value,
+                          importance: opt,
                         });
                       }}
                       className={`w-4 h-4 ${error && !value.importance ? 'border-red-500' : ''}`}
@@ -63,12 +65,12 @@ const IPAField: React.FC<IPAFieldProps> = ({
                     <input
                       id={`${id}-performance-${idx}`}
                       type="radio"
-                      value={opt.value}
-                      checked={value.performance === opt.value}
+                      value={opt.value ?? ''}
+                      checked={value.performance?.value === opt.value}
                       onChange={() => {
                         onChange({
                           ...value,
-                          performance: opt.value,
+                          performance: opt,
                         });
                       }}
                       className={`w-4 h-4 ${error && !value.performance ? 'border-red-500' : ''}`}

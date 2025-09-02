@@ -32,9 +32,9 @@ const RatioField: React.FC<RatioFieldProps> = ({
                 <input
                   id={`${id}-${idx}`}
                   type="radio"
-                  value={option.value}
-                  checked={field.value === option.value}
-                  onChange={() => field.onChange(option.value)}
+                  value={option.value ?? ''}
+                  checked={field.value?.value === option.value}
+                  onChange={() => field.onChange(option)}
                   className={`w-4 h-4 ${
                     error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''
                   }`}

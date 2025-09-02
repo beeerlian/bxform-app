@@ -8,7 +8,7 @@ import type {
 } from '@/services/analytics/types';
 import type { OptionType } from '@/types/dto-types';
 import { useQuery } from '@apollo/client';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Import existing charts
 import HeatmapChart from '@/components/chart/HeatmapChart';
@@ -193,9 +193,7 @@ const BasicStatisticsSection: React.FC<{ statistics: BasicStatistics }> = ({ sta
 /**
  * Component for displaying clustering analysis results
  */
-const ClusteringAnalysisSection: React.FC<{
-  result: ClusteringResult;
-}> = ({ result }) => (
+const ClusteringAnalysisSection: React.FC<{ result: ClusteringResult }> = ({ result }) => (
   <div className="bg-white rounded-lg border border-gray-200 p-6">
     <h3 className="text-lg font-medium mb-4">Clustering Analysis</h3>
 
@@ -259,9 +257,7 @@ const ClusteringAnalysisSection: React.FC<{
 /**
  * Component for displaying IPA analysis results
  */
-const IPAAnalysisSection: React.FC<{
-  result: IPAAnalysisResult;
-}> = ({ result }) => {
+const IPAAnalysisSection: React.FC<{ result: IPAAnalysisResult }> = ({ result }) => {
   // Group aspects by quadrant for summary
   const quadrantCounts = {
     concentrateHere: result.aspects.filter((a: any) => a.quadrant === 'concentrate_here').length,
@@ -358,17 +354,17 @@ const IPAAnalysisSection: React.FC<{
  * - Multiple visualization formats (charts, tables, text summaries)
  */
 const AnalyticsSection: React.FC<Props> = ({ formId }) => {
-  // Fetch form responses data using Apollo GraphQL
+  // Fetch form analytics data using the new query structure
   const {
-    data: responsesData,
-    loading: responsesLoading,
-    error: responsesError,
-  } = useQuery(FORM.GET_FORM_RESPONSES, {
+    data: analyticsData,
+    loading: analyticsLoading,
+    error: analyticsError,
+  } = useQuery(FORM.GET_FORM_ANALYTICS_DATA, {
     variables: { form_id: formId },
     pollInterval: 30000, // Poll every 30 seconds for new responses
   });
 
-  // Fetch form details to get questions
+  // Fetch form details to get questions (for basic form info)
   const {
     data: formData,
     loading: formLoading,
@@ -377,7 +373,11 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
     variables: { id: formId },
   });
 
-  // State management for analytics results
+  // Loading and error states
+  const dataLoading = analyticsLoading || formLoading;
+  const dataError = analyticsError || formError;
+
+  // State management for analytics processing
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [analyticsService] = useState(() => new AnalyticsService({ verbose: true }));
@@ -387,10 +387,10 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
   const [clusteringResult, setClusteringResult] = useState<ClusteringResult | null>(null);
   const [ipaResult, setIpaResult] = useState<IPAAnalysisResult | null>(null);
   const [surveyResponses, setSurveyResponses] = useState<SurveyResponse[]>([]);
+  const [analyticsInsights, setAnalyticsInsights] = useState<string[]>([]);
 
   // Extract data from GraphQL responses
-  const answerSheets = responsesData?.answer_sheets || [];
-  const questions = formData?.forms_by_pk?.questions || [];
+  const questions = analyticsData?.questions || [];
   const form = formData?.forms_by_pk;
 
   /**
@@ -431,6 +431,35 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
     );
   }, [questions]);
 
+  // Transform the new data structure to extract answer sheets and responses
+  const answerSheets = useMemo(() => {
+    if (!questions || questions.length === 0) return [];
+
+    // Group question answers by answer_sheet_id to reconstruct answer sheets
+    const sheetMap = new Map();
+
+    questions.forEach((question: any) => {
+      if (question.question_answers) {
+        question.question_answers.forEach((answer: any) => {
+          const sheetId = answer.answer_sheet_id;
+          if (!sheetMap.has(sheetId)) {
+            sheetMap.set(sheetId, {
+              id: sheetId,
+              form_id: answer.form_id,
+              user_id: answer.user_id,
+              created_at: answer.created_at,
+              updated_at: answer.updated_at,
+              question_answers: [],
+            });
+          }
+          sheetMap.get(sheetId).question_answers.push(answer);
+        });
+      }
+    });
+
+    return Array.from(sheetMap.values());
+  }, [questions]);
+
   /**
    * Check if we have enough data for meaningful analysis
    */
@@ -441,105 +470,139 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
   }, [answerSheets]);
 
   /**
-   * Get response data for analytics
+   * Process analytics data using the real analytics service
    */
-  const getResponseData = useMemo(() => {
-    // Transform fetched answer sheets to the format expected by analytics service
-    if (!answerSheets || answerSheets.length === 0) {
-      return [];
-    }
+  const processAnalyticsData = useCallback(async () => {
+    if (!answerSheets || answerSheets.length === 0) return;
 
-    return answerSheets.map((sheet: any) => ({
-      id: sheet.id,
-      form_id: sheet.form_id,
-      question_answers: sheet.question_answers || [],
-      user_id: sheet.user_id || '',
-      created_at: sheet.created_at || new Date().toISOString(),
-      recorded: sheet.recorded,
-      form: form,
-    }));
-  }, [answerSheets, form]);
+    try {
+      setLoading(true);
+      setError(null);
+
+      console.log('🚀 Starting comprehensive analytics with', answerSheets.length, 'answer sheets');
+
+      // Validate input data first
+      const validation = AnalyticsService.validateInputData(answerSheets);
+      if (!validation.isValid) {
+        setError(`Data validation failed: ${validation.issues.join(', ')}`);
+        return;
+      }
+
+      if (validation.suggestions.length > 0) {
+        console.warn('Analytics suggestions:', validation.suggestions);
+      }
+
+      // Create IPA aspect mapping for IPA questions
+      const aspectMapping: {
+        [aspect: string]: { importanceQuestionId: string; performanceQuestionId: string };
+      } = {};
+
+      // For IPA questions, we need to create a mapping
+      // Since our IPA questions contain both importance and performance in the same question,
+      // we'll use the question ID for both importance and performance
+      ipaQuestions.forEach((question: any) => {
+        const aspect = question.content.slice(0, 50); // Use first 50 chars as aspect name
+        aspectMapping[aspect] = {
+          importanceQuestionId: question.id,
+          performanceQuestionId: question.id,
+        };
+      });
+
+      // Perform comprehensive analysis using the analytics service
+      const comprehensiveResult = await analyticsService.performComprehensiveAnalysis(
+        answerSheets,
+        Object.keys(aspectMapping).length > 0 ? aspectMapping : undefined,
+        {
+          clusteringConfig: {
+            dbscan: {
+              eps: 0.5,
+              minPts: Math.max(2, Math.floor(answerSheets.length * 0.05)),
+            },
+            kmeans: {
+              k: Math.min(5, Math.max(2, Math.floor(answerSheets.length / 10))),
+            },
+            includeOutliers: true,
+          },
+          ipaOptions: {
+            useGrandMean: true,
+            segmentAnalysis: false,
+          },
+          dataOptions: {
+            // Can add date filters here if needed
+          },
+        }
+      );
+
+      console.log('✅ Comprehensive analysis completed:', comprehensiveResult);
+
+      // Set survey responses for UI display
+      setSurveyResponses(comprehensiveResult.surveyResponses);
+
+      // Store insights from the analytics service
+      setAnalyticsInsights(comprehensiveResult.insights);
+
+      // Calculate and set basic statistics
+      const allQuestionAnswers = answerSheets.flatMap((sheet: any) => sheet.question_answers || []);
+      const stats = calculateBasicStatistics(
+        comprehensiveResult.surveyResponses,
+        analyzableQuestions,
+        allQuestionAnswers
+      );
+      setBasicStats(stats);
+
+      // Set clustering results if available
+      if (comprehensiveResult.clusteringAnalysis) {
+        setClusteringResult(comprehensiveResult.clusteringAnalysis.result);
+        console.log('📊 Clustering analysis set:', comprehensiveResult.clusteringAnalysis.result);
+      } else {
+        console.warn('⚠️ No clustering analysis available');
+        setClusteringResult(null);
+      }
+
+      // Set IPA results if available
+      if (comprehensiveResult.ipaAnalysis) {
+        setIpaResult(comprehensiveResult.ipaAnalysis.result);
+        console.log('📈 IPA analysis set:', comprehensiveResult.ipaAnalysis.result);
+      } else {
+        console.warn('⚠️ No IPA analysis available');
+        setIpaResult(null);
+      }
+    } catch (err) {
+      console.error('Analytics processing error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to process analytics');
+
+      // Set fallback empty states
+      setClusteringResult(null);
+      setIpaResult(null);
+      setSurveyResponses([]);
+      setAnalyticsInsights([]);
+
+      // Still try to calculate basic statistics from raw data
+      const allQuestionAnswers = answerSheets.flatMap((sheet: any) => sheet.question_answers || []);
+      const fallbackStats = calculateBasicStatistics(
+        [], // empty survey responses since conversion failed
+        analyzableQuestions,
+        allQuestionAnswers
+      );
+      setBasicStats(fallbackStats);
+    } finally {
+      setLoading(false);
+    }
+  }, [answerSheets, analyzableQuestions, ipaQuestions, analyticsService]);
 
   /**
    * Perform comprehensive analytics when component mounts or data changes
    */
   useEffect(() => {
-    const performAnalysis = async () => {
-      if (!hasMinimumData || analyzableQuestions.length === 0) {
-        return;
-      }
-
-      setLoading(true);
-      setError(null);
-
-      try {
-        const responseData = getResponseData;
-
-        // Get all question answers from all answer sheets
-        const allQuestionAnswers = answerSheets.flatMap(
-          (sheet: any) => sheet.question_answers || []
-        );
-
-        // Calculate basic statistics (using our local implementation)
-        const stats = calculateBasicStatistics(
-          responseData,
-          analyzableQuestions,
-          allQuestionAnswers
-        );
-        setBasicStats(stats);
-
-        // Convert to analytics format
-        const responses = analyticsService.convertSurveyData(responseData);
-        setSurveyResponses(responses);
-
-        // Perform clustering analysis (only if we have suitable questions)
-        if (clusteringQuestions.length > 0 && responses.length >= 10) {
-          try {
-            const clusteringAnalysis = await analyticsService.performClusteringAnalysis(responses, {
-              kmeans: { k: Math.min(5, Math.floor(responses.length / 3)) },
-              dbscan: { eps: 0.5, minPts: 3 },
-            });
-            setClusteringResult(clusteringAnalysis.result);
-          } catch (clusterError) {
-            console.warn('Clustering analysis failed:', clusterError);
-          }
-        }
-
-        // Note: IPA analysis requires specific setup with aspect mapping
-        // This would need to be implemented based on the actual IPA question structure
-        if (ipaQuestions.length > 0) {
-          try {
-            const aspectMapping = {}; // This needs to be configured based on IPA questions
-            const ipaAnalysis = await analyticsService.performIPAAnalysis(responses, aspectMapping);
-            setIpaResult(ipaAnalysis.result);
-          } catch (ipaError) {
-            console.warn('IPA analysis failed:', ipaError);
-          }
-        }
-      } catch (err) {
-        console.error('Analytics error:', err);
-        setError(err instanceof Error ? err.message : 'Failed to perform analytics');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    performAnalysis();
-  }, [
-    answerSheets,
-    questions,
-    form,
-    analyticsService,
-    hasMinimumData,
-    analyzableQuestions.length,
-    clusteringQuestions.length,
-    getResponseData,
-  ]);
+    if (hasMinimumData && analyzableQuestions.length > 0) {
+      processAnalyticsData();
+    }
+  }, [hasMinimumData, analyzableQuestions, processAnalyticsData]);
 
   /**
    * Handle GraphQL loading and error states
    */
-  if (responsesLoading || formLoading) {
+  if (dataLoading || loading) {
     return (
       <div className="flex items-center justify-center min-h-64">
         <div className="text-center">
@@ -550,12 +613,12 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
     );
   }
 
-  if (responsesError || formError) {
+  if (dataError || error) {
     return (
       <div className="bg-red-50 border border-red-200 rounded-lg p-4">
         <h3 className="text-red-800 font-medium">Failed to Load Data</h3>
         <p className="text-red-600 mt-1">
-          {responsesError?.message || formError?.message || 'Error loading survey data'}
+          {dataError?.message || formError?.message || error || 'Error loading survey data'}
         </p>
       </div>
     );
@@ -617,11 +680,6 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
     );
   }
 
-  // Suppress unused state warning for now
-  console.log('IPA Questions available:', ipaQuestions.length);
-  console.log('IPA Result state:', ipaResult);
-  console.log('setIpaResult available:', !!setIpaResult);
-
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -654,11 +712,12 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
           <HeatmapChart data={form} />
         </div>
 
-        {ipaQuestions.length > 0 && (
+        {ipaResult && ipaQuestions.length > 0 && (
           <div className="bg-white rounded-lg border border-gray-200 p-6">
             <h3 className="text-lg font-medium mb-4">IPA Matrix</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Importance-Performance Analysis showing which aspects need attention.
+              Importance-Performance Analysis showing which aspects need attention. Analyzing{' '}
+              {ipaResult.aspects.length} aspects.
             </p>
             <IPAChart />
           </div>
@@ -666,25 +725,26 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
       </div>
 
       {/* K-Means Clustering Visualization */}
-      {clusteringResult && (
+      {clusteringResult && clusteringResult.points.length > 0 && (
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h3 className="text-lg font-medium mb-4">Clustering Visualization</h3>
           <p className="text-sm text-gray-600 mb-4">
-            Interactive visualization of how responses cluster together, helping identify response
-            patterns.
+            Interactive visualization of how responses cluster together using{' '}
+            {clusteringResult.algorithm} algorithm. Showing{' '}
+            {Math.min(50, clusteringResult.points.length)} data points.
           </p>
           <KMeansClusteringChart
-            initialData={clusteringResult.points.slice(0, 50).map((p: any, index: number) => ({
-              x: p.features[0] || Math.random() * 100,
-              y: p.features[1] || Math.random() * 100,
-              label: `Response ${index + 1}`,
-              cluster: p.clusterId,
+            initialData={clusteringResult.points.slice(0, 50).map((point: any, index: number) => ({
+              x: point.features[0] || index,
+              y: point.features[1] || Math.random() * 100,
+              label: `Response ${point.id || index + 1}`,
+              cluster: point.clusterId >= 0 ? point.clusterId : 'outlier',
             }))}
           />
         </div>
       )}
 
-      {/* Analytics Summary */}
+      {/* Analytics Summary with Service Insights */}
       <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="text-lg font-medium mb-4">Analytics Summary</h3>
         <div className="space-y-2 text-sm text-gray-700">
@@ -695,15 +755,37 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
             • <strong>Analyzable Questions:</strong> {analyzableQuestions.length}
           </p>
           {clusteringResult && (
-            <p>
-              • <strong>Response Clusters:</strong> {clusteringResult.numClusters} distinct patterns
-              identified
-            </p>
+            <>
+              <p>
+                • <strong>Response Clusters:</strong> {clusteringResult.numClusters} distinct
+                patterns identified using {clusteringResult.algorithm} algorithm
+              </p>
+              {clusteringResult.metrics?.silhouetteScore && (
+                <p>
+                  • <strong>Clustering Quality:</strong> Silhouette score of{' '}
+                  {clusteringResult.metrics.silhouetteScore.toFixed(3)}
+                  {clusteringResult.metrics.silhouetteScore > 0.7
+                    ? ' (Excellent)'
+                    : clusteringResult.metrics.silhouetteScore > 0.5
+                    ? ' (Good)'
+                    : clusteringResult.metrics.silhouetteScore > 0.25
+                    ? ' (Moderate)'
+                    : ' (Poor)'}
+                </p>
+              )}
+            </>
           )}
           {clusteringResult && clusteringResult.numOutliers > 0 && (
             <p>
               • <strong>Outlier Responses:</strong> {clusteringResult.numOutliers} responses show
-              unique patterns
+              unique patterns (
+              {((clusteringResult.numOutliers / surveyResponses.length) * 100).toFixed(1)}%)
+            </p>
+          )}
+          {ipaResult && (
+            <p>
+              • <strong>IPA Analysis:</strong> {ipaResult.aspects.length} aspects analyzed across
+              importance and performance dimensions
             </p>
           )}
           <p>
@@ -716,6 +798,20 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
               .filter(Boolean)
               .join(', ')}
           </p>
+
+          {/* Service-generated insights */}
+          {analyticsInsights.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <h4 className="font-medium text-gray-900 mb-2">Key Insights:</h4>
+              <ul className="space-y-1">
+                {analyticsInsights.map((insight, index) => (
+                  <li key={index} className="text-sm text-gray-700">
+                    • {insight}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -28,6 +28,7 @@ const DateTimeField: React.FC<DateTimeFieldProps> = ({
             type="datetime-local"
             id={id}
             {...field}
+            value={field.value ?? ''}
             className={`w-full p-2 border rounded ${
               error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''
             }`}

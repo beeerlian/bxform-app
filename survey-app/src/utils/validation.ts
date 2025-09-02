@@ -32,18 +32,63 @@ export const generateValidationSchema = (questions: Questions[]) => {
 
       case 'Ratio':
         schema[fieldName] = isRequired
-          ? yup.string().required('Please select an option')
-          : yup.string().nullable();
+          ? yup
+              .object()
+              .shape({
+                id: yup.string().required(),
+                label: yup.string().required(),
+                value: yup.mixed().required(),
+              })
+              .required('Please select an option')
+          : yup
+              .object()
+              .shape({
+                id: yup.string(),
+                label: yup.string(),
+                value: yup.mixed(),
+              })
+              .nullable()
+              .optional();
         break;
 
       case 'Importance Performance':
         schema[fieldName] = yup.object().shape({
           importance: isRequired
-            ? yup.string().required('Please rate the importance')
-            : yup.string().nullable(),
+            ? yup
+                .object()
+                .shape({
+                  id: yup.string().required(),
+                  label: yup.string().required(),
+                  value: yup.mixed().required(),
+                })
+                .required('Please rate the importance')
+            : yup
+                .object()
+                .shape({
+                  id: yup.string(),
+                  label: yup.string(),
+                  value: yup.mixed(),
+                })
+                .nullable()
+                .optional(),
           performance: isRequired
-            ? yup.string().required('Please rate the performance')
-            : yup.string().nullable(),
+            ? yup
+                .object()
+                .shape({
+                  id: yup.string().required(),
+                  label: yup.string().required(),
+                  value: yup.mixed().required(),
+                })
+                .required('Please rate the performance')
+            : yup
+                .object()
+                .shape({
+                  id: yup.string(),
+                  label: yup.string(),
+                  value: yup.mixed(),
+                })
+                .nullable()
+                .optional(),
         });
         break;
 

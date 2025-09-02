@@ -8,7 +8,6 @@ import { useMutation } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -45,15 +44,15 @@ const QuestionsFillmentSection: React.FC<Props> = ({ questions, quissionareId, r
           break;
 
         case 'Ratio':
-          // For ratio questions, initialize with null (no selection)
-          defaultValues[fieldName] = null;
+          // For ratio questions, initialize with undefined (no selection)
+          defaultValues[fieldName] = undefined;
           break;
 
         case 'Importance Performance':
           // For IPA questions, initialize with null for both importance and performance
           defaultValues[fieldName] = {
-            importance: null,
-            performance: null,
+            importance: undefined,
+            performance: undefined,
           };
           break;
 
@@ -67,7 +66,7 @@ const QuestionsFillmentSection: React.FC<Props> = ({ questions, quissionareId, r
           break;
 
         default:
-          defaultValues[fieldName] = null;
+          defaultValues[fieldName] = '';
       }
     });
 
@@ -81,18 +80,27 @@ const QuestionsFillmentSection: React.FC<Props> = ({ questions, quissionareId, r
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
+    getValues,
   } = useForm({
     defaultValues: getDefaultValues(),
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
   });
 
+  // Debug logging
+  useEffect(() => {
+    console.log('Form errors:', errors);
+    console.log('Is form valid:', isValid);
+    console.log('value :', getValues());
+  }, [errors, isValid]);
+
   // Handle form submission
   const onSubmit = async (data: Record<string, any>) => {
-    try {
-      console.log('Form data:', data);
+    console.log('Form submission started');
+    console.log('Form data:', data);
 
+    try {
       // Step 1: Create answer sheet first
       const answerSheetResult = await insertAnswerSheet({
         variables: {
@@ -155,7 +163,11 @@ const QuestionsFillmentSection: React.FC<Props> = ({ questions, quissionareId, r
 
         <div className="flex justify-end">
           <button
-            className="bg-green-500 py-2 px-4 rounded-full"
+            className={`py-2 px-4 rounded-full transition-colors ${
+              isSubmitting || insertAnswerSheetState.loading || insertQuestionAnswersState.loading
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-green-500 hover:bg-green-600'
+            }`}
             type="submit"
             disabled={
               isSubmitting || insertAnswerSheetState.loading || insertQuestionAnswersState.loading
@@ -166,9 +178,7 @@ const QuestionsFillmentSection: React.FC<Props> = ({ questions, quissionareId, r
               insertAnswerSheetState.loading ||
               insertQuestionAnswersState.loading ? (
                 <Spinner className="fill-green-400" />
-              ) : (
-                <FaPlus style={{ color: 'white' }} />
-              )}
+              ) : null}
               <p className="font-semibold text-white">Submit</p>
             </div>
           </button>

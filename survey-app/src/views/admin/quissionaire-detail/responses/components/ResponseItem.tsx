@@ -60,10 +60,10 @@ const ResponseItem: React.FC<ResponseItemProps> = ({ answerSheet, questions, ind
             return (
               <div className="space-y-1">
                 <div>
-                  <span className="font-medium">Importance:</span> {parsed.importance}
+                  <span className="font-medium">Importance:</span> {parsed.importance.label}
                 </div>
                 <div>
-                  <span className="font-medium">Performance:</span> {parsed.performance}
+                  <span className="font-medium">Performance:</span> {parsed.performance.label}
                 </div>
               </div>
             );
@@ -80,7 +80,7 @@ const ResponseItem: React.FC<ResponseItemProps> = ({ answerSheet, questions, ind
           break;
 
         case 'Ratio':
-          return parsed;
+          return parsed.label || 'No option selected';
 
         default:
           if (typeof parsed === 'object') {

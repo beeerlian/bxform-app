@@ -27,6 +27,7 @@ const AddressField: React.FC<AddressFieldProps> = ({
           <textarea
             id={id}
             {...field}
+            value={field.value ?? ''}
             className={`w-full h-24 p-2 border rounded resize-none ${
               error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''
             }`}

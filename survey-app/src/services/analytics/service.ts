@@ -47,6 +47,16 @@ export class AnalyticsService {
   }
 
   /**
+   * Parse answer based on question type and return standardized format
+   * @param answerString Raw answer string (often JSON)
+   * @param questionType Type of question (Ratio, Multiple, Importance Performance, etc.)
+   * @returns Parsed answer with weight and label
+   */
+  parseAnswer(answerString: string, questionType: string): { weight: number; label: string }[] {
+    return SurveyDataConverter.parseAnswer(answerString, questionType);
+  }
+
+  /**
    * Convert raw survey data to analytics format
    * @param answerSheets Raw answer sheets from GraphQL
    * @param options Conversion options
