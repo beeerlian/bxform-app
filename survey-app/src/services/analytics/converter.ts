@@ -253,6 +253,8 @@ export class SurveyDataConverter {
     });
 
     console.log('Generated', ipaPoints.length, 'IPA data points');
+    console.log('Result', ipaPoints);
+
     return ipaPoints;
   }
 

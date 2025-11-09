@@ -1,4 +1,4 @@
-import { dummyIPAData } from '@/utils/dummy';
+import { IPAAnalysisResult } from '@/services/analytics';
 import * as d3 from 'd3';
 import React, { useEffect, useRef } from 'react';
 
@@ -8,7 +8,7 @@ interface DataPoint {
   performance: number;
 }
 
-const IPAChart: React.FC = () => {
+const IPAChart: React.FC<{ data: IPAAnalysisResult }> = ({ data }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
@@ -62,8 +62,8 @@ const IPAChart: React.FC = () => {
       .style('font-size', '12px')
       .text('Importance');
 
-    const meanImportance = d3.mean(dummyIPAData, (d) => d.importance) || 5;
-    const meanPerformance = d3.mean(dummyIPAData, (d) => d.performance) || 5;
+    const meanImportance = d3.mean(data.aspects, (d) => d.importance) || 5;
+    const meanPerformance = d3.mean(data.aspects, (d) => d.performance) || 5;
 
     svg
       .append('line')
@@ -95,7 +95,7 @@ const IPAChart: React.FC = () => {
 
     svg
       .selectAll('circle')
-      .data(dummyIPAData)
+      .data(data.aspects)
       .enter()
       .append('circle')
       .attr('cx', (d) => xScale(d.performance))
@@ -106,7 +106,7 @@ const IPAChart: React.FC = () => {
         tooltip
           .style('display', 'block')
           .html(
-            `Attribute: ${d.attribute}<br>Importance: ${d.importance.toFixed(
+            `Attribute: ${d.aspect}<br>Importance: ${d.importance.toFixed(
               2
             )}<br>Performance: ${d.performance.toFixed(2)}`
           )

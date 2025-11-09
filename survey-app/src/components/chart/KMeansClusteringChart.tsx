@@ -12,13 +12,13 @@ interface Props {
   initialData: DataPoint[];
 }
 
-const KMeansClusteringChart: React.FC<Props> = () => {
-  const [data, setData] = useState<DataPoint[]>(generateDummyData(0));
+const KMeansClusteringChart: React.FC<Props> = ({ initialData }) => {
+  const [data, setData] = useState<DataPoint[]>(initialData);
   const [numClusters, setNumClusters] = useState(3);
 
   useEffect(() => {
     // Generate fresh data or use existing data without causing re-render loop
-    const currentData = data.length > 0 ? [...data] : generateDummyData(0);
+    const currentData = data.length > 0 ? [...data] : initialData;
 
     let centroids: DataPoint[] = [];
 

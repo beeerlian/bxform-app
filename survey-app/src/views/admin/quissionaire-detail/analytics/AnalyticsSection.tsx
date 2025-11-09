@@ -533,7 +533,8 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
         }
       );
 
-      console.log('✅ Comprehensive analysis completed:', comprehensiveResult);
+      console.log('✅ Comprehensive analysis completed');
+      console.dir(comprehensiveResult);
 
       // Set survey responses for UI display
       setSurveyResponses(comprehensiveResult.surveyResponses);
@@ -719,7 +720,7 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
               Importance-Performance Analysis showing which aspects need attention. Analyzing{' '}
               {ipaResult.aspects.length} aspects.
             </p>
-            <IPAChart />
+            <IPAChart data={ipaResult} />
           </div>
         )}
       </div>
@@ -734,7 +735,7 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
             {Math.min(50, clusteringResult.points.length)} data points.
           </p>
           <KMeansClusteringChart
-            initialData={clusteringResult.points.slice(0, 50).map((point: any, index: number) => ({
+            initialData={clusteringResult.points.map((point: any, index: number) => ({
               x: point.features[0] || index,
               y: point.features[1] || Math.random() * 100,
               label: `Response ${point.id || index + 1}`,

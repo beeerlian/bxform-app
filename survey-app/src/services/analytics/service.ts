@@ -220,6 +220,8 @@ export class AnalyticsService {
 
     this.log(`✅ IPA analysis complete: ${result.aspects.length} aspects analyzed`);
 
+    console.dir(result);
+
     return {
       result,
       recommendations,
