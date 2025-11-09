@@ -57,18 +57,18 @@ services:
       timeout: 10s
       retries: 5
       start_period: 5s
-  api:
-    container_name: api
-    image: node:18-alpine
-    ports:
-      - ${API_PORT}:${API_PORT}
-    depends_on:
-      - postgres
-    working_dir: /app
-    volumes:
-      - ./api:/app
-    stdin_open: true
-    tty: true
+  # api:
+  #   container_name: api
+  #   image: node:18-alpine
+  #   ports:
+  #     - ${API_PORT}:${API_PORT}
+  #   depends_on:
+  #     - postgres
+  #   working_dir: /app
+  #   volumes:
+  #     - ./api:/app
+  #   stdin_open: true
+  #   tty: true
   # client:
   #   build:
   #     context: ./client
