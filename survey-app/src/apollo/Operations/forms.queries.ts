@@ -82,15 +82,27 @@ export const GET_FORM_RESPONSES = gql`
         created_at
         updated_at
       }
-      question_answers(where: { form_id: { _eq: $form_id } }) {
+      question_answers {
+        answer
+        created_at
+        form_id
         id
         question_id
-        answer
-        answer_sheet_id
-        form_id
-        user_id
-        created_at
         updated_at
+        user_id
+        question {
+          caption
+          created_at
+          content
+          id
+          option
+          order
+          form_id
+          question_type_id
+          required
+          topic
+          updated_at
+        }
       }
     }
   }
@@ -102,7 +114,7 @@ export const GET_FORM_ANALYTICS_DATA = gql`
       id
       question_answers {
         answer
-        answer_sheet_id
+        answer_sheet_id 
         created_at
         form_id
         id
