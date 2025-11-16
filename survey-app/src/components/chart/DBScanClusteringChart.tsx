@@ -46,7 +46,7 @@ const DBScanClusteringChart: React.FC<DBScanClusteringChartProps> = ({
                             }
                      }
 
-                     console.log(`DBSCAN visualization - Best feature pair: ${bestPair.x}, ${bestPair.y} with variation: ${maxVariation}`);
+                     // console.log(`DBSCAN visualization - Best feature pair: ${bestPair.x}, ${bestPair.y} with variation: ${maxVariation}`);
                      return bestPair;
               };
 
@@ -86,7 +86,7 @@ const DBScanClusteringChart: React.FC<DBScanClusteringChartProps> = ({
                      left: Math.max(80, width * 0.1)
               };
 
-              console.log('DBSCAN dynamic sizing:', { width, height, margin, aspectRatio, dataRange: { xRange: featureXRange, yRange: featureYRange } });
+              // console.log('DBSCAN dynamic sizing:', { width, height, margin, aspectRatio, dataRange: { xRange: featureXRange, yRange: featureYRange } });
 
               // Clear previous content
               svg.selectAll('*').remove();
@@ -372,14 +372,14 @@ const DBScanClusteringChart: React.FC<DBScanClusteringChartProps> = ({
                      .text(`Points: ${dataPoints.length} | Core/Border: ${coreCount} | Noise: ${noiseCount} | Subclusters: ${subclusterCount} | eps: ${dbscanResult.params.eps} | minPts: ${dbscanResult.params.minPts}`);
 
               // Log debug information
-              console.log('DBSCAN Visualization:', {
-                     clusterToShow,
-                     totalPoints: dataPoints.length,
-                     noisePoints: noiseCount,
-                     corePoints: coreCount,
-                     subclusters: subclusterCount,
-                     params: dbscanResult.params
-              });
+              // console.log('DBSCAN Visualization:', {
+              //        clusterToShow,
+              //        totalPoints: dataPoints.length, 
+              //        noisePoints: noiseCount,
+              //        corePoints: coreCount,
+              //        subclusters: subclusterCount,
+              //        params: dbscanResult.params
+              // });
 
        }, [dbscanMap, preprocessResult, kmeansResult, selectedKMeansCluster]);
 

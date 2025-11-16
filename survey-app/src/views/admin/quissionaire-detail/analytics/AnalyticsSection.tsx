@@ -7,8 +7,9 @@ import React, { useEffect, useState } from 'react';
 import DBScanClusteringChart from '@/components/chart/DBScanClusteringChart';
 import IPAChart from '@/components/chart/IPAChart';
 import KMeansClusteringChart from '@/components/chart/KMeansClusteringChart';
-import { analyzePipeline, AnswerSheet, DBSCANResult, IPAClusterResult, KMeansResult, PreprocessResult } from '@/services/analytics/analytics';
+import { analyzePipeline, DBSCANResult, IPAClusterResult, KMeansResult, PreprocessResult } from '@/services/analytics/analytics';
 import { ClusterSummary } from '@/services/analytics/clusterNarratives';
+import { Answer_Sheets } from '@/__generated__/graphql';
 
 interface Props {
   formId: string;
@@ -27,7 +28,7 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
   const [analyticsResults, setAnalyticsResults] = useState<{
     preprocess: PreprocessResult | null;
     kmeans: KMeansResult | null;
-    membersPerCluster: Map<number, AnswerSheet[]> | null;
+    membersPerCluster: Map<number, Answer_Sheets[]> | null;
     dbscanMap: Map<number, DBSCANResult> | null;
     ipa: IPAClusterResult[] | null;
     summaries: ClusterSummary[] | null;
@@ -67,7 +68,6 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
 
         setAnalyticsResults(results);
         console.log('Analytics pipeline executed successfully:');
-        console.dir(results);
       } catch (error) {
         console.error('Error executing analytics pipeline:', error);
       }
@@ -88,7 +88,6 @@ const AnalyticsSection: React.FC<Props> = ({ formId }) => {
         dbscan: { eps: clusteringParams.eps, minPts: clusteringParams.minPts }
       }); setAnalyticsResults(results);
       console.log('Analytics pipeline rerun successfully with new parameters:');
-      console.dir(results);
     } catch (error) {
       console.error('Error rerunning analytics pipeline:', error);
     } finally {

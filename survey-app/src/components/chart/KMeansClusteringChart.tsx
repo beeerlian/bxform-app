@@ -31,6 +31,13 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
       let bestPair = { x: 0, y: 1 };
       let maxVariation = 0;
 
+
+      // Ensure we have at least 2 features
+      if (featureCount < 2) {
+        console.log('Not enough features for 2D visualization, using fallback');
+        return { x: 0, y: 0 }; // Will be handled as same feature case
+      }
+
       for (let i = 0; i < Math.min(featureCount, 10); i++) {
         for (let j = i + 1; j < Math.min(featureCount, 10); j++) {
           const xValues = preprocessResult.X.map(point => point[i] || 0);
@@ -40,6 +47,7 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
           const yVariation = d3.variance(yValues) || 0;
           const totalVariation = xVariation + yVariation;
 
+
           if (totalVariation > maxVariation) {
             maxVariation = totalVariation;
             bestPair = { x: i, y: j };
@@ -47,7 +55,21 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
         }
       }
 
-      console.log(`Best feature pair: ${bestPair.x}, ${bestPair.y} with variation: ${maxVariation}`);
+      // Fallback: if all variations are 0 or very small, just use first two different features
+      if (maxVariation < 0.0001) {
+        console.log('All features have very low variation, using fallback feature selection');
+        bestPair = { x: 0, y: Math.min(1, featureCount - 1) };
+      }
+
+      // Double check that we have different features
+      if (bestPair.x === bestPair.y && featureCount > 1) {
+        bestPair.y = bestPair.x + 1;
+      }
+
+      // console.log(`Final feature pair: ${bestPair.x}, ${bestPair.y} with variation: ${maxVariation}`);
+      // console.log(`Feature ${bestPair.x} name: ${preprocessResult.featureMeta[bestPair.x]?.questionContent || preprocessResult.featureMeta[bestPair.x]?.featureKey || 'Unknown'}`);
+      // console.log(`Feature ${bestPair.y} name: ${preprocessResult.featureMeta[bestPair.y]?.questionContent || preprocessResult.featureMeta[bestPair.y]?.featureKey || 'Unknown'}`);
+
       return bestPair;
     };
 
@@ -87,8 +109,6 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
       left: Math.max(80, width * 0.1)
     };
 
-    console.log('K-means dynamic sizing:', { width, height, margin, aspectRatio, dataRange: { xRange: featureXRange, yRange: featureYRange } });
-
     // Clear previous content
     svg.selectAll('*').remove();
     svg.attr('width', width).attr('height', height);
@@ -120,12 +140,6 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
         index
       };
     });
-
-    // Debug logging
-    console.log('Data points:', dataPoints.length);
-    console.log('Sample data points:', dataPoints);
-    console.log('X range:', d3.extent(dataPoints, d => d.x));
-    console.log('Y range:', d3.extent(dataPoints, d => d.y));
 
     // Calculate extent for better scaling
     let xExtent = d3.extent(dataPoints, d => d.x) as [number, number];
@@ -299,7 +313,11 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
       .style('text-anchor', 'middle')
       .style('font-size', '12px')
       .style('font-weight', '500')
-      .text(`Feature ${bestFeatures.x} (${preprocessResult.featureMeta[bestFeatures.x]?.questionContent || 'Unknown'})`);
+      .text(`Feature ${bestFeatures.x}: ${preprocessResult.featureMeta[bestFeatures.x]?.questionContent || preprocessResult.featureMeta[bestFeatures.x]?.featureKey || `Index ${bestFeatures.x}`}`);
+
+    // console.dir(preprocessResult.featureMeta);
+    // console.log(`Feature ${bestFeatures.x}: ${preprocessResult.featureMeta[bestFeatures.x]?.questionContent || preprocessResult.featureMeta[bestFeatures.x]?.featureKey || `Index ${bestFeatures.x}`}`);
+    // console.log(`Feature  ${bestFeatures.y}: ${preprocessResult.featureMeta[bestFeatures.y]?.questionContent || preprocessResult.featureMeta[bestFeatures.y]?.featureKey || `Index ${bestFeatures.y}`}`);
 
     svg
       .append('g')
@@ -314,7 +332,7 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
       .style('text-anchor', 'middle')
       .style('font-size', '12px')
       .style('font-weight', '500')
-      .text(`Feature ${bestFeatures.y} (${preprocessResult.featureMeta[bestFeatures.y]?.questionContent || 'Unknown'})`);
+      .text(`Feature ${bestFeatures.y}: ${preprocessResult.featureMeta[bestFeatures.y]?.questionContent || preprocessResult.featureMeta[bestFeatures.y]?.featureKey || `Index ${bestFeatures.y}`}`);
 
     // Add title
     svg
@@ -346,8 +364,6 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
       .style('line-height', '1.4');
 
     // Draw data points
-    console.log('Drawing', dataPoints.length, 'data points');
-
     const circles = svg
       .selectAll('circle.data-point')
       .data(dataPoints)
@@ -375,9 +391,12 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
           .style('opacity', 1);
 
         // Get feature names for better tooltip
+        const featureXName = preprocessResult.featureMeta[bestFeatures.x]?.questionContent || preprocessResult.featureMeta[bestFeatures.x]?.featureKey || `Feature ${bestFeatures.x}`;
+        const featureYName = preprocessResult.featureMeta[bestFeatures.y]?.questionContent || preprocessResult.featureMeta[bestFeatures.y]?.featureKey || `Feature ${bestFeatures.y}`;
+
         const featureInfo = [
-          `${preprocessResult.featureMeta[bestFeatures.x]?.questionContent || `Feature ${bestFeatures.x}`}: ${d.originalPoint[bestFeatures.x]?.toFixed(3) || 'N/A'}`,
-          `${preprocessResult.featureMeta[bestFeatures.y]?.questionContent || `Feature ${bestFeatures.y}`}: ${d.originalPoint[bestFeatures.y]?.toFixed(3) || 'N/A'}`
+          `${featureXName}: ${d.originalPoint[bestFeatures.x]?.toFixed(3) || 'N/A'}`,
+          `${featureYName}: ${d.originalPoint[bestFeatures.y]?.toFixed(3) || 'N/A'}`
         ].join('<br/>');
 
         tooltip
@@ -404,7 +423,6 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
         tooltip.style('display', 'none');
       });
 
-    console.log('Created', circles.size(), 'circle elements');
 
     // Draw centroids using the same feature indices
     const centroidsData = kmeansResult.centroids.map((centroid, index) => ({
@@ -414,7 +432,6 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
       centroid
     }));
 
-    console.log('Centroids data:', centroidsData);
 
     svg
       .selectAll('polygon.centroid')
@@ -434,9 +451,12 @@ const KMeansClusteringChart: React.FC<KMeansChartProps> = ({ kmeansResult, prepr
       .attr('stroke-width', 2)
       .style('cursor', 'pointer')
       .on('mouseover', (event, d) => {
+        const featureXName = preprocessResult.featureMeta[bestFeatures.x]?.questionContent || preprocessResult.featureMeta[bestFeatures.x]?.featureKey || `Feature ${bestFeatures.x}`;
+        const featureYName = preprocessResult.featureMeta[bestFeatures.y]?.questionContent || preprocessResult.featureMeta[bestFeatures.y]?.featureKey || `Feature ${bestFeatures.y}`;
+
         const featureInfo = [
-          `${preprocessResult.featureMeta[bestFeatures.x]?.questionContent || `Feature ${bestFeatures.x}`}: ${d.centroid[bestFeatures.x]?.toFixed(3) || 'N/A'}`,
-          `${preprocessResult.featureMeta[bestFeatures.y]?.questionContent || `Feature ${bestFeatures.y}`}: ${d.centroid[bestFeatures.y]?.toFixed(3) || 'N/A'}`
+          `${featureXName}: ${d.centroid[bestFeatures.x]?.toFixed(3) || 'N/A'}`,
+          `${featureYName}: ${d.centroid[bestFeatures.y]?.toFixed(3) || 'N/A'}`
         ].join('<br/>');
 
         tooltip

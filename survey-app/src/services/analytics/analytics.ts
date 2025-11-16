@@ -13,6 +13,7 @@
  * Usage example (see bottom of file).
  */
 
+import { Answer_Sheets } from "@/__generated__/graphql";
 import * as DC from "density-clustering";
 import { kmeans } from "ml-kmeans";
 import { buildClusterSummaries } from "./clusterNarratives";
@@ -21,27 +22,30 @@ import { buildClusterSummaries } from "./clusterNarratives";
    Types / Interfaces
    =========================== */
 
-export interface AnswerSheet {
-  id: string;
-  form_id?: string;
-  user_id?: string;
-  user?: any;
-  question_answers: any[]; // as in your object
-  [k: string]: any;
-}
+// export interface AnswerSheet {
+//   id: string;
+//   form_id?: string;
+//   user_id?: string;
+//   user?: any;
+//   question_answers: any[]; // as in your object
+//   [k: string]: any;
+// }
+
+ 
 
 export interface FeatureMeta {
   featureKey: string; // e.g. "c0ca410b__value" or "57ec4f97__imp"
   questionId: string;
   questionContent?: string;
   rawOption?: any;
+  answer? : any
 }
 
 export interface PreprocessResult {
   X: number[][]; // n x p
   featureMeta: FeatureMeta[];
   ids: string[]; // answerSheet ids in same order as X rows
-  originalSheets: AnswerSheet[]; // same order
+  originalSheets: Answer_Sheets[]; // same order
   colMin: number[];
   colMax: number[];
 }
@@ -144,7 +148,7 @@ function euclidean(a: number[], b: number[]): number {
    - ignores textual/number id fields for clustering but keeps sheet metadata
    =========================== */
 
-export function preprocessAnswerSheets(answerSheets: AnswerSheet[]): PreprocessResult {
+export function preprocessAnswerSheets(answerSheets: Answer_Sheets[]): PreprocessResult {
   // Build list of features by iterating questions in the first sheet (order stable across sheets)
   // We'll inspect all sheets to discover all question IDs and their option types, but keep deterministic ordering by sorted question order.
   const questionMap = new Map<string, any>(); // questionId -> question object (use last seen)
@@ -166,10 +170,12 @@ export function preprocessAnswerSheets(answerSheets: AnswerSheet[]): PreprocessR
     const q = questionMap.get(qid) || null;
     const optType = q?.option?.type ?? null; // e.g. "Multiple", "Ratio", "Importance Performance", "Number"
     if (optType === "Importance Performance") {
-      featureMeta.push({ featureKey: `${qid}__imp`, questionId: qid, questionContent: q?.content });
-      featureMeta.push({ featureKey: `${qid}__perf`, questionId: qid, questionContent: q?.content });
+      const rawOption = q?.option ? (typeof q.option === 'string' ? JSON.parse(q.option) : q.option) : null;
+      featureMeta.push({ featureKey: `${qid}__imp`, questionId: qid, questionContent: q?.content, rawOption });
+      featureMeta.push({ featureKey: `${qid}__perf`, questionId: qid, questionContent: q?.content, rawOption });
     } else if (optType === "Ratio") {
-      featureMeta.push({ featureKey: `${qid}__value`, questionId: qid, questionContent: q?.content });
+      const rawOption = q?.option ? (typeof q.option === 'string' ? JSON.parse(q.option) : q.option) : null;
+      featureMeta.push({ featureKey: `${qid}__value`, questionId: qid, questionContent: q?.content, rawOption });
     } else if (optType === "Multiple") {
       // enumerate options if available
       const opts = q?.option?.option ?? [];
@@ -179,7 +185,8 @@ export function preprocessAnswerSheets(answerSheets: AnswerSheet[]): PreprocessR
         }
       } else {
         // fallback: single count-of-selected feature
-        featureMeta.push({ featureKey: `${qid}__multi_count`, questionId: qid, questionContent: q?.content });
+        const rawOption = q?.option ? (typeof q.option === 'string' ? JSON.parse(q.option) : q.option) : null;
+        featureMeta.push({ featureKey: `${qid}__multi_count`, questionId: qid, questionContent: q?.content, rawOption });
       }
     } else {
       // other types ignored for clustering (but still present in sheets)
@@ -192,6 +199,12 @@ export function preprocessAnswerSheets(answerSheets: AnswerSheet[]): PreprocessR
   // create columns (col-major) to normalize later
   const cols: number[][] = Array.from({ length: p }, () => new Array<number>(n).fill(NaN));
   const ids: string[] = [];
+  
+  // Collect sample answers for each feature (for metadata enhancement)
+  const featureAnswers: Map<string, any[]> = new Map();
+  featureMeta.forEach(meta => {
+    featureAnswers.set(meta.featureKey, []);
+  });
   for (let i = 0; i < n; i++) {
     const sheet = answerSheets[i];
     ids.push(sheet.id);
@@ -214,13 +227,40 @@ export function preprocessAnswerSheets(answerSheets: AnswerSheet[]): PreprocessR
       if (meta.featureKey.endsWith("__imp")) {
         const imp = parsed?.importance?.value ?? parsed?.imp ?? parsed?.importance ?? NaN;
         cols[j][i] = toNumberSafe(imp);
+        // Collect sample answer
+        if (featureAnswers.get(meta.featureKey)!.length < 5) {
+          featureAnswers.get(meta.featureKey)!.push({ 
+            answerSheetId: sheet.id, 
+            rawAnswer: qa.answer, 
+            parsedAnswer: parsed, 
+            extractedValue: imp 
+          });
+        }
       } else if (meta.featureKey.endsWith("__perf")) {
         const perf = parsed?.performance?.value ?? parsed?.perf ?? parsed?.performance ?? NaN;
         cols[j][i] = toNumberSafe(perf);
+        // Collect sample answer
+        if (featureAnswers.get(meta.featureKey)!.length < 5) {
+          featureAnswers.get(meta.featureKey)!.push({ 
+            answerSheetId: sheet.id, 
+            rawAnswer: qa.answer, 
+            parsedAnswer: parsed, 
+            extractedValue: perf 
+          });
+        }
       } else if (meta.featureKey.endsWith("__value")) {
         // ratio single
         const val = parsed?.value ?? parsed;
         cols[j][i] = toNumberSafe(val);
+        // Collect sample answer
+        if (featureAnswers.get(meta.featureKey)!.length < 5) {
+          featureAnswers.get(meta.featureKey)!.push({ 
+            answerSheetId: sheet.id, 
+            rawAnswer: qa.answer, 
+            parsedAnswer: parsed, 
+            extractedValue: val 
+          });
+        }
       } else if (meta.featureKey.includes("__opt__")) {
         // multiple: check whether option id was selected in parsed (array of objects) or object map
         const optId = meta.featureKey.split("__opt__")[1];
@@ -233,18 +273,55 @@ export function preprocessAnswerSheets(answerSheets: AnswerSheet[]): PreprocessR
           selected = parsed[optId] ? 1 : 0;
         }
         cols[j][i] = selected;
+        // Collect sample answer
+        if (featureAnswers.get(meta.featureKey)!.length < 5) {
+          featureAnswers.get(meta.featureKey)!.push({ 
+            answerSheetId: sheet.id, 
+            rawAnswer: qa.answer, 
+            parsedAnswer: parsed, 
+            extractedValue: selected 
+          });
+        }
       } else if (meta.featureKey.endsWith("__multi_count")) {
+        let cnt = 0;
         if (Array.isArray(parsed)) {
-          const cnt = parsed.filter((x: any) => x.selected).length;
-          cols[j][i] = cnt;
-        } else {
-          cols[j][i] = 0;
+          cnt = parsed.filter((x: any) => x.selected).length;
+        }
+        cols[j][i] = cnt;
+        // Collect sample answer
+        if (featureAnswers.get(meta.featureKey)!.length < 5) {
+          featureAnswers.get(meta.featureKey)!.push({ 
+            answerSheetId: sheet.id, 
+            rawAnswer: qa.answer, 
+            parsedAnswer: parsed, 
+            extractedValue: cnt 
+          });
         }
       } else {
         cols[j][i] = NaN;
       }
     } // end feature loop
   } // end sheet loop
+  
+  // Add collected sample answers to feature metadata
+  featureMeta.forEach(meta => {
+    const sampleAnswers = featureAnswers.get(meta.featureKey) || [];
+    meta.answer = sampleAnswers;
+  });
+
+  // Debug: Log feature metadata structure (first few features)
+  console.log('Feature metadata with answers and options:');
+  featureMeta.slice(0, 3).forEach((meta, idx) => {
+    console.log(`Feature ${idx}:`, {
+      featureKey: meta.featureKey,
+      questionId: meta.questionId,
+      questionContent: meta.questionContent,
+      hasRawOption: !!meta.rawOption,
+      rawOption: meta.rawOption,
+      sampleAnswersCount: meta.answer?.length || 0,
+      sampleAnswers: meta.answer?.slice(0, 2) // Show first 2 sample answers
+    });
+  });
 
   // normalize columns to [0,1]
   const X: number[][] = Array.from({ length: n }, () => new Array<number>(p).fill(0));
@@ -267,6 +344,12 @@ export function preprocessAnswerSheets(answerSheets: AnswerSheet[]): PreprocessR
     colMin,
     colMax,
   };
+}
+
+export function getRatioAnswerValue(answer: string): any {
+  const parsed = safeParseMaybeJson(answer);
+  const answerValue = (parsed as any[]).find((x: any) => x.selected == true);
+  return answerValue ?? null;
 }
 
 /* ===========================
@@ -345,7 +428,7 @@ export function runDBSCANPerKMeansCluster(X: number[][], labels: number[], param
  *
  * Returns array of IPAClusterResult
  */
-export function computeIPA(answerSheets: AnswerSheet[], labels: number[], featureMeta: FeatureMeta[]): IPAClusterResult[] {
+export function computeIPA(answerSheets: Answer_Sheets[], labels: number[], featureMeta: FeatureMeta[]): IPAClusterResult[] {
   // discover IPA questions from featureMeta (those with __imp/__perf suffix)
   const ipaQids = new Map<string, { impFeatureIdx: number; perfFeatureIdx: number; questionContent?: string }>();
   for (let i = 0; i < featureMeta.length; i++) {
@@ -437,7 +520,7 @@ export function computeIPA(answerSheets: AnswerSheet[], labels: number[], featur
    =========================== */
 
 export interface AnalyzeOptions {
-  answerSheets: AnswerSheet[];
+  answerSheets: Answer_Sheets[];
   k?: number;
   kmeansMaxIter?: number;
   seed?: number;
@@ -456,7 +539,7 @@ export function analyzePipeline(opts: AnalyzeOptions) {
   const kres = runKMeans(pre.X, { k, maxIter: kmeansMaxIter, seed });
 
   // 3) attach members (with full answerSheet) per cluster
-  const membersPerCluster = new Map<number, AnswerSheet[]>();
+  const membersPerCluster = new Map<number, Answer_Sheets[]>();
   for (let i = 0; i < kres.labels.length; i++) {
     const lbl = kres.labels[i];
     if (!membersPerCluster.has(lbl)) membersPerCluster.set(lbl, []);

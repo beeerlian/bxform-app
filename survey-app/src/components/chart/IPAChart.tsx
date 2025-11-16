@@ -11,11 +11,11 @@ const IPAChart: React.FC<{ data: IPAClusterResult }> = ({ data }) => {
     if (!data || !data.attrs || data.attrs.length === 0) return;
 
     // Debug: Log the complete data structure
-    console.log('=== IPA Chart Debug Info ===');
-    console.log('Cluster ID:', data.clusterId);
-    console.log('Total attributes expected: 10');
-    console.log('Actual attributes received:', data.attrs.length);
-    console.log('All attributes data:', data.attrs);
+    // console.log('=== IPA Chart Debug Info ===');
+    // console.log('Cluster ID:', data.clusterId);
+    // console.log('Total attributes expected: 10');
+    // console.log('Actual attributes received:', data.attrs.length);
+    // console.log('All attributes data:', data.attrs);
 
     // Check for data validity
     const validAttrs = data.attrs.filter(attr => {
@@ -31,8 +31,8 @@ const IPAChart: React.FC<{ data: IPAClusterResult }> = ({ data }) => {
       return hasValidValues;
     });
 
-    console.log('Valid attributes after filtering:', validAttrs.length);
-    console.log('Filtered out attributes:', data.attrs.length - validAttrs.length);
+    // console.log('Valid attributes after filtering:', validAttrs.length);
+    // console.log('Filtered out attributes:', data.attrs.length - validAttrs.length);
 
     const svg = d3.select(svgRef.current);
 
@@ -43,10 +43,10 @@ const IPAChart: React.FC<{ data: IPAClusterResult }> = ({ data }) => {
     const perfExtent = d3.extent(perfValues) as [number, number];
 
     // Debug: Log the data ranges
-    console.log('Importance range:', impExtent);
-    console.log('Performance range:', perfExtent);
-    console.log('Importance values:', impValues);
-    console.log('Performance values:', perfValues);
+    // console.log('Importance range:', impExtent);
+    // console.log('Performance range:', perfExtent);
+    // console.log('Importance values:', impValues);
+    // console.log('Performance values:', perfValues);
 
     // Add padding to the ranges
     const impPadding = Math.max((impExtent[1] - impExtent[0]) * 0.15, 0.5);
@@ -84,7 +84,7 @@ const IPAChart: React.FC<{ data: IPAClusterResult }> = ({ data }) => {
       left: Math.max(80, width * 0.1)
     };
 
-    console.log('Dynamic canvas size:', { width, height, margin, aspectRatio, dataSpread: { dataWidth, dataHeight } });
+    // console.log('Dynamic canvas size:', { width, height, margin, aspectRatio, dataSpread: { dataWidth, dataHeight } });
 
     // Clear previous content
     svg.selectAll('*').remove();
@@ -104,10 +104,10 @@ const IPAChart: React.FC<{ data: IPAClusterResult }> = ({ data }) => {
     const meanPerformance = d3.mean(validAttrs, (d) => d.perfMean) || 0;
 
     // Debug: Log means and scale domains
-    console.log('Mean importance:', meanImportance);
-    console.log('Mean performance:', meanPerformance);
-    console.log('X scale domain:', [perfExtent[0] - perfPadding, perfExtent[1] + perfPadding]);
-    console.log('Y scale domain:', [impExtent[0] - impPadding, impExtent[1] + impPadding]);
+    // console.log('Mean importance:', meanImportance);
+    // console.log('Mean performance:', meanPerformance);
+    // console.log('X scale domain:', [perfExtent[0] - perfPadding, perfExtent[1] + perfPadding]);
+    // console.log('Y scale domain:', [impExtent[0] - impPadding, impExtent[1] + impPadding]);
 
     // Create zoom behavior
     const zoom = d3.zoom<SVGSVGElement, unknown>()
@@ -440,12 +440,10 @@ const IPAChart: React.FC<{ data: IPAClusterResult }> = ({ data }) => {
       .attr('class', 'data-point')
       .attr('cx', (d) => {
         const pos = pointAdjustments.get(d);
-        console.log(`Attribute "${d.attributeQuestionContent || d.attributeQuestionId}": perf=${d.perfMean}, x=${pos.x} (jittered)`);
         return pos.x;
       })
       .attr('cy', (d) => {
         const pos = pointAdjustments.get(d);
-        console.log(`Attribute "${d.attributeQuestionContent || d.attributeQuestionId}": imp=${d.impMean}, y=${pos.y} (jittered)`);
         return pos.y;
       })
       .attr('r', 6)
@@ -483,9 +481,6 @@ const IPAChart: React.FC<{ data: IPAClusterResult }> = ({ data }) => {
         tooltip.style('display', 'none');
       });
 
-    // Debug: Log how many circles were actually created
-    console.log('Number of circles created:', circles.size());
-    console.log('Expected vs Created:', { expected: 10, actual: circles.size(), validData: validAttrs.length });
 
     // Check for overlapping points before jitter
     const originalPositions = validAttrs.map(d => ({
@@ -503,23 +498,16 @@ const IPAChart: React.FC<{ data: IPAClusterResult }> = ({ data }) => {
       uniquePositions.get(key).push(pos.attr);
     });
 
-    console.log('Original point positions analysis:');
     let overlapCount = 0;
     uniquePositions.forEach((attrs, position) => {
       if (attrs.length > 1) {
-        console.log(`Originally overlapping at ${position}:`, attrs);
         overlapCount += attrs.length;
       } else {
-        console.log(`Single point at ${position}:`, attrs[0]);
       }
     });
-    console.log(`Total overlapping points handled: ${overlapCount - uniquePositions.size}`);
-
     // Log final jittered positions
-    console.log('Final jittered positions:');
     validAttrs.forEach(d => {
       const pos = pointAdjustments.get(d);
-      console.log(`${d.attributeQuestionContent || d.attributeQuestionId}: (${pos.x.toFixed(1)}, ${pos.y.toFixed(1)})`);
     });
 
     // Add quadrant labels in plot area
