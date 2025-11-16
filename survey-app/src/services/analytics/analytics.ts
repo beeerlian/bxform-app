@@ -15,6 +15,7 @@
 
 import * as DC from "density-clustering";
 import { kmeans } from "ml-kmeans";
+import { buildClusterSummaries } from "./clusterNarratives";
 
 /* ===========================
    Types / Interfaces
@@ -468,12 +469,16 @@ export function analyzePipeline(opts: AnalyzeOptions) {
   // 5) compute IPA (by default uses all discovered IPA questions)
   const ipaResults = computeIPA(pre.originalSheets, kres.labels, pre.featureMeta);
 
+  // 6) 
+  const summaries = buildClusterSummaries(pre, kres, dbmap, ipaResults);
+
   return {
     preprocess: pre,
     kmeans: kres,
     membersPerCluster,
     dbscanMap: dbmap,
     ipa: ipaResults,
+    summaries
   };
 }
 
